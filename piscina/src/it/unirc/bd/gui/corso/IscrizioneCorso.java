@@ -27,7 +27,6 @@ public class IscrizioneCorso extends JDialog {
 			}
 		});
 	}
-//gkgkugoh--------------------------------------------------------------------
 	/**
 	 * Create the dialog.
 	 */

@@ -12,7 +12,7 @@ public class Dipendente {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-//public Dipendente(int idDipendente, String nome, String cognome, String cellulare, String sesso,
+public Dipendente(int idDipendente, String nome, String cognome, String cellulare, String sesso,
 			int tipologiaDipendente) {
 		super();
 		this.idDipendente = idDipendente;
