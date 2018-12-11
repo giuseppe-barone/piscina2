@@ -48,7 +48,7 @@ public class InserisciCorso extends JDialog {
 	 * Create the dialog.
 	 */
 	public InserisciCorso() {
-		setBounds(100, 100, 323, 250);
+		setBounds(100, 100, 491, 250);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -59,10 +59,6 @@ public class InserisciCorso extends JDialog {
 		contentPanel.add(lblIdcorso);
 		
 		textIdCorso = new JTextField();
-		textIdCorso.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent arg0) {
-			}
-		});
 		textIdCorso.setBounds(73, 10, 49, 22);
 		contentPanel.add(textIdCorso);
 		textIdCorso.setColumns(10);
@@ -98,48 +94,152 @@ public class InserisciCorso extends JDialog {
 		contentPanel.add(lblIdallenatore_1);
 		
 		textIdAllenatore1 = new JTextField();
+		
 		textIdAllenatore1.setColumns(10);
 		textIdAllenatore1.setBounds(105, 97, 116, 22);
 		contentPanel.add(textIdAllenatore1);
 		
 		textIdAllenatore2 = new JTextField();
+		
 		textIdAllenatore2.setColumns(10);
 		textIdAllenatore2.setBounds(105, 129, 116, 22);
 		contentPanel.add(textIdAllenatore2);
 		
-		JButton btnNewButton = new JButton("Inserisci");
-		btnNewButton.setEnabled(false);
-		btnNewButton.setBounds(12, 161, 97, 25);
-		contentPanel.add(btnNewButton);
+		JButton btnInserisci = new JButton("Inserisci");
+		btnInserisci.setEnabled(false);
+		btnInserisci.setBounds(12, 161, 97, 25);
+		contentPanel.add(btnInserisci);
 		
 		JComboBox cbGiorni = new JComboBox();
 		cbGiorni.setModel(new DefaultComboBoxModel(new String[] {"LUN-MERC-VEN", "MAR-GIO-SAB"}));
 		cbGiorni.setBounds(179, 68, 114, 22);
 		contentPanel.add(cbGiorni);
 		
-		JLabel lblNewLabel_1 = new JLabel("X");
-		lblNewLabel_1.setForeground(Color.RED);
-		lblNewLabel_1.setBounds(233, 100, 56, 16);
-		contentPanel.add(lblNewLabel_1);
+		JLabel lblAvvisoAll1 = new JLabel("X");
+		lblAvvisoAll1.setForeground(Color.RED);
+		lblAvvisoAll1.setBounds(233, 100, 159, 16);
+		contentPanel.add(lblAvvisoAll1);
 		
-		JLabel lblX = new JLabel("X");
-		lblX.setForeground(Color.RED);
-		lblX.setBounds(233, 132, 56, 16);
-		contentPanel.add(lblX);
+		JLabel lblAvvisoAll2 = new JLabel("X");
+		lblAvvisoAll2.setForeground(Color.RED);
+		lblAvvisoAll2.setBounds(233, 132, 159, 16);
+		contentPanel.add(lblAvvisoAll2);
 		
-		JLabel lblAllenatoreGiImpegnato = new JLabel("Allenatore gi\u00E0 impegnato");
+		JLabel lblAllenatoreGiImpegnato = new JLabel("pollooooooooooooooooooooooooooooooooooo");
 		lblAllenatoreGiImpegnato.setBounds(134, 165, 159, 16);
 		contentPanel.add(lblAllenatoreGiImpegnato);
-	}
-	//----CONTROLLO PER L'ABILITAZIONE DEL BOTTONE----RITORNA FALSO SE IL BOTTONE NON SI DEVE ATTIVARE
+		
+		JLabel lblAvvisoIdCorso = new JLabel("New label");
+		lblAvvisoIdCorso.setBounds(134, 13, 56, 16);
+		
+		contentPanel.add(lblAvvisoIdCorso);
 	
+	
+		//----LISTNER CONTROLLI DINAMICI----
+		textIdCorso.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				//CONTROLLO DUPLICAZIONE ID CORSO
+				lblAvvisoIdCorso.setText(ControlloAvvisoCorso());
+				//CONTROLLO ABILITAZIONE BOTTONE
+				if (controllobottone())
+					btnInserisci.setEnabled(true);
+				else
+					btnInserisci.setEnabled(false);
+			}
+		});
+		textNome.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				//CONTROLLO ABILITAZIONE BOTTONE
+				if (controllobottone())
+					btnInserisci.setEnabled(true);
+				else
+					btnInserisci.setEnabled(false);
+			}
+		});
+		textIdAllenatore1.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				//CONTROLLI SUL VALORE DELL'ID ALLENATORE (SE è GIà PRESENTE, SE ESISTE L'ID, SE è UGUALE ALL'ALTRO)
+				lblAvvisoAll1.setText(ControlloAvvisoAllenatore(textIdAllenatore1.getText()));
+				//CONTROLLO ABILITAZIONE BOTTONE
+				if (controllobottone())
+					btnInserisci.setEnabled(true);
+				else
+					btnInserisci.setEnabled(false);
+			}
+		});
+		textIdAllenatore2.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				//CONTROLLI SUL VALORE DELL'ID ALLENATORE (SE è GIà PRESENTE, SE ESISTE L'ID, SE è UGUALE ALL'ALTRO)
+				lblAvvisoAll2.setText(ControlloAvvisoAllenatore(textIdAllenatore2.getText()));
+				//CONTROLLO ABILITAZIONE BOTTONE
+				if (controllobottone())
+					btnInserisci.setEnabled(true);
+				else
+					btnInserisci.setEnabled(false);
+			}
+		});
+		
+		
+	
+	
+	}
+	
+	//----CONTROLLO PER AVVISO DI ID DUPLICATO CORSO----
+		public String ControlloAvvisoCorso() {
+			String risultato="";
+			String IDC = textIdCorso.getText();
+			//-----------QUESTO IF è LA SOLUZIONE A QUEI PROBLEMI STRING=""---------------------------!!!!!!!!!!!!!!
+			if (IDC.equals(""))
+				return risultato;
+			Integer ID =Integer.parseInt(IDC);
+			if (!IDC.equals("") && cDAOP.ControlloDinamicoIdCorso(ID))      
+				risultato="ID esistente o non valido!";
+			return risultato;
+			
+		}
+		
+		
+		
+		
+		//----CONTROLLO PER AVVISO DI ID DUPLICATO ALLENATORE
+				public String ControlloAvvisoAllenatore(String IDA) {
+					String risultato="";
+					//CONTROLLO CHE BLOCCA IL METODO QUALORA IL VALORE SIA ASSENTE
+					if(IDA.equals(""))
+						return risultato;
+					//CONTROLLARE CHE I VALORI DEI DUE ALLENATORI NON SIANO UGUALI
+					if (textIdAllenatore1.getText().equals(textIdAllenatore2.getText())) {
+						risultato="Id allenatori uguali!";
+						return risultato;
+					}
+					//CONTROLLO CHE VERIFICA L'ESISTENZA DELL'ID
+					Integer IA =Integer.parseInt(IDA);	//------------IN CASO NON FUNZIONA "ID non esistente!" CAMBIARE DA INTEGER AD INT E POI CREARE UN ALTRA VARIABILE DI TIPO INTEGER DA PASSARE ALL'IF DOPO
+					if (!IDA.equals("") && !dDAOP.ControlloDinamicoIdAllenatore(IA))
+						risultato="ID non esistente!";
+					//CONTROLLO CHE VERIFICA LA PRESENZA DELL'ALLENATORE ALL'INTERNO DI QUALCHE ALTRO CORSO
+					if (cDAOP.ControlloPresenzaAllenatore(IA))
+						risultato="Allenatore occupato";
+					return risultato;
+				}
+	
+	
+	
+	
+	//----CONTROLLO PER L'ABILITAZIONE DEL BOTTONE----RITORNA FALSO SE IL BOTTONE NON SI DEVE ATTIVARE
+	//----PROVO A TOGLIERE TUTTI GLI ELSE IF E LI SOSTITUISCO CON DEGL'IF SEMPLICI
 		public boolean controllobottone() {
 			boolean risultato=true ;
-			//---------CONTROLLI LATO DIPENDENTE----------
+			//---------CONTROLLI COMPILAZIONE CAMPI CORSO----------
 			if (textIdCorso.getText().equals("") || textNome.getText().equals("") || textIdAllenatore1.getText().equals("") || textIdAllenatore2.getText().equals("") ) {
 				risultato=false;
 				System.out.println("CAMPI CORSO INDISPENSABILI NON COMPILATI ");
 			}
+			//----CONTROLLO CHE GLI ALLENATORI SAINO DIVERSI TRA LORO----
+			else if (textIdAllenatore1.getText().equals(textIdAllenatore2.getText())) {
+				risultato=false;
+				System.out.println("ID ALLENATORE UGUALI TRA LORO");
+			}
+			//----CONTROLLO PRECEDENTE ESISTENZA ID CORSO----
 			else if (cDAOP.ControlloDinamicoIdCorso(Integer.parseInt(textIdCorso.getText()))) {
 			risultato=false;
 			System.out.println("ID CORSO GIA ESISTENTE");
@@ -154,8 +254,11 @@ public class InserisciCorso extends JDialog {
 				System.out.println("ID ALLENATORE 2 NON ESISTENTE");
 				}
 			//----CONTROLLARE SE UN ALLENATORE è GIA PRESENTE ALL'INTERNO DEI CORSI----
+			if (risultato)
+				System.out.println("TUTTI I CAMPI SONO VALIDI");
+			System.out.println("____________________________________________________________________________");
 			
 			return risultato;
-
+			
 		}
 }
