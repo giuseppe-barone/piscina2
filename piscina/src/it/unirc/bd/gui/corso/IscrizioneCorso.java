@@ -27,7 +27,7 @@ public class IscrizioneCorso extends JDialog {
 			}
 		});
 	}
-ciao lele
+
 	/**
 	 * Create the dialog.
 	 */
