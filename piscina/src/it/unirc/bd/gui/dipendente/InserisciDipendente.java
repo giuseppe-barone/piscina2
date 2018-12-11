@@ -284,6 +284,7 @@ public class InserisciDipendente extends JDialog {
 		//------AQUISIZIONE VALORI DELLA VARIABILI DAI COMPONENTI E PASSAGGIO ALLE QUERY TRAMITE BOTTONE ----------------
 		btnInserisci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				InserimentoSuccesso InsSuc= new InserimentoSuccesso();
 				//AQUISIZIONE VALORI DIPENDENTE
 				IDDipendente=Integer.parseInt(textIDDipendente.getText());	//CASTING DA STRING A INT
 				Cellulare=textCellulare.getText();
@@ -298,13 +299,14 @@ public class InserisciDipendente extends JDialog {
 				}
 				Dipendente d = new Dipendente(IDDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
 				dDAOP.salvaDipendente(d);	//INSERIMENTO TUPLA
+				
 				//----CONTROLLO SE L'UTENTE VUOLE INSERIRE UN DIPENDENTE ALLENATORE----
 				if (isAllenatore) {
 					Allenatore a = new Allenatore(IDAllenatore, Qualifica, IDDipendente);
 					dDAOP.salvaAllenatore(a);
-					InserimentoSuccesso InsSuc= new InserimentoSuccesso();
-					JOptionPane.showMessageDialog(null, "FIURGHOIRDHG");
-					//InsSuc.setVisible(true);
+					
+					//JOptionPane.showMessageDialog(null, "FIURGHOIRDHG");
+					InsSuc.setVisible(true);
 
 				}
 				

@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InserisciIscritto extends JDialog {
 
@@ -19,6 +21,12 @@ public class InserisciIscritto extends JDialog {
 	private JTextField txtCOGNOME;
 	private JTextField txtETA;
 	private JTextField txtCELLULARE;
+	//-----VARIABILI ISCRITTO DA PASSARE ALLA QUERY------
+	private int idIscritto;
+	private String nome;
+	private String cognome;
+	private String sesso;
+	private int eta;
 
 	/**
 	 * Launch the application.
@@ -102,6 +110,12 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.add(lblSESSO);
 		
 		JButton btnINSERISCI = new JButton("Inserisci");
+		btnINSERISCI.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IdIscritto=In
+				
+			}
+		});
 		btnINSERISCI.setBounds(173, 177, 97, 25);
 		contentPanel.add(btnINSERISCI);
 	}
