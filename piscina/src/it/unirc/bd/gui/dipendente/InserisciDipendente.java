@@ -45,7 +45,7 @@ public class InserisciDipendente extends JDialog {
 	private JTextField textCognome;
 	private JTextField textCellulare;
 	private JTextField textIDAllenatore;
-	//---------VARIABILI DIPENDENTE DA PASSARE ALLE QUERY--------
+	//---------VARIABILI DIPENDENTE DA PASSARE ALLE QUERY---------
 	private int IDDipendente;
 	private String Nome;
 	private String Cognome;
