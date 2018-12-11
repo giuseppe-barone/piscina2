@@ -69,23 +69,27 @@ public class CorsoDAOP {
 
 	
 	
-	
+	/*----IN LAVORAZIONE----NON TOCCATE MAIALI
 	//-----------------CONTROLLO PRESENZA ALLENATORE -------------------ritorna true se non sono validi gli allenatori immessi
-		/*public boolean ControlloPresenzaAllenatore(Integer ID1, Integer ID2) {
+		public boolean ControlloPresenzaAllenatore(Integer ID1, Integer ID2) {
 			boolean risultato =false;
 			//----INSERIRE UN CONTROLLO CHE MI PERMETTA DI VEDERE SE L'OGETTO PASSATO è VUOTO E RESTITUISCA SUBITO UN VALORE
 			//INSERISCO QUESTO CONTROLLO PRIMA DEL RESTO DEL CONDICE PERCHè SENNO PARTIREBBE UNA QUERY CON DEI VALORI INCOMPATIBILI
 			//ANZICHE PASSARE AL METODO UN TIPO INT PASSARE AL METODO UN TIPO INTEGER (OGETTO) CHE PUò ESSERE ANCHE NULL
-			if (ID==null || Integer.toString(ID.intValue()).equals("")) {
+			if (ID1==null || Integer.toString(ID1.intValue()).equals("") || ID2==null || Integer.toString(ID2.intValue()).equals("")) {
 				risultato=true;
 				return risultato;
 			}						
-			String query = "SELECT * FROM corso WHERE idCorso = ?";
+			String query = "SELECT * FROM corso WHERE Allenatore1 = ? OR Allenatore1= ? OR Allenatore2=? OR Allenatore2=?";
 			PreparedStatement ps;
 			conn=DBManager.startConnection();
 			try {
 				ps = conn.prepareStatement(query);
-				ps.setInt(1, ID.intValue());
+				ps.setInt(1, ID1.intValue());
+				ps.setInt(2, ID2.intValue());
+				ps.setInt(3, ID1.intValue());
+				ps.setInt(4, ID2.intValue());
+
 				ResultSet rs = ps.executeQuery();
 				if(rs.next())
 					risultato=true;	//ESISTE UNA TUPLA CON QUELL'ID
@@ -96,7 +100,7 @@ public class CorsoDAOP {
 			}
 			DBManager.closeConnection();
 			return risultato;
-		}*/
-	
+		}
+	*/
 
 }
