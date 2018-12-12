@@ -3,17 +3,24 @@ package it.unirc.bd.gui.iscritto;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import it.unirc.bd.dao.beans.Iscritto;
+import it.unirc.bd.dao.beans.IscrittoDAOP;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class InserisciIscritto extends JDialog {
+	IscrittoDAOP iDAOP = new IscrittoDAOP();
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtID;
@@ -26,6 +33,7 @@ public class InserisciIscritto extends JDialog {
 	private String nome;
 	private String cognome;
 	private String sesso;
+	private String cellulare;
 	private int eta;
 
 	/**
@@ -45,6 +53,7 @@ public class InserisciIscritto extends JDialog {
 	 * Create the dialog.
 	 */
 	public InserisciIscritto() {
+		setAlwaysOnTop(true);
 		setBounds(100, 100, 435, 267);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -97,26 +106,38 @@ public class InserisciIscritto extends JDialog {
 		lblCELLULLARE.setBounds(208, 88, 73, 22);
 		contentPanel.add(lblCELLULLARE);
 		
-		JRadioButton rbMASCHIO = new JRadioButton("M");
-		rbMASCHIO.setBounds(74, 124, 39, 25);
-		contentPanel.add(rbMASCHIO);
-		
-		JRadioButton rbFEMMINA = new JRadioButton("F");
-		rbFEMMINA.setBounds(117, 124, 63, 25);
-		contentPanel.add(rbFEMMINA);
-		
 		JLabel lblSESSO = new JLabel("Sesso:");
 		lblSESSO.setBounds(12, 128, 56, 16);
 		contentPanel.add(lblSESSO);
 		
+		JComboBox cbSESSO = new JComboBox();
+		cbSESSO.setBounds(64, 125, 84, 22);
+		cbSESSO.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
+		cbSESSO.setToolTipText("");
+		contentPanel.add(cbSESSO);
+		
 		JButton btnINSERISCI = new JButton("Inserisci");
-		btnINSERISCI.addActionListener(new ActionListener() {
+		btnINSERISCI.setEnabled(false);
+		btnINSERISCI.addActionListener(new ActionListener() { //INSERIMENTO ISCRITTO
 			public void actionPerformed(ActionEvent arg0) {
-				IdIscritto=In
-				
+				idIscritto=Integer.parseInt(txtID.getText()); //CASTING DA STRING A INT
+				nome = txtNOME.getText();
+				cognome = txtCOGNOME.getText();
+				sesso=(String) cbSESSO.getModel().getElementAt(cbSESSO.getSelectedIndex());	//ATTENZIONE AL CASTING
+				cellulare = txtCELLULARE.getText();
+				eta = Integer.parseInt(txtETA.getText()); //CASTING DA STRING A INT
+				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, eta);
+				iDAOP.salvaIscritto(i);
 			}
 		});
+		
 		btnINSERISCI.setBounds(173, 177, 97, 25);
 		contentPanel.add(btnINSERISCI);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(235, 19, 56, 16);
+		contentPanel.add(lblNewLabel);
+		
+		
 	}
 }
