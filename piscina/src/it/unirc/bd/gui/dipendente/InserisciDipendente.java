@@ -322,6 +322,8 @@ public class InserisciDipendente extends JDialog {
 		String risultato="";
 		String IDD = textIDDipendente.getText();
 		int ID =Integer.parseInt(IDD);
+		//if(IDD.equals(""))
+			//return risultato;
 		if (!IDD.equals("") && dDAOP.ControlloDinamicoIdDipendente(ID))
 			risultato="ID esistente o non valido!";
 		return risultato;
