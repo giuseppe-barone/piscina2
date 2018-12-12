@@ -130,7 +130,7 @@ public class InserisciIscritto extends JDialog {
 				iDAOP.salvaIscritto(i);
 			}
 		});
-		
+		;;;
 		btnINSERISCI.setBounds(173, 177, 97, 25);
 		contentPanel.add(btnINSERISCI);
 		
