@@ -40,9 +40,9 @@ public class IscrittoDAOP {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next())
-				risultato = true;
+				risultato = true; //ESISTE GIA UNA TUPLA CON QUELL'ID
 			else
-				risultato = false;
+				risultato = false; //NON ESISTE GIA UNA TUPLA
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

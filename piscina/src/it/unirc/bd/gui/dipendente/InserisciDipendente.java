@@ -299,7 +299,7 @@ public class InserisciDipendente extends JDialog {
 				}
 				Dipendente d = new Dipendente(IDDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
 				dDAOP.salvaDipendente(d);	//INSERIMENTO TUPLA
-				
+				InsSuc.setVisible(true);
 				//----CONTROLLO SE L'UTENTE VUOLE INSERIRE UN DIPENDENTE ALLENATORE----
 				if (isAllenatore) {
 					Allenatore a = new Allenatore(IDAllenatore, Qualifica, IDDipendente);
