@@ -14,20 +14,31 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
 import javax.swing.event.CaretListener;
 
+import it.unirc.bd.dao.beans.Corso;
 import it.unirc.bd.dao.beans.CorsoDAOP;
 import it.unirc.bd.dao.beans.DipendenteDAOP;
 
 import javax.swing.event.CaretEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InserisciCorso extends JDialog {
 	CorsoDAOP cDAOP =new CorsoDAOP();
 	DipendenteDAOP dDAOP =new DipendenteDAOP();
+	//VALORI DA PASSARE ALLA QUERY
+	Integer IdCorso=null;
+	Integer Giorni=null;
+	Integer Ora =null;
+	String Tipo=null;
+	Integer Allenatore1 =null;
+	Integer Allenatore2 =null;
 	
 	
-
+	
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textIdCorso;
-	private JTextField textNome;
+	private JTextField textTipo;
 	private JTextField textIdAllenatore1;
 	private JTextField textIdAllenatore2;
 
@@ -67,10 +78,10 @@ public class InserisciCorso extends JDialog {
 		lblNome.setBounds(12, 42, 38, 16);
 		contentPanel.add(lblNome);
 		
-		textNome = new JTextField();
-		textNome.setBounds(73, 39, 116, 22);
-		contentPanel.add(textNome);
-		textNome.setColumns(10);
+		textTipo = new JTextField();
+		textTipo.setBounds(73, 39, 116, 22);
+		contentPanel.add(textTipo);
+		textTipo.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Giorni:");
 		lblNewLabel.setBounds(134, 71, 38, 16);
@@ -80,10 +91,10 @@ public class InserisciCorso extends JDialog {
 		lblOra.setBounds(12, 71, 26, 16);
 		contentPanel.add(lblOra);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"9", "10", "11", "14", "15", "16", "17", "18", "19"}));
-		comboBox.setBounds(73, 68, 49, 22);
-		contentPanel.add(comboBox);
+		JComboBox cbOra = new JComboBox();
+		cbOra.setModel(new DefaultComboBoxModel(new String[] {"9", "10", "11", "14", "15", "16", "17", "18", "19"}));
+		cbOra.setBounds(73, 68, 49, 22);
+		contentPanel.add(cbOra);
 		
 		JLabel lblIdallenatore = new JLabel("IdAllenatore1:");
 		lblIdallenatore.setBounds(12, 100, 81, 16);
@@ -106,6 +117,7 @@ public class InserisciCorso extends JDialog {
 		contentPanel.add(textIdAllenatore2);
 		
 		JButton btnInserisci = new JButton("Inserisci");
+		
 		btnInserisci.setEnabled(false);
 		btnInserisci.setBounds(12, 161, 97, 25);
 		contentPanel.add(btnInserisci);
@@ -125,12 +137,8 @@ public class InserisciCorso extends JDialog {
 		lblAvvisoAll2.setBounds(233, 132, 159, 16);
 		contentPanel.add(lblAvvisoAll2);
 		
-		JLabel lblAllenatoreGiImpegnato = new JLabel("pollooooooooooooooooooooooooooooooooooo");
-		lblAllenatoreGiImpegnato.setBounds(134, 165, 159, 16);
-		contentPanel.add(lblAllenatoreGiImpegnato);
-		
 		JLabel lblAvvisoIdCorso = new JLabel("New label");
-		lblAvvisoIdCorso.setBounds(134, 13, 56, 16);
+		lblAvvisoIdCorso.setBounds(134, 13, 258, 16);
 		
 		contentPanel.add(lblAvvisoIdCorso);
 	
@@ -147,7 +155,7 @@ public class InserisciCorso extends JDialog {
 					btnInserisci.setEnabled(false);
 			}
 		});
-		textNome.addCaretListener(new CaretListener() {
+		textTipo.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent arg0) {
 				//CONTROLLO ABILITAZIONE BOTTONE
 				if (controllobottone())
@@ -176,6 +184,22 @@ public class InserisciCorso extends JDialog {
 					btnInserisci.setEnabled(true);
 				else
 					btnInserisci.setEnabled(false);
+			}
+		});
+		
+		//----AQUISIZIONE DEI DATI DA PASSARE ALLA QUERY PER INSERIRE IL CORSO NEL DB----
+		btnInserisci.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IdCorso=Integer.parseInt(textIdCorso.getText());
+				Giorni=cbGiorni.getSelectedIndex();	
+				//Ora=cbOra.getModel().getElementAt(cbOra.getSelectedIndex());	//ATTENZIONE AL CASTING
+				Ora =Integer.parseInt(cbOra.getModel().getElementAt(cbOra.getSelectedIndex()).toString()) ;
+				Tipo=textTipo.getText();
+				Allenatore1=Integer.parseInt(textIdAllenatore1.getText());
+				Allenatore2=Integer.parseInt(textIdAllenatore2.getText());
+				Corso c =new Corso(IdCorso, Giorni,Ora,Tipo,Allenatore1,Allenatore2);
+				cDAOP.salvaCorso(c);
+				
 			}
 		});
 		
@@ -230,7 +254,7 @@ public class InserisciCorso extends JDialog {
 		public boolean controllobottone() {
 			boolean risultato=true ;
 			//---------CONTROLLI COMPILAZIONE CAMPI CORSO----------
-			if (textIdCorso.getText().equals("") || textNome.getText().equals("") || textIdAllenatore1.getText().equals("") || textIdAllenatore2.getText().equals("") ) {
+			if (textIdCorso.getText().equals("") || textTipo.getText().equals("") || textIdAllenatore1.getText().equals("") || textIdAllenatore2.getText().equals("") ) {
 				risultato=false;
 				System.out.println("CAMPI CORSO INDISPENSABILI NON COMPILATI ");
 			}
@@ -253,6 +277,12 @@ public class InserisciCorso extends JDialog {
 				risultato=false;
 				System.out.println("ID ALLENATORE 2 NON ESISTENTE");
 				}
+			//CONTROLLO SE SONO LIBERI ENTRAMBI GLI ALLENATORI
+			else if (cDAOP.ControlloPresenzaAllenatore(Integer.parseInt(textIdAllenatore1.getText()))||cDAOP.ControlloPresenzaAllenatore(Integer.parseInt(textIdAllenatore2.getText()))) {
+				risultato=false;
+				System.out.println("ALLENATORE 1 O 2 OCCUPATO");
+				}
+			
 			//----CONTROLLARE SE UN ALLENATORE è GIA PRESENTE ALL'INTERNO DEI CORSI----
 			if (risultato)
 				System.out.println("TUTTI I CAMPI SONO VALIDI");

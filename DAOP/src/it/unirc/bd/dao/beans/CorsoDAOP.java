@@ -16,7 +16,7 @@ public class CorsoDAOP {
 
 	//----------------INSERISCI CORSO----------------------
 	public boolean salvaCorso(Corso c){
-		String query = "INSERT INTO dipendente VALUES (?, ?,?,?,?,?)";
+		String query = "INSERT INTO corso VALUES (?, ?,?,?,?,?)";
 		boolean esito=false;
 		conn=DBManager.startConnection();
 		try {
@@ -67,29 +67,28 @@ public class CorsoDAOP {
 		return risultato;
 	}
 
-	
-	
-	//----IN LAVORAZIONE----NON TOCCATE MAIALI
+
+
 	//-----------------CONTROLLO PRESENZA ALLENATORE -------------------RITORNA TRUE SE ESISTE ALMENO UN CORSO CHE è TENUTO (ALLENATORE1 O ALLENATORE2) DALL'ALLENATORE PASSATO AL METODO 
-		public boolean ControlloPresenzaAllenatore(Integer ID) {
-			boolean risultato =false;
-			String query = "SELECT * FROM corso WHERE Allenatore1 = ? OR Allenatore2= ?;";
-			PreparedStatement ps;
-			conn=DBManager.startConnection();
-			try {
-				ps = conn.prepareStatement(query);
-				ps.setInt(1, ID.intValue());
-				ps.setInt(2, ID.intValue());
-				ResultSet rs = ps.executeQuery();
-				if(rs.next())
-					risultato=true;	//ESISTE UNA TUPLA CON QUELL'ID
-				else
-					risultato=false;//NON ESISTE UNA TUPLA CON QUELL'ID
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DBManager.closeConnection();
-			return risultato;
+	public boolean ControlloPresenzaAllenatore(Integer ID) {
+		boolean risultato =false;
+		String query = "SELECT * FROM corso WHERE Allenatore1 = ? OR Allenatore2= ?;";
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, ID.intValue());
+			ps.setInt(2, ID.intValue());
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+				risultato=true;	//ESISTE UNA TUPLA CON QUELL'ID
+			else
+				risultato=false;//NON ESISTE UNA TUPLA CON QUELL'ID
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-	
+		DBManager.closeConnection();
+		return risultato;
+	}
+
 }
