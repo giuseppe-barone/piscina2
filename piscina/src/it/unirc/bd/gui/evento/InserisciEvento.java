@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
@@ -114,6 +116,16 @@ public class InserisciEvento extends JDialog {
 				livello = (String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());
 				tipo = txtTIPO.getText();
 				Evento e = new Evento(idEvento, data, livello, tipo);
+				//--------------CODICE PER IL CALCOLO DELL'ETA DA INSERIRE A PARTE PER PEPPE----------------
+				/*LocalDate corrente=LocalDate.now();
+				Date nascita=data.valueOf(txtDATA.getText());
+				LocalDate LNascita=nascita.toLocalDate();
+				System.out.println(LNascita.toString());
+
+				System.out.println(corrente.toString());
+				if ((corrente != null) && (data != null)) {
+		           System.out.println(Period.between(LNascita, corrente).getYears());
+		        }*/
 				if (eDAOP.salvaEvento(e)) {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
@@ -204,7 +216,17 @@ public class InserisciEvento extends JDialog {
 
 
 
+	public void CalcoloEta() {
+		LocalDate corrente=LocalDate.now();
+		Date nascita=data.valueOf(txtDATA.getText());
+		LocalDate LNascita=nascita.toLocalDate();
+		System.out.println(LNascita.toString());
 
+		System.out.println(corrente.toString());
+		if ((corrente != null) && (data != null)) {
+           System.out.println(Period.between(LNascita, corrente).getYears());
+        }
+	}
 
 
 
