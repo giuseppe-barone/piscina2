@@ -29,7 +29,7 @@ public class EventoDAOP {
 		DBManager.closeConnection();
 		return esito;
 	}
-	public boolean ControlloDinamicoIdIscritto(int id) {
+	public boolean ControlloDinamicoEvento(int id) {
 		String query = "SELECT * FROM evento WHERE idEvento = ?";
 		boolean risultato = false;
 		PreparedStatement ps;
