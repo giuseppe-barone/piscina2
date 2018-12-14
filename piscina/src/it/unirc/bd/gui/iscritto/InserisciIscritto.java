@@ -17,8 +17,12 @@ import it.unirc.bd.dao.beans.IscrittoDAOP;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
@@ -29,15 +33,18 @@ public class InserisciIscritto extends JDialog {
 	private JTextField txtID;
 	private JTextField txtNOME;
 	private JTextField txtCOGNOME;
-	private JTextField txtETA;
+	private JTextField txtDATA;
 	private JTextField txtCELLULARE;
+	private JTextField txtMATRICOLAFIN;
 	//-----VARIABILI ISCRITTO DA PASSARE ALLA QUERY------
 	private int idIscritto;
 	private String nome;
 	private String cognome;
 	private String sesso;
 	private String cellulare;
-	private int eta;
+	private Date dataNascita;
+	private int matricolaFIN;
+
 
 	/**
 	 * Launch the application.
@@ -58,14 +65,14 @@ public class InserisciIscritto extends JDialog {
 	 */
 	public InserisciIscritto() {
 		setAlwaysOnTop(true);
-		setBounds(100, 100, 435, 267);
+		setBounds(100, 100, 456, 273);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			txtID = new JTextField();
-			txtID.setBounds(64, 16, 116, 22);
+			txtID.setBounds(108, 16, 116, 22);
 			contentPanel.add(txtID);
 			txtID.setColumns(10);
 		}
@@ -79,51 +86,60 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.add(lblNOME);
 
 		txtNOME = new JTextField();
-		txtNOME.setBounds(64, 51, 116, 22);
+		txtNOME.setBounds(108, 51, 116, 22);
 		contentPanel.add(txtNOME);
 		txtNOME.setColumns(10);
 
 		txtCOGNOME = new JTextField();
-		txtCOGNOME.setBounds(293, 51, 116, 22);
+		txtCOGNOME.setBounds(307, 51, 116, 22);
 		contentPanel.add(txtCOGNOME);
 		txtCOGNOME.setColumns(10);
 
-		txtETA = new JTextField();
-		txtETA.setBounds(64, 88, 116, 22);
-		contentPanel.add(txtETA);
-		txtETA.setColumns(10);
+		txtDATA = new JTextField();
+		txtDATA.setBounds(108, 88, 116, 22);
+		contentPanel.add(txtDATA);
+		txtDATA.setColumns(10);
 
 		txtCELLULARE = new JTextField();
-		txtCELLULARE.setBounds(293, 86, 116, 22);
+		txtCELLULARE.setBounds(307, 88, 116, 22);
 		contentPanel.add(txtCELLULARE);
 		txtCELLULARE.setColumns(10);
 
-		JLabel lblETA = new JLabel("Et\u00E0:");
-		lblETA.setBounds(12, 91, 56, 16);
-		contentPanel.add(lblETA);
+		txtMATRICOLAFIN = new JTextField();
+		txtMATRICOLAFIN.setBounds(108, 125, 116, 22);
+		contentPanel.add(txtMATRICOLAFIN);
+		txtMATRICOLAFIN.setColumns(10);
+
+		JLabel lblDATA = new JLabel("Data Nascita:");
+		lblDATA.setBounds(12, 91, 84, 16);
+		contentPanel.add(lblDATA);
 
 		JLabel lblCOGNOME = new JLabel("Cognome:");
-		lblCOGNOME.setBounds(208, 54, 73, 16);
+		lblCOGNOME.setBounds(238, 54, 73, 16);
 		contentPanel.add(lblCOGNOME);
 
 		JLabel lblCELLULLARE = new JLabel("Cellulare");
-		lblCELLULLARE.setBounds(208, 88, 73, 22);
+		lblCELLULLARE.setBounds(238, 88, 73, 22);
 		contentPanel.add(lblCELLULLARE);
 
 		JLabel lblSESSO = new JLabel("Sesso:");
-		lblSESSO.setBounds(12, 128, 56, 16);
+		lblSESSO.setBounds(236, 128, 56, 16);
 		contentPanel.add(lblSESSO);
 
 		JComboBox cbSESSO = new JComboBox();
-		cbSESSO.setBounds(64, 125, 84, 22);
+		cbSESSO.setBounds(307, 123, 84, 22);
 		cbSESSO.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
 		cbSESSO.setToolTipText("");
 		contentPanel.add(cbSESSO);
 
-		JLabel lblAvviso = new JLabel("pollo");
+		JLabel lblAvviso = new JLabel("avviso");
 		lblAvviso.setForeground(Color.RED);
-		lblAvviso.setBounds(219, 19, 174, 16);
+		lblAvviso.setBounds(254, 19, 174, 16);
 		contentPanel.add(lblAvviso);
+
+		JLabel lblMatricolaFin = new JLabel("Matricola FIN");
+		lblMatricolaFin.setBounds(12, 128, 84, 16);
+		contentPanel.add(lblMatricolaFin);
 
 		JButton btnINSERISCI = new JButton("Inserisci");
 		btnINSERISCI.setEnabled(false);
@@ -158,7 +174,7 @@ public class InserisciIscritto extends JDialog {
 					btnINSERISCI.setEnabled(true);
 			}
 		});
-		txtETA.addCaretListener(new CaretListener() {
+		txtDATA.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				//---CONTROLLI ABILITAZIONE BOTTONE----
 				if(controlloBottone()==false)
@@ -177,14 +193,30 @@ public class InserisciIscritto extends JDialog {
 				cognome = txtCOGNOME.getText();
 				sesso=(String) cbSESSO.getModel().getElementAt(cbSESSO.getSelectedIndex());	//ATTENZIONE AL CASTING
 				cellulare = txtCELLULARE.getText();
-				eta = Integer.parseInt(txtETA.getText()); //CASTING DA STRING A INT
-				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, eta);
-				iDAOP.salvaIscritto(i);
+				dataNascita = dataNascita.valueOf(txtDATA.getText());
+				matricolaFIN = Integer.parseInt(txtMATRICOLAFIN.getText());
+				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, dataNascita, matricolaFIN);
+				//iDAOP.salvaIscritto(i);
+				if (iDAOP.salvaIscritto(i)) {
+					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
+					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
+					txtDATA.setText("");
+					txtID.setText("");
+					txtNOME.setText("");
+					txtCOGNOME.setText("");
+					txtCELLULARE.setText("");
+					txtMATRICOLAFIN.setText("");
+				}
+				else
+					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
+
 			}
 		});
 
-		btnINSERISCI.setBounds(173, 177, 97, 25);
+		btnINSERISCI.setBounds(172, 175, 97, 25);
 		contentPanel.add(btnINSERISCI);
+
+
 
 
 
@@ -196,19 +228,19 @@ public class InserisciIscritto extends JDialog {
 		if(IDI.equals("")) {
 			System.out.println("NON C'E NESSUN VALORE");
 			return risultato;
-			}
+		}
 		Integer ID=Integer.parseInt(IDI);
 		if(!IDI.equals("")&&iDAOP.ControlloDinamicoIdIscritto(ID)) {
 			System.out.println("ID ESISTENTE");
 			risultato="ID esistente";
 		}
-			
+
 		return risultato;
 	}
 	public boolean controlloBottone() {
 		boolean risultato=true;
 		//---CONTROLLI COMPILAZIONE CORSO---
-		if(txtID.getText().equals("")||txtNOME.getText().equals("")|| txtCOGNOME.getText().equals("")|| txtETA.getText().equals("") || iDAOP.ControlloDinamicoIdIscritto(Integer.parseInt(txtID.getText()))) {
+		if(txtID.getText().equals("")||txtNOME.getText().equals("")|| txtCOGNOME.getText().equals("")|| txtDATA.getText().equals("") || iDAOP.ControlloDinamicoIdIscritto(Integer.parseInt(txtID.getText()))) {
 			risultato=false;
 			System.out.println("CAMPI ISCRITTO NON COMPILATI O ID ESISTENTE");
 		}
@@ -218,5 +250,17 @@ public class InserisciIscritto extends JDialog {
 	}
 	public boolean controlloIDIscritto() {
 		return iDAOP.ControlloDinamicoIdIscritto(Integer.parseInt(txtID.getText()));
+	}
+	
+	public void CalcoloEta() {
+		LocalDate corrente=LocalDate.now();
+		Date nascita=dataNascita.valueOf(txtDATA.getText());
+		LocalDate LNascita=nascita.toLocalDate();
+		System.out.println(LNascita.toString());
+
+		System.out.println(corrente.toString());
+		if ((corrente != null) && (dataNascita != null)) {
+           System.out.println(Period.between(LNascita, corrente).getYears());
+        }
 	}
 }
