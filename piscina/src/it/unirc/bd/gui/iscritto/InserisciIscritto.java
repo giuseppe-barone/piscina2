@@ -43,7 +43,7 @@ public class InserisciIscritto extends JDialog {
 	private String sesso;
 	private String cellulare;
 	private Date dataNascita;
-	private int matricolaFIN;
+	private Integer matricolaFIN;
 
 
 	/**
@@ -194,9 +194,16 @@ public class InserisciIscritto extends JDialog {
 				sesso=(String) cbSESSO.getModel().getElementAt(cbSESSO.getSelectedIndex());	//ATTENZIONE AL CASTING
 				cellulare = txtCELLULARE.getText();
 				dataNascita = dataNascita.valueOf(txtDATA.getText());
-				matricolaFIN = Integer.parseInt(txtMATRICOLAFIN.getText());
+				System.out.println("acquisisco: IDISCRITTO,NOME, COGNOME, SESSO, CELLULARE, DATADINASCITA");
+				//----CONTROLLO PER LA PRESENZA DELLA MATRICOLA FIN
+				if(txtMATRICOLAFIN.getText().equals("")||txtMATRICOLAFIN.getText().equals(null))
+					matricolaFIN=null;
+				else
+					matricolaFIN = Integer.parseInt(txtMATRICOLAFIN.getText());
+				System.out.println("HO ASSOCIATO NULL");
 				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, dataNascita, matricolaFIN);
 				//iDAOP.salvaIscritto(i);
+				System.out.println("HO CREATO L'OGETTO");
 				if (iDAOP.salvaIscritto(i)) {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------

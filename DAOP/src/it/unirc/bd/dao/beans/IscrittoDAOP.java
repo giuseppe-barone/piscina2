@@ -46,7 +46,14 @@ public class IscrittoDAOP {
 	
 	//---INSERIMENTO ISCRITTO----
 	public boolean salvaIscritto(Iscritto i) {
-		String query = "INSERT INTO iscritto VALUES (?,?,?,?,?,?,?)";
+		boolean isAtleta=true;
+		String query;
+		if (Integer.toString(i.getMatricolaFIN()).equals("") || i.getMatricolaFIN()==null)
+			isAtleta=false;
+		if (isAtleta)
+		query = "INSERT INTO iscritto VALUES (?,?,?,?,?,?,?)";
+		else
+			query = "INSERT INTO `piscina`.`iscritto` (`idIscritto`, `Nome`, `Cognome`, `Sesso`,`Cellulare`, `DataDiNascita`) VALUES (?,?,?,?,?,?);";
 		boolean esito=false;
 		conn=DBManager.startConnection();
 		try {
@@ -57,7 +64,10 @@ public class IscrittoDAOP {
 			ps.setString(4, i.getSesso());
 			ps.setString(5, i.getCellulare());
 			ps.setDate(6, i.getDataNascita());
+			
+			if(isAtleta)
 			ps.setInt(7, i.getMatricolaFIN());
+			
 			int tmp=ps.executeUpdate();
 			if (tmp==1)
 				esito=true;
