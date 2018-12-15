@@ -10,7 +10,10 @@ public class Iscritto {
 	private String cellulare;
 	private Date dataNascita;
 	private int matricolaFIN;
-	
+	public Iscritto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Iscritto(int idIscritto, String nome, String cognome, String sesso, String cellulare, Date dataNascita,
 			int matricolaFIN) {
 		super();
@@ -80,6 +83,7 @@ public class Iscritto {
 			return false;
 		return true;
 	}
+	//----GET E SET----
 	public int getIdIscritto() {
 		return IdIscritto;
 	}
@@ -122,5 +126,8 @@ public class Iscritto {
 	public void setMatricolaFIN(int matricolaFIN) {
 		this.matricolaFIN = matricolaFIN;
 	}
-
+	//----METODO CHE MI SERVE PER FAMRI MOSTRARE SOTTOFORMA DI STRINGA SOLO LE INFORMAZIONI DI UN ATLETA (NELLA COMBOBOX)----
+	public String toStringAtleta() {
+		return nome +" "+cognome+" "+dataNascita ;
+	}
 }

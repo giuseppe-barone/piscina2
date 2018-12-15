@@ -3,6 +3,10 @@ package it.unirc.bd.dao.beans;
 import java.sql.Date;
 
 public class Evento {
+	public Evento() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	private int idEvento;
 	private Date data;
 	private String livello;
@@ -17,7 +21,7 @@ public class Evento {
 	}
 	@Override
 	public String toString() {
-		return "Evento [idEvento=" + idEvento + ", data=" + data + ", livello=" + livello + ", tipo=" + tipo + "]";
+		return idEvento+"   "+data+"  "+livello+"  "+tipo;
 	}
 	@Override
 	public int hashCode() {

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
+
 import it.unirc.bd.dao.utils.DBManager;
 
 public class EventoDAOP {
@@ -49,5 +51,63 @@ public class EventoDAOP {
 		DBManager.closeConnection();
 		return risultato;
 	}
+	/*
+	//----RESTITUZIONE DI TUTTI GLI EVENTI----PER LA COMBOBOX----NON CANCELLARE PER SICUREZZA
+	public DefaultComboBoxModel<String> getEventicb(){
+		DefaultComboBoxModel<String> risultato = new DefaultComboBoxModel<String>();
+		String query = "SELECT * FROM piscina.evento;";
+		Evento res = new Evento();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				res=new Evento();
+				res.setIdEvento(rs.getInt("idEvento"));
+				res.setData(rs.getDate("Data"));
+				res.setLivello( rs.getString("Livello") );
+				res.setTipo( rs.getString("Tipo") );
+
+				risultato.addElement(res.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return risultato;
+	
+}		*/
+	
+	
+	
+	//----RESTITUZIONE DI TUTTI GLI EVENTI----PER LA COMBOBOX ----PROVA CON OGETTO DI TIPO EVENTO----FUNZIONA
+	public DefaultComboBoxModel<Evento> getEventicb(){
+		DefaultComboBoxModel<Evento> risultato = new DefaultComboBoxModel<Evento>();
+		String query = "SELECT * FROM piscina.evento;";
+		Evento res = new Evento();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				res=new Evento();
+				res.setIdEvento(rs.getInt("idEvento"));
+				res.setData(rs.getDate("Data"));
+				res.setLivello( rs.getString("Livello") );
+				res.setTipo( rs.getString("Tipo") );
+
+				risultato.addElement(res);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return risultato;
+	
+}		
+	
+	
 
 }
