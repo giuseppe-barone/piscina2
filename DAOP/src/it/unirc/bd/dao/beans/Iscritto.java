@@ -3,17 +3,6 @@ package it.unirc.bd.dao.beans;
 import java.sql.Date;
 
 public class Iscritto {
-	private int IdIscritto;
-	private String nome;
-	private String cognome;
-	private String sesso;
-	private String cellulare;
-	private Date dataNascita;
-	private Integer matricolaFIN;
-	public Iscritto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 	public Iscritto(int idIscritto, String nome, String cognome, String sesso, String cellulare, Date dataNascita,
 			Integer matricolaFIN) {
 		super();
@@ -25,6 +14,18 @@ public class Iscritto {
 		this.dataNascita = dataNascita;
 		this.matricolaFIN = matricolaFIN;
 	}
+	private int IdIscritto;
+	private String nome;
+	private String cognome;
+	private String sesso;
+	private String cellulare;
+	private Date dataNascita;
+	private Integer matricolaFIN;
+	public Iscritto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public String toString() {
 		return "Iscritto [IdIscritto=" + IdIscritto + ", nome=" + nome + ", cognome=" + cognome + ", sesso=" + sesso

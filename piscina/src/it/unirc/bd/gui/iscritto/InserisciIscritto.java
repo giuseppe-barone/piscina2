@@ -198,12 +198,12 @@ public class InserisciIscritto extends JDialog {
 				//----CONTROLLO PER LA PRESENZA DELLA MATRICOLA FIN
 				if(txtMATRICOLAFIN.getText().equals("")||txtMATRICOLAFIN.getText().equals(null))
 					matricolaFIN=null;
+				
 				else
 					matricolaFIN = Integer.parseInt(txtMATRICOLAFIN.getText());
-				System.out.println("HO ASSOCIATO NULL");
+				System.out.println(Integer.toString(matricolaFIN));
 				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, dataNascita, matricolaFIN);
-				//iDAOP.salvaIscritto(i);
-				System.out.println("HO CREATO L'OGETTO");
+				System.out.println("-----------------ddddddddddddddddddddddddddd--------------------------------------------");
 				if (iDAOP.salvaIscritto(i)) {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
