@@ -201,7 +201,7 @@ public class InserisciIscritto extends JDialog {
 				
 				else
 					matricolaFIN = Integer.parseInt(txtMATRICOLAFIN.getText());
-				System.out.println(Integer.toString(matricolaFIN));
+				//System.out.println(Integer.toString(matricolaFIN));
 				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, dataNascita, matricolaFIN);
 				System.out.println("-----------------ddddddddddddddddddddddddddd--------------------------------------------");
 				if (iDAOP.salvaIscritto(i)) {
