@@ -1,6 +1,7 @@
 package it.unirc.bd.dao.beans;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +32,50 @@ public class EventoDAOP {
 		DBManager.closeConnection();
 		return esito;
 	}
+	
+	
+	
+	public boolean Ricerca(String tipo,Date data,String livello,Integer MatricolaFin, boolean iaAtleta ) {
+		String tipo;
+		String data;
+		String livello;
+		String query = "SELECT * FROM evento WHERE idEvento IS NOT NULL ???";
+		boolean esito = false;
+		conn = DBManager.startConnection();
+		try {
+			PreparedStatement ps = conn.prepareStatement(query);
+			if (!tipo.equals(null)) {
+				ps.setString(1, ",Tipo='"+tipo+"'");
+			}
+			else
+				ps.setString(1, "");
+			
+			if (!livello.equals(null)) {
+				ps.setString(2, ",Livello='"+livello+"'");
+			}
+			else
+				ps.setString(2, "");
+			
+			
+			if (!data.equals(null)) {
+				ps.setString(3, ",Data='"+data+"'");
+			}
+			else
+				ps.setString(3, "");
+			
+			
+			int tmp = ps.executeUpdate();
+			if(tmp==1)
+				esito=true;
+		}catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return esito;
+	}
+	
+	
+	
 	public boolean ControlloDinamicoEvento(int id) {
 		String query = "SELECT * FROM evento WHERE idEvento = ?";
 		boolean risultato = false;

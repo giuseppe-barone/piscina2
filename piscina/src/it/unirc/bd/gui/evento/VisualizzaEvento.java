@@ -7,10 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class VisualizzaEvento extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -30,10 +32,14 @@ public class VisualizzaEvento extends JDialog {
 	 */
 	public VisualizzaEvento() {
 		setBounds(100, 100, 552, 322);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		getContentPane().setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 531, 275);
+		getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		table.setBounds(0, 0, 531, 275);
+		scrollPane.add(table, BorderLayout.NORTH);
 	}
-
 }

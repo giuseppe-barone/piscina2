@@ -67,14 +67,8 @@ public class RicercaEvento extends JDialog {
 		
 		JCheckBox cbTutti = new JCheckBox("Cronistoria (Tutti)");
 		
-		cbTutti.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-		});
 		
 		cbTutti.setBounds(8, 166, 131, 25);
-		cbTutti.setSelected(true);
 		contentPanel.add(cbTutti);
 		
 		JCheckBox cbRA = new JCheckBox("Ricerca per atleta");
@@ -167,37 +161,11 @@ public class RicercaEvento extends JDialog {
 					txtTipo.setEnabled(false);
 			}
 		});
-		/*cbTutti.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				if (cbTutti.isSelected()) {
-					cbRA.setEnabled(false);
-					cbRA.setSelected(false);
-					cbData.setSelected(false);
-					cbTipo.setSelected(false);
-					cbLivello.setSelected(false);
-					cbData.setEnabled(false);
-					cbTipo.setEnabled(false);
-					cbLivello.setEnabled(false);
-					cbTutti.setEnabled(false);
-				}
-				else {
-					cbRA.setEnabled(true);
-					cbRA.setSelected(true);
-					cbData.setSelected(true);
-					cbTipo.setSelected(true);
-					cbLivello.setSelected(true);
-					cbData.setEnabled(true);
-					cbTipo.setEnabled(true);
-					cbLivello.setEnabled(true);
-					cbTutti.setEnabled(true);
-				}
-				
-			}
-		});*/
 		cbTutti.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (cbTutti.isSelected()) {
 					//ATTIVO LE SELEZIONE
+					isTutti=true;
 					cbRA.setSelected(false);
 					cbTipo.setSelected(false);
 					cbData.setSelected(false);
@@ -260,13 +228,12 @@ public class RicercaEvento extends JDialog {
 				 if (cbRA.isSelected()) {
 					 Iscritto iscritto =getIscritto(iDAOP.getAtleticb(), cbbAtleta.getSelectedIndex());
 					 MatricolaFin=iscritto.getMatricolaFIN();
-					 
+						System.out.println(Integer.toString(MatricolaFin)+" ");
 				 }
 				 
 				}
 				else
-					isTutti=true;
-				
+					System.out.println("LI AVETE PRESI TUTTI ");
 				
 				
 				
