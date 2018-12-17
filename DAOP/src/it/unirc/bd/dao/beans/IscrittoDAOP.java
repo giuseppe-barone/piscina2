@@ -48,7 +48,7 @@ public class IscrittoDAOP {
 	public boolean salvaIscritto(Iscritto i) {
 		boolean isAtleta=true;
 		String query;
-		if (Integer.toString(i.getMatricolaFIN()).equals("") || i.getMatricolaFIN()==null)
+		if (i.getMatricolaFIN()==null)
 			isAtleta=false;
 		if (isAtleta)
 		query = "INSERT INTO iscritto VALUES (?,?,?,?,?,?,?)";
