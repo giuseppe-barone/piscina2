@@ -7,11 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import it.unirc.bd.dao.beans.Infortunio;
 import it.unirc.bd.dao.beans.InfortunioDAOP;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -19,7 +22,7 @@ import java.awt.event.ActionEvent;
 
 public class InserisciInfortunio extends JDialog {
 	InfortunioDAOP iDAOP = new InfortunioDAOP();
-	
+
 	private JTextField txtIdInfortunio;
 	private JTextField txtData;
 	private JTextField txtSosta;
@@ -106,10 +109,13 @@ public class InserisciInfortunio extends JDialog {
 			getContentPane().add(txtMatricola);
 			txtMatricola.setColumns(10);
 		}
-		{
+
+		
 			JButton btnInserisci = new JButton("Inserisci");
+			btnInserisci.setEnabled(false);
 			btnInserisci.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					JOptionPane.showMessageDialog(null, "Inserimento Riuscito");
 					idInfortunio = Integer.parseInt(txtIdInfortunio.getText());
 					data = data.valueOf(txtData.getText());
 					GiorniSosta = Integer.parseInt(txtSosta.getText());
@@ -121,7 +127,56 @@ public class InserisciInfortunio extends JDialog {
 			});
 			btnInserisci.setBounds(338, 98, 97, 25);
 			getContentPane().add(btnInserisci);
-		}
+		
+			txtIdInfortunio.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent e) {
+					if(controlloBottone()==false)
+						btnInserisci.setEnabled(false);
+					else
+						btnInserisci.setEnabled(true);
+				}
+			});
+			txtData.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent e) {
+					if(controlloBottone()==false)
+						btnInserisci.setEnabled(false);
+					else
+						btnInserisci.setEnabled(true);
+				}
+			});
+			txtSosta.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent e) {
+					if(controlloBottone()==false)
+						btnInserisci.setEnabled(false);
+					else
+						btnInserisci.setEnabled(true);
+				}
+			});
+			txtGravita.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent e) {
+					if(controlloBottone()==false)
+						btnInserisci.setEnabled(false);
+					else
+						btnInserisci.setEnabled(true);
+				}
+			});
+			txtMatricola.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent e) {
+					if(controlloBottone()==false)
+						btnInserisci.setEnabled(false);
+					else
+						btnInserisci.setEnabled(true);
+				}
+			});
+	}
+	//CONTROLLO  PER L'ATTIVAZIONE DEL BOTTONE
+	public boolean controlloBottone() {
+		boolean risultato=true;
+		if(txtIdInfortunio.getText().equals("")||txtData.getText().equals("")||txtSosta.getText().equals("")||txtGravita.getText().equals("")||txtMatricola.getText().equals(""))
+			risultato=false;
+		else
+			risultato=true;
+		return risultato;
 	}
 
 }

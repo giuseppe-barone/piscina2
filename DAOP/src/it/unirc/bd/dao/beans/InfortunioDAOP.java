@@ -10,7 +10,7 @@ public class InfortunioDAOP {
 	private Connection conn = null;
 
 	public boolean salva(Infortunio i) {
-		String query = "INSERT INTO infortunio VALUES(?,?,?,?,?,)";
+		String query = "INSERT INTO infortunio VALUES(?,?,?,?,?)";
 		boolean esito=false;
 		conn = DBManager.startConnection();
 		try {
@@ -26,6 +26,7 @@ public class InfortunioDAOP {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		DBManager.closeConnection();
 		return esito;
 	}
 }

@@ -15,7 +15,7 @@ public class PrenotazioneDAOP {
 		conn=DBManager.startConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, p.getIdDipendente());
+			ps.setInt(1, p.getIdPrenotazione());
 			ps.setInt(2, p.getCorsia());
 			ps.setDate(3, p.getData());
 			ps.setInt(4, p.getIdIscritto());
