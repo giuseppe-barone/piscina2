@@ -11,6 +11,7 @@ public class Prenotazione {
 	private int ora;
 	private int giorno;
 	private int idDipendente;
+	
 	public Prenotazione() {
 		super();
 		// TODO Auto-generated constructor stub
