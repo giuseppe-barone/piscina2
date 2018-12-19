@@ -211,7 +211,7 @@ public class InserisciDipendente extends JDialog {
 			public void itemStateChanged(ItemEvent arg0) {
 				//----------------CONTROLLO PER VEDERE SE SI VUOLE INSERIRE UN ALLENATORE---------------------
 				if (cbTipoDipendente.getSelectedIndex()==2) {	//ABBILITAZIONE COMPONENTI PER ALLENATORE
-					isAllenatore=true;
+			 		isAllenatore=true;
 					pannelloAllenatore.setEnabled(true);
 					Component[] components=  pannelloAllenatore.getComponents();
 					for (Component component : components) {

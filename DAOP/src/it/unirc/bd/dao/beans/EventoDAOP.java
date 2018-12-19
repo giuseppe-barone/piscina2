@@ -5,14 +5,16 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 import it.unirc.bd.dao.utils.DBManager;
 
 public class EventoDAOP {
 	private static Connection conn=null;
-	
+
 	public boolean salvaEvento(Evento e) {
 		String query = "INSERT INTO evento VALUES (?, ?, ?, ?)";
 		boolean esito = false;
@@ -32,50 +34,113 @@ public class EventoDAOP {
 		DBManager.closeConnection();
 		return esito;
 	}
-	
-	
-	
-	public boolean Ricerca(String tipo,Date data,String livello,Integer MatricolaFin, boolean iaAtleta ) {
-		String tipo;
-		String data;
-		String livello;
-		String query = "SELECT * FROM evento WHERE idEvento IS NOT NULL ???";
+
+
+
+
+	/*
+//------------------RESTITUZIONE TUTTE LE TUPLE--------------public Vector<CorsoDiLaurea> getAll() che restituisce tutti i corsi di laurea
+			public Vector<CorsoDiLaurea> getAll(){
+					Vector<CorsoDiLaurea> risultato=new Vector<CorsoDiLaurea>();
+					String query = "SELECT * FROM CorsoDiLaurea";
+					CorsoDiLaurea res = new CorsoDiLaurea();
+					PreparedStatement ps;
+					conn=DBManager.startConnection();
+					try {
+						ps = conn.prepareStatement(query);
+						ResultSet rs = ps.executeQuery();
+						while(rs.next()){
+							res=new CorsoDiLaurea();
+							res.setId(rs.getInt("id"));
+							res.setNome( rs.getString("nome") );
+							risultato.add(res);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					DBManager.closeConnection();
+					return risultato;
+
+			}
+	 */
+
+
+	public Vector<Evento> Ricerca(String tipo,Date data,String livello, boolean isTutti) {
+		Vector<Evento> risultato=new Vector<Evento>();
+		String query = "SELECT * FROM evento WHERE idEvento IS NOT NULL ? ? ?;";
+		Evento res =new Evento();
+		PreparedStatement ps;
 		boolean esito = false;
+		ResultSet rs;
+		
 		conn = DBManager.startConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement(query);
-			if (!tipo.equals(null)) {
-				ps.setString(1, ",Tipo='"+tipo+"'");
+			ps = conn.prepareStatement(query);
+			if (!isTutti){	//CASO IN CUI SERVONO RESTRIZIONI DI RICERCA
+				
+				if (tipo!=null) {
+					System.out.println("cipolla");
+					ps = conn.prepareStatement(query);
+					ps.setString(1, ",Tipo='"+tipo+"'");
+				}
+				else
+					ps.setString(1, "");
+				System.out.println(query);
+
+				if (!livello.equals(null)) {
+					ps.setString(2, ",Livello='"+livello+"'");
+				}
+				else
+					ps.setString(2, "");
+
+
+				if (!data.equals(null)) {
+					ps.setString(3, ",Data='"+data.toString()+"'");
+				}
+				else
+					ps.setString(3, "");
+				System.out.println(query);
+				}
+			else{	//CASO IN CUI NON SERVONO RESTRIZIONI DI RICERCA
+				//----PREPARAZIONE QUERY
+				ps = conn.prepareStatement(query);
+				query = "SELECT * FROM evento;";			
 			}
-			else
-				ps.setString(1, "");
 			
-			if (!livello.equals(null)) {
-				ps.setString(2, ",Livello='"+livello+"'");
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				res=new Evento();
+				res.setIdEvento(rs.getInt("idEvento")); 
+				res.setData( rs.getDate("Data")); 
+				res.setLivello( rs.getString("Livello"));  
+				res.setTipo(rs.getString("Tipo"));
+				risultato.add(res);
 			}
-			else
-				ps.setString(2, "");
-			
-			
-			if (!data.equals(null)) {
-				ps.setString(3, ",Data='"+data+"'");
-			}
-			else
-				ps.setString(3, "");
-			
-			
-			int tmp = ps.executeUpdate();
-			if(tmp==1)
+			if (rs.next()) {
 				esito=true;
+			}
+			else
+				esito=false;
+
+
 		}catch(SQLException exc) {
 			exc.printStackTrace();
 		}
 		DBManager.closeConnection();
-		return esito;
+		System.out.println(query);
+		//----INSERIRE I CONTROLLI PER FAR VISUALIZZARE LA RICERCA CON UN MESSAGEBOXALLERT----
+		/*if(esito) {
+			JOptionPane.showMessageDialog(null, "Inserimento con successo");
+		}
+		else
+			JOptionPane.showMessageDialog(null, "Inserimento fallito");*/
+
+		return risultato;
 	}
-	
-	
-	
+
+
+
 	public boolean ControlloDinamicoEvento(int id) {
 		String query = "SELECT * FROM evento WHERE idEvento = ?";
 		boolean risultato = false;
@@ -121,11 +186,11 @@ public class EventoDAOP {
 		}
 		DBManager.closeConnection();
 		return risultato;
-	
+
 }		*/
-	
-	
-	
+
+
+
 	//----RESTITUZIONE DI TUTTI GLI EVENTI----PER LA COMBOBOX ----PROVA CON OGETTO DI TIPO EVENTO----FUNZIONA
 	public DefaultComboBoxModel<Evento> getEventicb(){
 		DefaultComboBoxModel<Evento> risultato = new DefaultComboBoxModel<Evento>();
@@ -150,9 +215,9 @@ public class EventoDAOP {
 		}
 		DBManager.closeConnection();
 		return risultato;
-	
-}		
-	
-	
+
+	}		
+
+
 
 }
