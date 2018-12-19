@@ -16,18 +16,20 @@ import it.unirc.bd.dao.beans.PrenotazioneDAOP;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class InserisciPrenotazione extends JDialog {
 	PrenotazioneDAOP pDAOP = new PrenotazioneDAOP();
 
+	private JTextField txtIdPrenotazione;
 	private JTextField txtCorsia;
 	private JTextField txtData;
 	private JTextField txtIdIscritto;
 	private JTextField txtTipoPiscina;
 	private JTextField txtOra;
-	private JTextField txtGiorno;
 	private JTextField txtIdDipendente;
 	//VARIABILI DA PASSARE ALLA QUERY
 	private int idPrenotazione;
@@ -36,10 +38,8 @@ public class InserisciPrenotazione extends JDialog {
 	private int idIscritto;
 	private String tipoPiscina;
 	private int ora;
-	private int giorno;
 	private int idDipendente;
-	private JTextField txtIdPrenotazione;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -81,12 +81,8 @@ public class InserisciPrenotazione extends JDialog {
 		lblOra.setBounds(237, 61, 56, 16);
 		getContentPane().add(lblOra);
 
-		JLabel lblGiorno = new JLabel("Giorno");
-		lblGiorno.setBounds(237, 102, 56, 16);
-		getContentPane().add(lblGiorno);
-
 		JLabel lblIdDipendente = new JLabel("Id Dipendente");
-		lblIdDipendente.setBounds(237, 147, 92, 16);
+		lblIdDipendente.setBounds(237, 99, 92, 16);
 		getContentPane().add(lblIdDipendente);
 
 		txtCorsia = new JTextField();
@@ -114,13 +110,8 @@ public class InserisciPrenotazione extends JDialog {
 		getContentPane().add(txtOra);
 		txtOra.setColumns(10);
 
-		txtGiorno = new JTextField();
-		txtGiorno.setBounds(341, 96, 116, 22);
-		getContentPane().add(txtGiorno);
-		txtGiorno.setColumns(10);
-
 		txtIdDipendente = new JTextField();
-		txtIdDipendente.setBounds(341, 141, 116, 22);
+		txtIdDipendente.setBounds(341, 93, 116, 22);
 		getContentPane().add(txtIdDipendente);
 		txtIdDipendente.setColumns(10);
 
@@ -134,13 +125,16 @@ public class InserisciPrenotazione extends JDialog {
 				idIscritto = Integer.parseInt(txtIdIscritto.getText());
 				tipoPiscina = txtTipoPiscina.getText();
 				ora = Integer.parseInt(txtOra.getText());
-				giorno = Integer.parseInt(txtGiorno.getText());
 				idDipendente = Integer.parseInt(txtIdDipendente.getText());
-				Prenotazione p = new Prenotazione(idPrenotazione, corsia, data, idIscritto, tipoPiscina, ora, giorno, idDipendente);
-				pDAOP.salva(p);
+				Prenotazione p = new Prenotazione(idPrenotazione, corsia, data, idIscritto, tipoPiscina, ora, idDipendente);
+				if(pDAOP.salva(p)==true)
+					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
+				else
+					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
+					
 			}
 		});
-		btnInserisci.setBounds(340, 188, 97, 25);
+		btnInserisci.setBounds(341, 203, 97, 25);
 		getContentPane().add(btnInserisci);
 
 		txtIdPrenotazione = new JTextField();
@@ -206,15 +200,6 @@ public class InserisciPrenotazione extends JDialog {
 			}
 		});
 		
-		txtGiorno.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				if(controlloBottone()==false)
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-			}
-		});
-		
 		txtIdDipendente.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				if(controlloBottone()==false)
@@ -229,7 +214,7 @@ public class InserisciPrenotazione extends JDialog {
 	//CONTROLLO ATTIVAZIONE DEL BOTTONE
 	public boolean controlloBottone() {
 		boolean risultato=true;
-		if(txtIdPrenotazione.getText().equals("")||txtCorsia.getText().equals("")||txtData.getText().equals("")||txtIdIscritto.getText().equals("")||txtTipoPiscina.getText().equals("")||txtOra.getText().equals("")||txtGiorno.getText().equals("")||txtIdDipendente.getText().equals(""))
+		if(txtIdPrenotazione.getText().equals("")||txtCorsia.getText().equals("")||txtData.getText().equals("")||txtIdIscritto.getText().equals("")||txtTipoPiscina.getText().equals("")||txtOra.getText().equals("")||txtIdDipendente.getText().equals(""))
 			risultato=false;
 		else
 			risultato=true;

@@ -9,10 +9,9 @@ public class Prenotazione {
 	private int idIscritto;
 	private String TipoPiscina;
 	private int ora;
-	private int giorno;
 	private int idDipendente;
 	
-	public Prenotazione() {
+	/*public Prenotazione() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -25,14 +24,29 @@ public class Prenotazione {
 		this.idIscritto = idIscritto;
 		TipoPiscina = tipoPiscina;
 		this.ora = ora;
-		this.giorno = giorno;
 		this.idDipendente = idDipendente;
-	}
+		}*/
+	
 	@Override
 	public String toString() {
 		return "Prenotazione [idPrenotazione=" + idPrenotazione + ", corsia=" + corsia + ", data=" + data
-				+ ", idIscritto=" + idIscritto + ", TipoPiscina=" + TipoPiscina + ", ora=" + ora + ", giorno=" + giorno
-				+ ", idDipendente=" + idDipendente + "]";
+				+ ", idIscritto=" + idIscritto + ", TipoPiscina=" + TipoPiscina + ", ora=" + ora + ", idDipendente="
+				+ idDipendente + "]";
+	}
+	public Prenotazione(int idPrenotazione, int corsia, Date data, int idIscritto, String tipoPiscina, int ora,
+			int idDipendente) {
+		super();
+		this.idPrenotazione = idPrenotazione;
+		this.corsia = corsia;
+		this.data = data;
+		this.idIscritto = idIscritto;
+		TipoPiscina = tipoPiscina;
+		this.ora = ora;
+		this.idDipendente = idDipendente;
+	}
+	public Prenotazione() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public int hashCode() {
@@ -41,7 +55,6 @@ public class Prenotazione {
 		result = prime * result + ((TipoPiscina == null) ? 0 : TipoPiscina.hashCode());
 		result = prime * result + corsia;
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
-		result = prime * result + giorno;
 		result = prime * result + idDipendente;
 		result = prime * result + idIscritto;
 		result = prime * result + idPrenotazione;
@@ -68,8 +81,6 @@ public class Prenotazione {
 			if (other.data != null)
 				return false;
 		} else if (!data.equals(other.data))
-			return false;
-		if (giorno != other.giorno)
 			return false;
 		if (idDipendente != other.idDipendente)
 			return false;
@@ -116,12 +127,6 @@ public class Prenotazione {
 	}
 	public void setOra(int ora) {
 		this.ora = ora;
-	}
-	public int getGiorno() {
-		return giorno;
-	}
-	public void setGiorno(int giorno) {
-		this.giorno = giorno;
 	}
 	public int getIdDipendente() {
 		return idDipendente;

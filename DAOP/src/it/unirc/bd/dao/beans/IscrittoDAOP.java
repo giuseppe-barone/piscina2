@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -11,9 +12,20 @@ import it.unirc.bd.dao.utils.DBManager;
 
 public class IscrittoDAOP {
 	private Connection conn=null;
-	
+
 	//----RICERCA PER MatricoolaFin----
 	//-----------------RICERCA PER ID -------------------
+	protected Iscritto recordToIscritto(ResultSet rs) throws SQLException{
+		Iscritto res=new Iscritto();
+		res.setIdIscritto(rs.getInt("id"));
+		res.setNome(rs.getString("nome"));
+		res.setCognome(rs.getString("cognome"));
+		res.setSesso(rs.getString("Sesso"));
+		res.setCellulare(rs.getString("Cellulare"));
+		res.setDataNascita(rs.getDate("Data di Nascita"));
+		res.setMatricolaFIN(rs.getInt("Matricola FIN"));
+		return res;
+	}
 	public Iscritto getAtleta(Iscritto i) {
 		String query = "SELECT * FROM iscritto WHERE MatricolaFin = ?";
 		Iscritto res = null;
@@ -32,7 +44,7 @@ public class IscrittoDAOP {
 				res.setCellulare( rs.getString("Cellulare") );
 				res.setDataNascita(rs.getDate("DataDiNascita"));
 				res.setMatricolaFIN( rs.getInt("MatricolaFin") );
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -40,10 +52,10 @@ public class IscrittoDAOP {
 		DBManager.closeConnection();
 		return res;
 	} 
-	
-	
-	
-	
+
+
+
+
 	//---INSERIMENTO ISCRITTO----
 	public boolean salvaIscritto(Iscritto i) {
 		boolean isAtleta=true;
@@ -51,7 +63,7 @@ public class IscrittoDAOP {
 		if (i.getMatricolaFIN()==null)
 			isAtleta=false;
 		if (isAtleta)
-		query = "INSERT INTO iscritto VALUES (?,?,?,?,?,?,?)";
+			query = "INSERT INTO iscritto VALUES (?,?,?,?,?,?,?)";
 		else
 			query = "INSERT INTO `piscina`.`iscritto` (`idIscritto`, `Nome`, `Cognome`, `Sesso`,`Cellulare`, `DataDiNascita`) VALUES (?,?,?,?,?,?);";
 		boolean esito=false;
@@ -64,10 +76,10 @@ public class IscrittoDAOP {
 			ps.setString(4, i.getSesso());
 			ps.setString(5, i.getCellulare());
 			ps.setDate(6, i.getDataNascita());
-			
+
 			if(isAtleta)
-			ps.setInt(7, i.getMatricolaFIN());
-			
+				ps.setInt(7, i.getMatricolaFIN());
+
 			int tmp=ps.executeUpdate();
 			if (tmp==1)
 				esito=true;
@@ -98,8 +110,8 @@ public class IscrittoDAOP {
 		DBManager.closeConnection();
 		return risultato;
 	}
-	
-	
+
+
 	/*//----RESTITUZIONE DI TUTTI GLI ATLETI----PER LA COMBOBOX----NON CANCELLARE PER SICUREZZA
 	public DefaultComboBoxModel<String> getAtleticb(){
 		DefaultComboBoxModel<String> risultato = new DefaultComboBoxModel<String>();
@@ -119,7 +131,7 @@ public class IscrittoDAOP {
 				res.setCellulare( rs.getString("Cellulare") );
 				res.setDataNascita( rs.getDate("DataDiNascita"));
 				res.setMatricolaFIN(rs.getInt("MatricolaFin"));
-				
+
 				risultato.addElement(res.toStringAtleta());
 			}
 		} catch (SQLException e) {
@@ -127,43 +139,57 @@ public class IscrittoDAOP {
 		}
 		DBManager.closeConnection();
 		return risultato;
-	
+
 }		*/
-	
-	
-	
+
+
+
 	//----RESTITUZIONE DI TUTTI GLI ATLETI----PER LA COMBOBOX----PROVA CON OGETTO ISCRITTO----
-		public DefaultComboBoxModel<Iscritto> getAtleticb(){
-			DefaultComboBoxModel<Iscritto> risultato = new DefaultComboBoxModel<Iscritto>();
-			String query = "SELECT * FROM piscina.iscritto WHERE MatricolaFin!='null';";
-			Iscritto res = new Iscritto();
-			PreparedStatement ps;
-			conn=DBManager.startConnection();
-			try {
-				ps = conn.prepareStatement(query);
-				ResultSet rs = ps.executeQuery();
-				while(rs.next()){
-					res=new Iscritto();
-					res.setIdIscritto(rs.getInt("idIscritto"));
-					res.setNome( rs.getString("Nome") );
-					res.setCognome( rs.getString("Cognome") );
-					res.setSesso( rs.getString("Sesso") );
-					res.setCellulare( rs.getString("Cellulare") );
-					res.setDataNascita( rs.getDate("DataDiNascita"));
-					res.setMatricolaFIN(rs.getInt("MatricolaFin"));
-					
-					risultato.addElement(res);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+	public DefaultComboBoxModel<Iscritto> getAtleticb(){
+		DefaultComboBoxModel<Iscritto> risultato = new DefaultComboBoxModel<Iscritto>();
+		String query = "SELECT * FROM piscina.iscritto WHERE MatricolaFin!='null';";
+		Iscritto res = new Iscritto();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				res=new Iscritto();
+				res.setIdIscritto(rs.getInt("idIscritto"));
+				res.setNome( rs.getString("Nome") );
+				res.setCognome( rs.getString("Cognome") );
+				res.setSesso( rs.getString("Sesso") );
+				res.setCellulare( rs.getString("Cellulare") );
+				res.setDataNascita( rs.getDate("DataDiNascita"));
+				res.setMatricolaFIN(rs.getInt("MatricolaFin"));
+
+				risultato.addElement(res);
 			}
-			DBManager.closeConnection();
-			return risultato;
-		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return risultato;
+
 	}		
-	
-	
-	
-	
+	public Vector<Iscritto> getAll() {
+		String query = "SELECT * FROM iscritto";
+		Vector<Iscritto> list = new Vector<Iscritto>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Iscritto res=null;
+			while(rs.next()){
+				list.add(recordToIscritto(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	} 
 }
 
