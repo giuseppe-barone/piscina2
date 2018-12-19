@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
+
 import it.unirc.bd.dao.utils.DBManager;
 
 
@@ -89,6 +91,37 @@ public class CorsoDAOP {
 		}
 		DBManager.closeConnection();
 		return risultato;
+	}
+	
+	protected Corso recordToCorso(ResultSet rs) throws SQLException{
+		Corso c = new Corso();
+		c.setIdCorso(rs.getInt("id"));
+		c.setGiorni(rs.getInt("giorni"));
+		c.setOra(rs.getInt("ora"));
+		c.setTipo(rs.getString("tipo"));
+		c.setAllenatore1(rs.getInt("allenatore1"));
+		c.setAllenatore2(rs.getInt("allenatore2"));
+		return c;
+	}
+	
+	public Vector<Corso> getAll(){
+		String query = "SELECT * FROM corso";
+		Vector<Corso> list = new Vector<Corso>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Corso c = null;
+			while(rs.next()) {
+				list.add(recordToCorso(rs));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
 	}
 
 }
