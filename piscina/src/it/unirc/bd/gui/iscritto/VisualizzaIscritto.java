@@ -8,23 +8,27 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import java.util.Vector;
+
+import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
 
 public class VisualizzaIscritto extends JDialog{
 	IscrittoDAOP iDAOP = new IscrittoDAOP();
-	private int id;
+	/*private int id;
 	private String nome;
 	private String cognome;
 	private String sesso;
 	private String cellulare;
 	private Date data;
-	private int matricola;
+	private int matricola;*/
 
 
 	private JTable table;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				
 				try {
 					VisualizzaIscritto dialog = new VisualizzaIscritto();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -39,7 +43,7 @@ public class VisualizzaIscritto extends JDialog{
 		setResizable(false);
 		setTitle("Visualizza Iscritti");
 		setModal(true);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
@@ -48,7 +52,7 @@ public class VisualizzaIscritto extends JDialog{
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
-		pane.setBounds(0, 0, 434, 261);
+		pane.setBounds(0, 0, 525, 366);
 		panel.add(pane);
 		setContentPane(panel);
 	}
@@ -63,15 +67,18 @@ public class VisualizzaIscritto extends JDialog{
 		columnsName[5] = "Data di Nascita";
 		columnsName[6] = "Matricola FIN";
 		model.setColumnIdentifiers(columnsName);
-		Object[] rowData = new Object[7];
-		for (int a=1;a<=rowData.length;a++) {
-			rowData[0] = id;
-			rowData[1] = nome;
-			rowData[2] = cognome;
-			rowData[3] = sesso;
-			rowData[4] = cellulare;
-			rowData[5] = data;
-			rowData[6] = matricola;
+		Vector<Iscritto> list; //= new Object[7];
+		list=iDAOP.getAll();
+		System.out.println(list);
+		Object rowData[] = new Object[7]; 
+		for (int a=0;a<list.size();a++) {
+			rowData[0] = list.elementAt(a).getIdIscritto();
+			rowData[1] = list.elementAt(a).getNome();
+			rowData[2] = list.elementAt(a).getCognome();
+			rowData[3] = list.elementAt(a).getSesso();
+			rowData[4] = list.elementAt(a).getCellulare();
+			rowData[5] = list.elementAt(a).getDataNascita();
+			rowData[6] = list.elementAt(a).getMatricolaFIN();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

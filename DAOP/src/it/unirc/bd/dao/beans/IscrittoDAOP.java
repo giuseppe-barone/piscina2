@@ -17,13 +17,13 @@ public class IscrittoDAOP {
 	//-----------------RICERCA PER ID -------------------
 	protected Iscritto recordToIscritto(ResultSet rs) throws SQLException{
 		Iscritto res=new Iscritto();
-		res.setIdIscritto(rs.getInt("id"));
+		res.setIdIscritto(rs.getInt("idIscritto"));
 		res.setNome(rs.getString("nome"));
 		res.setCognome(rs.getString("cognome"));
 		res.setSesso(rs.getString("Sesso"));
 		res.setCellulare(rs.getString("Cellulare"));
-		res.setDataNascita(rs.getDate("Data di Nascita"));
-		res.setMatricolaFIN(rs.getInt("Matricola FIN"));
+		res.setDataNascita(rs.getDate("DatadiNascita"));
+		res.setMatricolaFIN(rs.getInt("MatricolaFIN"));
 		return res;
 	}
 	public Iscritto getAtleta(Iscritto i) {
