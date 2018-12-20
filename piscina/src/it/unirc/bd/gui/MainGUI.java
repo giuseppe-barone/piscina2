@@ -17,10 +17,14 @@ import it.unirc.bd.gui.dipendente.InserisciDipendente;
 import it.unirc.bd.gui.dipendente.VisualizzaAllenatore;
 import it.unirc.bd.gui.dipendente.VisualizzaDipendente;
 import it.unirc.bd.gui.evento.InserisciEvento;
+import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
+import it.unirc.bd.gui.infortunio.VisualizzaInfortunio;
 import it.unirc.bd.gui.iscritto.InserisciIscritto;
+import it.unirc.bd.gui.iscritto.VisualizzaAtleti;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 import it.unirc.bd.gui.prenotazione.InserisciPrenotazione;
+import it.unirc.bd.gui.prenotazione.VisualizzaPrenotazione;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -106,6 +110,16 @@ public class MainGUI {
 		JMenuItem mntmCercaAtleta = new JMenuItem("Cerca Atleta");
 		mnAtleta.add(mntmCercaAtleta);
 
+		JMenuItem mntmVisualizzaAtleti = new JMenuItem("Visualizza Atleti");
+		mntmVisualizzaAtleti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizzaAtleti visualizza = new VisualizzaAtleti();
+				visualizza.setVisible(true);
+			}
+		});
+		mnAtleta.add(mntmVisualizzaAtleti);
+		
+		
 		JMenu mnInfortunii = new JMenu("Infortunii");
 		mnIscrittiatleti.add(mnInfortunii);
 
@@ -121,6 +135,17 @@ public class MainGUI {
 		JMenu mnRicercaInfortunio = new JMenu("Ricerca Infortunio");
 		mnInfortunii.add(mnRicercaInfortunio);
 
+
+		JMenuItem mntmVisualizzaInfortunio = new JMenuItem("Visualizza Infortunio");
+		mntmVisualizzaInfortunio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizzaInfortunio visualizza =  new VisualizzaInfortunio();
+				visualizza.setVisible(true);
+			}
+		});
+		mnInfortunii.add(mntmVisualizzaInfortunio);
+
+		
 		JMenu mnDipendenti = new JMenu("Dipendenti");
 		menuBar.add(mnDipendenti);
 
@@ -199,6 +224,12 @@ public class MainGUI {
 		mnEventi.add(mntmOrganizzaEvento);
 
 		JMenuItem mntmVisualizzaEventi = new JMenuItem("Visualizza Eventi");
+		mntmVisualizzaEventi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizzaEvento visualizza = new VisualizzaEvento();
+				visualizza.setVisible(true);
+			}
+		});
 		mnEventi.add(mntmVisualizzaEventi);
 
 		JMenuItem mntmPartecipazioneAdEvento = new JMenuItem("Partecipazione ad Evento");
@@ -218,6 +249,15 @@ public class MainGUI {
 
 		JMenuItem mntmCercaeliminaPrenotazione = new JMenuItem("Cerca/Elimina Prenotazione");
 		mnPrenotazioni.add(mntmCercaeliminaPrenotazione);
+		
+		JMenuItem mntmVisualizzaPrenotazioni = new JMenuItem("Visualizza Prenotazioni");
+		mntmVisualizzaPrenotazioni.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizzaPrenotazione visualizza = new VisualizzaPrenotazione();
+				visualizza.setVisible(true);
+			}
+		});
+		mnPrenotazioni.add(mntmVisualizzaPrenotazioni);
 
 		JMenu mnStatistiche = new JMenu("Statistiche");
 		menuBar.add(mnStatistiche);

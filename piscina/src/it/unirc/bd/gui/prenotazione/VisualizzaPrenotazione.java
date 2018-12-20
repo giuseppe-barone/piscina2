@@ -1,4 +1,4 @@
-package it.unirc.bd.gui.evento;
+package it.unirc.bd.gui.prenotazione;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,26 +8,26 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import it.unirc.bd.dao.beans.Evento;
-import it.unirc.bd.dao.beans.EventoDAOP;
+import it.unirc.bd.dao.beans.Prenotazione;
+import it.unirc.bd.dao.beans.PrenotazioneDAOP;
 
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 
-public class VisualizzaEvento extends JDialog {
+public class VisualizzaPrenotazione extends JDialog {
+
 	private JTable table;
-	EventoDAOP eDAOP = new EventoDAOP();
+	PrenotazioneDAOP pDAOP = new PrenotazioneDAOP();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 
 				try {
-					VisualizzaEvento dialog = new VisualizzaEvento();
+					VisualizzaPrenotazione dialog = new VisualizzaPrenotazione();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -36,7 +36,7 @@ public class VisualizzaEvento extends JDialog {
 			}
 		});
 	}
-	public VisualizzaEvento() {
+	public VisualizzaPrenotazione() {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		setModal(true);
@@ -55,21 +55,27 @@ public class VisualizzaEvento extends JDialog {
 	}
 	private void load() {
 		DefaultTableModel model = new DefaultTableModel();
-		Object[] columnsName = new Object[4];
+		Object[] columnsName = new Object[7];
 		columnsName[0] = "Id";
-		columnsName[1] = "Data";
-		columnsName[2] = "Livello";
-		columnsName[3] = "Tipo";
+		columnsName[1] = "Corsia";
+		columnsName[2] = "Data";
+		columnsName[3] = "IdIscritto";
+		columnsName[4] = "Tipo Piscina";
+		columnsName[5] = "Ora";
+		columnsName[6] = "IdDipendente";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Evento> list;
-		list=eDAOP.getAll();
+		Vector<Prenotazione> list;
+		list=pDAOP.getAll();
 		System.out.println(list);
-		Object rowData[] = new Object[4]; 
+		Object rowData[] = new Object[7]; 
 		for (int a=0;a<list.size();a++) {
-			rowData[0] = list.elementAt(a).getIdEvento();
-			rowData[1] = list.elementAt(a).getData();
-			rowData[2] = list.elementAt(a).getLivello();
-			rowData[3] = list.elementAt(a).getTipo();
+			rowData[0] = list.elementAt(a).getIdPrenotazione();
+			rowData[1] = list.elementAt(a).getCorsia();
+			rowData[2] = list.elementAt(a).getData();
+			rowData[3] = list.elementAt(a).getIdIscritto();
+			rowData[4] = list.elementAt(a).getTipoPiscina();
+			rowData[5] = list.elementAt(a).getOra();
+			rowData[6] = list.elementAt(a).getIdDipendente();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

@@ -44,7 +44,7 @@ public class VisualizzaIscritto extends JDialog{
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
-		pane.setBounds(0, 0, 525, 366);
+		pane.setBounds(12, 0, 525, 366);
 		panel.add(pane);
 		setContentPane(panel);
 	}
@@ -70,7 +70,10 @@ public class VisualizzaIscritto extends JDialog{
 			rowData[3] = list.elementAt(a).getSesso();
 			rowData[4] = list.elementAt(a).getCellulare();
 			rowData[5] = list.elementAt(a).getDataNascita();
-			rowData[6] = list.elementAt(a).getMatricolaFIN();
+			if(list.elementAt(a).getMatricolaFIN()==null)
+				rowData[6] = null;
+			else
+				rowData[6] = list.elementAt(a).getMatricolaFIN();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

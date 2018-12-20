@@ -192,5 +192,23 @@ public class IscrittoDAOP {
 		DBManager.closeConnection();
 		return list;
 	} 
+	public Vector<Iscritto> getTuttiAtleti() {
+		String query = "SELECT * FROM iscritto WHERE MatricolaFIN IS NOT NULL";
+		Vector<Iscritto> list = new Vector<Iscritto>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Iscritto res=null;
+			while(rs.next()){
+				list.add(recordToIscritto(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	} 
 }
 

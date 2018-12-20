@@ -158,12 +158,6 @@ public class InserisciDipendente extends JDialog {
 		getContentPane().add(pannelloAllenatore);
 		pannelloAllenatore.setLayout(null);
 
-
-
-
-
-
-
 		JLabel lblNewLabel_1 = new JLabel("ID Allenatore:");
 		lblNewLabel_1.setEnabled(false);
 		lblNewLabel_1.setBounds(12, 29, 79, 16);

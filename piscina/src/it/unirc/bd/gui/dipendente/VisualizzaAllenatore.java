@@ -19,6 +19,8 @@ import it.unirc.bd.dao.beans.DipendenteDAOP;
 
 public class VisualizzaAllenatore extends JDialog {
 	DipendenteDAOP dDAOP = new DipendenteDAOP();
+	private boolean isAllenatore;
+	
 	private JTable table;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -53,15 +55,17 @@ public class VisualizzaAllenatore extends JDialog {
 	}
 	private void load() {
 		DefaultTableModel model = new DefaultTableModel();
-		Object[] columnsName = new Object[3];
+		Object[] columnsName = new Object[5];
 		columnsName[0] = "IdAllenatore";
 		columnsName[1] = "Qualifica";
 		columnsName[2] = "IdDipendente";
+		columnsName[3] = "Nome";
+		columnsName[4] = "Cognome";
 		model.setColumnIdentifiers(columnsName);
 		Vector<Allenatore> list;
 		list=dDAOP.getAllenatori();
 		System.out.println(list);
-		Object rowData[] = new Object[3]; 
+		Object rowData[]= new Object[5]; 
 		for (int a=0;a<list.size();a++) {
 			rowData[0] = list.elementAt(a).getIdAllenatore();
 			rowData[1] = list.elementAt(a).getQualifica();
