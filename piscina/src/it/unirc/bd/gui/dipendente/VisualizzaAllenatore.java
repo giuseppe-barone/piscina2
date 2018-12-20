@@ -1,4 +1,4 @@
-package it.unirc.bd.gui.evento;
+package it.unirc.bd.gui.dipendente;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,26 +8,26 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import it.unirc.bd.dao.beans.Evento;
-import it.unirc.bd.dao.beans.EventoDAOP;
+import it.unirc.bd.dao.beans.Allenatore;
+import it.unirc.bd.dao.beans.Dipendente;
+import it.unirc.bd.dao.beans.DipendenteDAOP;
 
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-
-public class VisualizzaEvento extends JDialog {
-	private JTable table;
-	EventoDAOP eDAOP = new EventoDAOP();
+public class VisualizzaAllenatore extends JDialog {
+	DipendenteDAOP dDAOP = new DipendenteDAOP();
+	private boolean isAllenatore;
 	
+	private JTable table;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 
 				try {
-					VisualizzaEvento dialog = new VisualizzaEvento();
+					VisualizzaAllenatore dialog = new VisualizzaAllenatore();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -36,7 +36,7 @@ public class VisualizzaEvento extends JDialog {
 			}
 		});
 	}
-	public VisualizzaEvento() {
+	public VisualizzaAllenatore() {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		setModal(true);
@@ -55,21 +55,21 @@ public class VisualizzaEvento extends JDialog {
 	}
 	private void load() {
 		DefaultTableModel model = new DefaultTableModel();
-		Object[] columnsName = new Object[4];
-		columnsName[0] = "Id";
-		columnsName[1] = "Data";
-		columnsName[2] = "Livello";
-		columnsName[3] = "Tipo";
+		Object[] columnsName = new Object[5];
+		columnsName[0] = "IdAllenatore";
+		columnsName[1] = "Qualifica";
+		columnsName[2] = "IdDipendente";
+		columnsName[3] = "Nome";
+		columnsName[4] = "Cognome";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Evento> list;
-		list=eDAOP.getAll();
+		Vector<Allenatore> list;
+		list=dDAOP.getAllenatori();
 		System.out.println(list);
-		Object rowData[] = new Object[4]; 
+		Object rowData[]= new Object[5]; 
 		for (int a=0;a<list.size();a++) {
-			rowData[0] = list.elementAt(a).getIdEvento();
-			rowData[1] = list.elementAt(a).getData();
-			rowData[2] = list.elementAt(a).getLivello();
-			rowData[3] = list.elementAt(a).getTipo();
+			rowData[0] = list.elementAt(a).getIdAllenatore();
+			rowData[1] = list.elementAt(a).getQualifica();
+			rowData[2] = list.elementAt(a).getIdDipendente();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

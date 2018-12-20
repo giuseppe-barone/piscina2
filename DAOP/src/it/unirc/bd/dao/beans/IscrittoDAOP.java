@@ -13,19 +13,20 @@ import it.unirc.bd.dao.utils.DBManager;
 public class IscrittoDAOP {
 	private Connection conn=null;
 
-	//----RICERCA PER MatricoolaFin----
-	//-----------------RICERCA PER ID -------------------
+
 	protected Iscritto recordToIscritto(ResultSet rs) throws SQLException{
 		Iscritto res=new Iscritto();
-		res.setIdIscritto(rs.getInt("id"));
+		res.setIdIscritto(rs.getInt("idIscritto"));
 		res.setNome(rs.getString("nome"));
 		res.setCognome(rs.getString("cognome"));
 		res.setSesso(rs.getString("Sesso"));
 		res.setCellulare(rs.getString("Cellulare"));
-		res.setDataNascita(rs.getDate("Data di Nascita"));
-		res.setMatricolaFIN(rs.getInt("Matricola FIN"));
+		res.setDataNascita(rs.getDate("DatadiNascita"));
+		res.setMatricolaFIN(rs.getInt("MatricolaFIN"));
 		return res;
 	}
+	//----RICERCA PER MatricoolaFin----
+	//-----------------RICERCA PER ID -------------------
 	public Iscritto getAtleta(Iscritto i) {
 		String query = "SELECT * FROM iscritto WHERE MatricolaFin = ?";
 		Iscritto res = null;
@@ -175,6 +176,24 @@ public class IscrittoDAOP {
 	}		
 	public Vector<Iscritto> getAll() {
 		String query = "SELECT * FROM iscritto";
+		Vector<Iscritto> list = new Vector<Iscritto>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Iscritto res=null;
+			while(rs.next()){
+				list.add(recordToIscritto(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	} 
+	public Vector<Iscritto> getTuttiAtleti() {
+		String query = "SELECT * FROM iscritto WHERE MatricolaFIN IS NOT NULL";
 		Vector<Iscritto> list = new Vector<Iscritto>();
 		PreparedStatement ps;
 		conn=DBManager.startConnection();

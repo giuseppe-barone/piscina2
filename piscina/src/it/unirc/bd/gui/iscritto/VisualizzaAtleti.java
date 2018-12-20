@@ -1,4 +1,4 @@
-package it.unirc.bd.gui.evento;
+package it.unirc.bd.gui.iscritto;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,26 +8,25 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import it.unirc.bd.dao.beans.Evento;
-import it.unirc.bd.dao.beans.EventoDAOP;
+import it.unirc.bd.dao.beans.Iscritto;
+import it.unirc.bd.dao.beans.IscrittoDAOP;
 
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
+public class VisualizzaAtleti extends JDialog {
 
-public class VisualizzaEvento extends JDialog {
+	IscrittoDAOP iDAOP = new IscrittoDAOP();
+
 	private JTable table;
-	EventoDAOP eDAOP = new EventoDAOP();
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-
+				
 				try {
-					VisualizzaEvento dialog = new VisualizzaEvento();
+					VisualizzaIscritto dialog = new VisualizzaIscritto();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -36,9 +35,9 @@ public class VisualizzaEvento extends JDialog {
 			}
 		});
 	}
-	public VisualizzaEvento() {
+	public VisualizzaAtleti() {
 		setResizable(false);
-		setTitle("Visualizza Dipendenti");
+		setTitle("Visualizza Iscritti");
 		setModal(true);
 		setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -55,21 +54,27 @@ public class VisualizzaEvento extends JDialog {
 	}
 	private void load() {
 		DefaultTableModel model = new DefaultTableModel();
-		Object[] columnsName = new Object[4];
+		Object[] columnsName = new Object[7];
 		columnsName[0] = "Id";
-		columnsName[1] = "Data";
-		columnsName[2] = "Livello";
-		columnsName[3] = "Tipo";
+		columnsName[1] = "Nome";
+		columnsName[2] = "Cognome";
+		columnsName[3] = "Sesso";
+		columnsName[4] = "Cellulare";
+		columnsName[5] = "Data di Nascita";
+		columnsName[6] = "Matricola FIN";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Evento> list;
-		list=eDAOP.getAll();
+		Vector<Iscritto> list; //= new Object[7];
+		list=iDAOP.getTuttiAtleti();
 		System.out.println(list);
-		Object rowData[] = new Object[4]; 
+		Object rowData[] = new Object[7]; 
 		for (int a=0;a<list.size();a++) {
-			rowData[0] = list.elementAt(a).getIdEvento();
-			rowData[1] = list.elementAt(a).getData();
-			rowData[2] = list.elementAt(a).getLivello();
-			rowData[3] = list.elementAt(a).getTipo();
+			rowData[0] = list.elementAt(a).getIdIscritto();
+			rowData[1] = list.elementAt(a).getNome();
+			rowData[2] = list.elementAt(a).getCognome();
+			rowData[3] = list.elementAt(a).getSesso();
+			rowData[4] = list.elementAt(a).getCellulare();
+			rowData[5] = list.elementAt(a).getDataNascita();
+			rowData[6] = list.elementAt(a).getMatricolaFIN();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

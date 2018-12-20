@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
+
 import it.unirc.bd.dao.utils.DBManager;
 
 
@@ -104,5 +106,65 @@ public class DipendenteDAOP {
 		return risultato;
 	}
 
+	public Vector<Dipendente> getAll(){
+		String query = "SELECT * FROM dipendente";
+		Vector<Dipendente> list = new Vector<Dipendente>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Dipendente res=null;
+			while(rs.next()){
+				list.add(recordToDipendente(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	}
+
+	public Vector<Allenatore> getAllenatori(){
+		String query = "SELECT * FROM allenatore";
+		Vector<Allenatore> list= new Vector<Allenatore>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps=conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Allenatore a=null;
+			while(rs.next()) {
+				list.add(recordToAllenatore(rs));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	}
+
+	protected Dipendente recordToDipendente(ResultSet rs) throws SQLException {
+		Dipendente d = new Dipendente();
+		d.setIdDipendente(rs.getInt("idDipendente"));
+		d.setNome(rs.getString("nome"));
+		d.setCognome(rs.getString("cognome"));
+		d.setCellulare(rs.getString("cellulare"));
+		d.setSesso(rs.getString("sesso"));
+		d.setTipologiaDipendente(rs.getInt("tipologiaDipendente"));
+		return d;
+	}
+	protected Allenatore recordToAllenatore(ResultSet rs) throws SQLException {
+		Allenatore a = new Allenatore();
+		a.setIdAllenatore(rs.getInt("idAllenatore"));
+		a.setQualifica(rs.getString("qualifica"));
+		a.setIdDipendente(rs.getInt("idDipendente"));
+		return a;
+	}
 
 }
+
+
+
+

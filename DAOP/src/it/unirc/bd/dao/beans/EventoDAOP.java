@@ -196,7 +196,32 @@ public class EventoDAOP {
 		return risultato;
 
 	}		
-
+	protected Evento recordToEvento(ResultSet rs) throws SQLException {
+		Evento e = new Evento();
+		e.setIdEvento(rs.getInt("idEvento"));
+		e.setData(rs.getDate("data"));
+		e.setLivello(rs.getString("livello"));
+		e.setTipo(rs.getString("tipo"));
+		return e;
+	}
+	public Vector<Evento> getAll(){
+		String query = "SELECT * FROM evento";
+		Vector<Evento> list = new Vector<Evento>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps=conn.prepareStatement(query);
+			ResultSet rs=ps.executeQuery();
+			Evento e=null;
+			while(rs.next()) {
+				list.add(recordToEvento(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	}
 
 
 }
