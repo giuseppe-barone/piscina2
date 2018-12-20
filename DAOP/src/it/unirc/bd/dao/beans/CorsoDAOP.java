@@ -95,7 +95,7 @@ public class CorsoDAOP {
 	
 	protected Corso recordToCorso(ResultSet rs) throws SQLException{
 		Corso c = new Corso();
-		c.setIdCorso(rs.getInt("id"));
+		c.setIdCorso(rs.getInt("idCorso"));
 		c.setGiorni(rs.getInt("giorni"));
 		c.setOra(rs.getInt("ora"));
 		c.setTipo(rs.getString("tipo"));

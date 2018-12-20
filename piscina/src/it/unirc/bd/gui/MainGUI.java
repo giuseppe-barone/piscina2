@@ -11,7 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import it.unirc.bd.gui.corso.InserisciCorso;
+import it.unirc.bd.gui.corso.IscrizioneCorso;
+import it.unirc.bd.gui.corso.VisualizzaCorso;
 import it.unirc.bd.gui.dipendente.InserisciDipendente;
+import it.unirc.bd.gui.dipendente.VisualizzaAllenatore;
+import it.unirc.bd.gui.dipendente.VisualizzaDipendente;
 import it.unirc.bd.gui.evento.InserisciEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
 import it.unirc.bd.gui.iscritto.InserisciIscritto;
@@ -131,7 +135,24 @@ public class MainGUI {
 
 		JMenuItem mntmRicercaDipendente = new JMenuItem("Ricerca Dipendente");
 		mnDipendenti.add(mntmRicercaDipendente);
+		
+		JMenuItem mntmVisualizzaDipendentei = new JMenuItem("Visualizza Dipendenti");
+		mntmVisualizzaDipendentei.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizzaDipendente visualizza = new VisualizzaDipendente();
+				visualizza.setVisible(true);
+			}
+		});
+		mnDipendenti.add(mntmVisualizzaDipendentei);
 
+		JMenuItem mntmVisualizzaAllenatori = new JMenuItem("Visualizza Allenatori");
+		mntmVisualizzaAllenatori.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizzaAllenatore visualizza = new VisualizzaAllenatore();
+				visualizza.setVisible(true);
+			}
+		});
+		
 		JMenu mnCorsi = new JMenu("Corsi");
 		menuBar.add(mnCorsi);
 
@@ -148,8 +169,23 @@ public class MainGUI {
 		mnCorsi.add(mntmRicercaCorsi);
 
 		JMenuItem mntmIscrizioneCorso = new JMenuItem("Iscrizione Corso");
+		mntmIscrizioneCorso.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IscrizioneCorso iscrizione = new IscrizioneCorso();
+				iscrizione.setVisible(true);
+			}
+		});
 		mnCorsi.add(mntmIscrizioneCorso);
 
+		JMenuItem mntmVisualizzaCorso = new JMenuItem("Visualizza Corso");
+		mntmVisualizzaCorso.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizzaCorso visualizza = new VisualizzaCorso();
+				visualizza.setVisible(true);
+			}
+		});
+		mnCorsi.add(mntmVisualizzaCorso);
+		
 		JMenu mnEventi = new JMenu("Eventi");
 		menuBar.add(mnEventi);
 

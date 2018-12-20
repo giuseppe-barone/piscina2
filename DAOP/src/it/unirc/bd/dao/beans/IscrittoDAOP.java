@@ -13,8 +13,7 @@ import it.unirc.bd.dao.utils.DBManager;
 public class IscrittoDAOP {
 	private Connection conn=null;
 
-	//----RICERCA PER MatricoolaFin----
-	//-----------------RICERCA PER ID -------------------
+
 	protected Iscritto recordToIscritto(ResultSet rs) throws SQLException{
 		Iscritto res=new Iscritto();
 		res.setIdIscritto(rs.getInt("idIscritto"));
@@ -26,6 +25,8 @@ public class IscrittoDAOP {
 		res.setMatricolaFIN(rs.getInt("MatricolaFIN"));
 		return res;
 	}
+	//----RICERCA PER MatricoolaFin----
+	//-----------------RICERCA PER ID -------------------
 	public Iscritto getAtleta(Iscritto i) {
 		String query = "SELECT * FROM iscritto WHERE MatricolaFin = ?";
 		Iscritto res = null;
