@@ -35,7 +35,7 @@ public class RicercaEvento extends JDialog {
 	EventoDAOP eDAOP =new EventoDAOP();
 
 	//DATI DA PASSARE ALLA QUERY
-	private Date Data;
+	private Date data;
 	private String Tipo;
 	private String Livello;
 	private Integer MatricolaFin;
@@ -222,16 +222,16 @@ public class RicercaEvento extends JDialog {
 					System.out.println("NON TUTTI");
 					if (cbTipo.isSelected()) {
 						Tipo=txtTipo.getText();
-						System.out.println(Tipo+" ");
+						//System.out.println(Tipo+" ");
 					}
 					else
 						Tipo=null;
 					if (cbData.isSelected()) {
-						Data = Data.valueOf(txtData.getText());
-						System.out.println(Data+" ");
+						data = Date.valueOf(txtData.getText());
+						System.out.println(data+" ");
 					}
 					else
-						Data=null;
+						data=null;
 					if (cbLivello.isSelected()) {
 						Livello = cbbLivello.getModel().getElementAt(cbbLivello.getSelectedIndex()).toString();
 						System.out.println(Livello+" ");
@@ -241,7 +241,7 @@ public class RicercaEvento extends JDialog {
 					if (cbRA.isSelected()) {
 						Iscritto iscritto =getIscritto(iDAOP.getAtleticb(), cbbAtleta.getSelectedIndex());
 						MatricolaFin=iscritto.getMatricolaFIN();
-						System.out.println(Integer.toString(MatricolaFin)+" ");
+						//System.out.println(Integer.toString(MatricolaFin)+" ");
 					}
 					else
 						MatricolaFin=null;
@@ -255,9 +255,15 @@ public class RicercaEvento extends JDialog {
 				else {
 					System.out.println("TUTTI ");
 				}
+				//----VISUALIZZAZIONE DEI DATI AQUISITI----
+				System.out.println(Tipo+" "+data+" "+Livello);
+				
+				
+				//	DA SBLOCCARE
 				//----INVIO DATI ALLA QUERY----
 				Vector<Evento> vettore =new Vector<Evento>();
-				vettore=eDAOP.Ricerca(Tipo, Data, Livello, isTutti);
+				vettore=eDAOP.getAll(data, Tipo, Livello, isTutti);
+				//System.out.println(eDAOP.getAll(data, Tipo, Livello, isTutti));
 				for(Evento e : vettore) {
 					System.out.println(e.toString());
 				}
@@ -265,6 +271,12 @@ public class RicercaEvento extends JDialog {
 
 			}
 		});
+		
+		
+		
+		
+		
+		
 	}
 	public DefaultComboBoxModel<String> AtletaStringcb(DefaultComboBoxModel<Iscritto> a){
 		//COPIO IL DEFAULTCOMBOBOX DI TIPO ISCRITTO IN UN DEFAULTCOMBOBOX DI TIPO STRING DOVE LE STRING SARANNO I DATI DELL'ATLETA
