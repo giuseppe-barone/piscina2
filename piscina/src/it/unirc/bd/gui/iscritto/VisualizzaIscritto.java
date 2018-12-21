@@ -17,7 +17,7 @@ public class VisualizzaIscritto extends JDialog{
 	IscrittoDAOP iDAOP = new IscrittoDAOP();
 
 	private JTable table;
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				
@@ -30,8 +30,8 @@ public class VisualizzaIscritto extends JDialog{
 				}
 			}
 		});
-	}
-	public VisualizzaIscritto() {
+	}*/
+	public VisualizzaIscritto(Vector<Iscritto> vettore) {
 		setResizable(false);
 		setTitle("Visualizza Iscritti");
 		setModal(true);
@@ -40,7 +40,7 @@ public class VisualizzaIscritto extends JDialog{
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
-		load();
+		load(vettore);
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
@@ -48,7 +48,7 @@ public class VisualizzaIscritto extends JDialog{
 		panel.add(pane);
 		setContentPane(panel);
 	}
-	private void load() {
+	private void load(Vector<Iscritto> vettore) {
 		DefaultTableModel model = new DefaultTableModel();
 		Object[] columnsName = new Object[7];
 		columnsName[0] = "Id";
@@ -59,21 +59,21 @@ public class VisualizzaIscritto extends JDialog{
 		columnsName[5] = "Data di Nascita";
 		columnsName[6] = "Matricola FIN";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Iscritto> list; //= new Object[7];
-		list=iDAOP.getAll();
-		System.out.println(list);
+	
+		
+		
 		Object rowData[] = new Object[7]; 
-		for (int a=0;a<list.size();a++) {
-			rowData[0] = list.elementAt(a).getIdIscritto();
-			rowData[1] = list.elementAt(a).getNome();
-			rowData[2] = list.elementAt(a).getCognome();
-			rowData[3] = list.elementAt(a).getSesso();
-			rowData[4] = list.elementAt(a).getCellulare();
-			rowData[5] = list.elementAt(a).getDataNascita();
-			if(list.elementAt(a).getMatricolaFIN()==null)
+		for (int a=0;a<vettore.size();a++) {
+			rowData[0] = vettore.elementAt(a).getIdIscritto();
+			rowData[1] = vettore.elementAt(a).getNome();
+			rowData[2] = vettore.elementAt(a).getCognome();
+			rowData[3] = vettore.elementAt(a).getSesso();
+			rowData[4] = vettore.elementAt(a).getCellulare();
+			rowData[5] = vettore.elementAt(a).getDataNascita();
+			if(vettore.elementAt(a).getMatricolaFIN()==null)
 				rowData[6] = null;
 			else
-				rowData[6] = list.elementAt(a).getMatricolaFIN();
+				rowData[6] = vettore.elementAt(a).getMatricolaFIN();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

@@ -17,8 +17,9 @@ import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
 
 public class VisualizzaAtleti extends JDialog {
-
-	IscrittoDAOP iDAOP = new IscrittoDAOP();
+	
+	
+	static IscrittoDAOP iDAOP = new IscrittoDAOP();
 
 	private JTable table;
 	public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class VisualizzaAtleti extends JDialog {
 			public void run() {
 				
 				try {
-					VisualizzaIscritto dialog = new VisualizzaIscritto();
+					VisualizzaIscritto dialog = new VisualizzaIscritto(iDAOP.getTuttiAtleti());
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {

@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import it.unirc.bd.dao.beans.IscrittoDAOP;
 import it.unirc.bd.gui.corso.InserisciCorso;
 import it.unirc.bd.gui.corso.IscrizioneCorso;
 import it.unirc.bd.gui.corso.VisualizzaCorso;
@@ -32,7 +33,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class MainGUI {
-
+	 IscrittoDAOP iDAOP=new IscrittoDAOP();
+	
 	private JFrame frame;
 
 	/**
@@ -96,7 +98,7 @@ public class MainGUI {
 		JMenuItem mntmVisualizzaIscritto = new JMenuItem("Visualizza Iscritto");
 		mntmVisualizzaIscritto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VisualizzaIscritto visualizza = new VisualizzaIscritto();
+				VisualizzaIscritto visualizza = new VisualizzaIscritto(iDAOP.getAll());
 				visualizza.setVisible(true);
 			}
 		});

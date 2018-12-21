@@ -55,12 +55,50 @@ public class IscrittoDAOP {
 		return res;
 	} 
 
+	
+	//-----------------RICERCA PER SESSO -------------------
+		public Vector<Iscritto> RicercaPerSesso(String sesso) {
+			Vector<Iscritto> risultato=new Vector<Iscritto>();
+			String query = "SELECT * FROM iscritto WHERE Sesso = ?";
+			Iscritto res = null;
+			PreparedStatement ps;
+			conn=DBManager.startConnection();
+			try {
+				ps = conn.prepareStatement(query);
+				ps.setString(1, sesso);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					res=new Iscritto();
+					res.setIdIscritto(rs.getInt("idIscritto"));
+					res.setNome( rs.getString("Nome") );
+					res.setCognome(rs.getString("Cognome"));
+					res.setSesso( rs.getString("Sesso") );
+					res.setCellulare( rs.getString("Cellulare") );
+					res.setDataNascita(rs.getDate("DataDiNascita"));
+					res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+					risultato.add(res);
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return risultato;
+		} 
+	
+	
 	//----RICERCA PER DATA----
 	public Vector<Iscritto> RicercaPerData(Date data, int tipo){
 	
 			Vector<Iscritto> risultato=new Vector<Iscritto>();
 			
 			String query = "SELECT * FROM iscritto;";
+			if (tipo==0)
+				query="SELECT * FROM iscritto where DataDiNascita<?;";
+			else if (tipo==1)
+				query="SELECT * FROM iscritto where DataDiNascita=?;";
+			else if (tipo==2)
+				query="SELECT * FROM iscritto where DataDiNascita>?;";
 			Iscritto res;
 			PreparedStatement ps;
 			conn=DBManager.startConnection();
@@ -68,7 +106,7 @@ public class IscrittoDAOP {
 				
 					
 				ps = conn.prepareStatement(query);
-			
+				ps.setString(1, data.toString());
 				ResultSet rs = ps.executeQuery();
 				
 				while(rs.next()){
@@ -81,39 +119,90 @@ public class IscrittoDAOP {
 					res.setCellulare( rs.getString("Cellulare") );
 					res.setDataNascita(rs.getDate("DataDiNascita"));
 					res.setMatricolaFIN( rs.getInt("MatricolaFin") );
-					
-					//POSSO INSERISRLO QUA IL CONTROLLO 
-					
-					
 					risultato.add(res);
+					
+					
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			DBManager.closeConnection();
 			
-			for (int j=0;j<risultato.size();j++) {
-				if(tipo==0 && risultato.get(j).getDataNascita().compareTo(data)>=0) {//CERCO PRECEDENTI
-					System.out.println("CERCO I PRECEDENTI ALLA DATA PASSATA ");
-					risultato.remove(j);
-				}
-				
-			if(tipo==1 && risultato.get(j).getDataNascita().compareTo(data)!=0) {//CERCO UGUALI
-					System.out.println("CERCO GLI UGUALI ALLA DATA PASSATA ");
-					risultato.remove(j);
-				}
-				
-			if(tipo==2 && risultato.get(j).getDataNascita().compareTo(data)<=0) {//CERCO SUCCESSIVI
-					System.out.println("CERCO I SUCCESSIVI ALLA DATA PASSATA ");
-					risultato.remove(j);
-				}
-				
-			}
+			
 			System.out.println("RISULTATI TROVATI: "+risultato.size());
 			System.out.println("_______________________________________________________________________________________________");
 			return risultato;
 
 		}
+	
+	
+	
+	
+	//----RICERCA PER NOME/COGNOME----
+		public Vector<Iscritto> RicercaPerNomeCognome(String nome, String cognome, boolean isNome, boolean isCognome){
+				Vector<Iscritto> risultato=new Vector<Iscritto>();
+				boolean completo=false;
+				String query = "SELECT * FROM iscritto;";
+				if (isNome && isCognome )
+					query="SELECT * FROM iscritto where Nome=? and Cognome=?;";
+				else if (!isNome && isCognome)
+					query="SELECT * FROM iscritto where Cognome=?;";
+				else if (isNome && !isCognome) {
+					query="SELECT * FROM iscritto where Nome=?;";
+					completo=true;
+				}
+				ResultSet rs=null;
+				Iscritto res;
+				PreparedStatement ps;
+				conn=DBManager.startConnection();
+				try {
+					
+					
+					if (isNome && isCognome ) {
+						ps = conn.prepareStatement(query);
+						ps.setString(1, nome);
+						ps.setString(2,cognome);
+						rs = ps.executeQuery();
+					}
+					else if (!isNome && isCognome) {
+						ps = conn.prepareStatement(query);
+						ps.setString(1, cognome);
+						rs = ps.executeQuery();
+					}
+					else if (isNome && !isCognome) {
+						ps = conn.prepareStatement(query);
+						ps.setString(1, nome);
+						rs = ps.executeQuery();
+					}
+					
+					
+					while(rs.next()){
+
+						res=new Iscritto();
+						res.setIdIscritto(rs.getInt("idIscritto"));
+						res.setNome( rs.getString("Nome") );
+						res.setCognome(rs.getString("Cognome"));
+						res.setSesso( rs.getString("Sesso") );
+						res.setCellulare( rs.getString("Cellulare") );
+						res.setDataNascita(rs.getDate("DataDiNascita"));
+						res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+						risultato.add(res);
+						
+						
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();
+				
+				
+				System.out.println("RISULTATI TROVATI: "+risultato.size());
+				System.out.println("_______________________________________________________________________________________________");
+				return risultato;
+
+			}
+	
+	
 	
 	
 	

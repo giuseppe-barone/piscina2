@@ -330,7 +330,7 @@ public class RicercaIscritto extends JDialog {
 				if (rbNomeCognome.isSelected()) {
 					Nome=txtNome.getText();
 					Cognome=txtCognome.getText();
-					//vettore=iDAOP.RicercaPerTipo(Tipo);
+					vettore=iDAOP.RicercaPerNomeCognome(Nome, Cognome, isNome, isCognome);
 				}
 				else {
 					Nome="";
@@ -338,7 +338,7 @@ public class RicercaIscritto extends JDialog {
 				}
 				if (rbSesso.isSelected()) {
 					Sesso = cbbSesso.getModel().getElementAt(cbbSesso.getSelectedIndex()).toString();
-					//vettore=iDAOP.RicercaPerLivello(Livello);
+					vettore=iDAOP.RicercaPerSesso(Sesso);
 				}
 				else
 					Sesso="";				
@@ -358,6 +358,8 @@ public class RicercaIscritto extends JDialog {
 				for(Iscritto i : vettore) {
 					System.out.println(i.toString());
 				}
+				VisualizzaIscritto vis =new VisualizzaIscritto(vettore);
+				vis.setVisible(true);				
 
 
 			}
