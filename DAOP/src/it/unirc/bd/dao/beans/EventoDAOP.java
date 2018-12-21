@@ -35,44 +35,83 @@ public class EventoDAOP {
 	}
 
 
-	//------------------RESTITUZIONE TUTTE LE TUPLE-----------
-	public Vector<Evento> getAll(Date data,String tipo,String livello, boolean isTutti ){
+
+
+	//------------------RICERCA PER LIVELLO-----------
+	public Vector<Evento> RicercaPerLivello(String livello ){
+		Vector<Evento> risultato=new Vector<Evento>();
+		String query = "SELECT * FROM evento WHERE Livello=?";
+
+		Evento res;
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, livello);
+
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+
+				res=new Evento();
+				res.setIdEvento(rs.getInt("idEvento"));
+				res.setData(rs.getDate("Data"));
+				res.setLivello(rs.getString("Livello"));
+				res.setTipo(rs.getString("Tipo"));
+				risultato.add(res);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return risultato;
+
+	}
+//----RICERCA PER DATA----
+	public Vector<Evento> RicercaPerData(Date data ){
+		Vector<Evento> risultato=new Vector<Evento>();
+		String query = "SELECT * FROM evento WHERE Data=?";
+
+		Evento res;
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, data.toString());
+
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+
+				res=new Evento();
+				res.setIdEvento(rs.getInt("idEvento"));
+				res.setData(rs.getDate("Data"));
+				res.setLivello(rs.getString("Livello"));
+				res.setTipo(rs.getString("Tipo"));
+				risultato.add(res);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return risultato;
+
+	}
+
+
+	//----RICERCA PER TIPO----
+		public Vector<Evento> RicercaPerTipo(String tipo ){
 			Vector<Evento> risultato=new Vector<Evento>();
-			String query = "SELECT * FROM evento WHERE idEvento IS NOT NULL ? ? ? ;";
-			String Tipo;
-			String Livello;
-			String Data;
+			String query = "SELECT * FROM evento WHERE Tipo=?";
+
 			Evento res;
 			PreparedStatement ps;
 			conn=DBManager.startConnection();
 			try {
 				ps = conn.prepareStatement(query);
-				if (!isTutti) {
-					if (!tipo.equals(null)) {
-						Tipo="AND `Tipo`="+tipo+" ";
-						ps.setString(1, Tipo);
-					}
-					else
-						ps.setString(1, "");
-					if (!livello.equals(null)) {
-						Livello="AND `Livello`="+livello+" ";
-						ps.setString(2, Livello);
-					}
-					else
-						ps.setString(2, "");
-					if (!data.equals(null)) {
-						Data="AND `Data`="+data.toString()+" ";
-						ps.setString(3, Data);
-					}
-					else
-						ps.setString(3, "");
-				}
-				else {
-					query="SELECT * FROM evento ;";
-				}
+				ps.setString(1, tipo);
+
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()){
-					System.out.println("funziona");
+
 					res=new Evento();
 					res.setIdEvento(rs.getInt("idEvento"));
 					res.setData(rs.getDate("Data"));
@@ -85,19 +124,57 @@ public class EventoDAOP {
 			}
 			DBManager.closeConnection();
 			return risultato;
-		
-	}
 
+		}
+		
+		
+		
+//
+//	SELECT evento.* FROM evento 	INNER JOIN partecipazione ON evento.idEvento = partecipazione.idEvento and partecipazione.MatricolaFin=12;
+		
+		
+
+		//----RICERCA PER TIPO----
+			public Vector<Evento> RicercaPerMatricolaFin(Integer matricola ){
+				Vector<Evento> risultato=new Vector<Evento>();
+				String query = "SELECT evento.* FROM evento INNER JOIN partecipazione ON evento.idEvento = partecipazione.idEvento and partecipazione.MatricolaFin=?;";
+
+				Evento res;
+				PreparedStatement ps;
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					ps.setInt(1, matricola);
+
+					ResultSet rs = ps.executeQuery();
+					while(rs.next()){
+
+						res=new Evento();
+						res.setIdEvento(rs.getInt("idEvento"));
+						res.setData(rs.getDate("Data"));
+						res.setLivello(rs.getString("Livello"));
+						res.setTipo(rs.getString("Tipo"));
+						risultato.add(res);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();
+				return risultato;
+
+			}
+		
+			
+			
+			
+			
+			
 	
-	
-	
-	
-	
-	
-	
-	
+
 	/*
-	 
+
+
+
 	 //------------------RESTITUZIONE TUTTE LE TUPLE-----------
 	public Vector<Evento> getAll(Date data,String tipo,String livello, boolean isTutti ){
 			Vector<Evento> risultato=new Vector<Evento>();
@@ -129,21 +206,21 @@ public class EventoDAOP {
 			}
 			DBManager.closeConnection();
 			return risultato;
-		
-	}
-	 
-	 
-	 */
-	
-	
-	
-	
-	
-	
-	
 
-	
-	 
+	}
+
+
+
+
+
+
+
+	 */
+
+
+
+
+
 
 
 	public boolean ControlloDinamicoEvento(int id) {
@@ -166,7 +243,7 @@ public class EventoDAOP {
 		DBManager.closeConnection();
 		return risultato;
 	}
-	
+
 
 
 

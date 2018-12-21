@@ -17,6 +17,7 @@ import it.unirc.bd.gui.dipendente.InserisciDipendente;
 import it.unirc.bd.gui.dipendente.VisualizzaAllenatore;
 import it.unirc.bd.gui.dipendente.VisualizzaDipendente;
 import it.unirc.bd.gui.evento.InserisciEvento;
+import it.unirc.bd.gui.evento.RicercaEvento;
 import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
 import it.unirc.bd.gui.infortunio.VisualizzaInfortunio;
@@ -222,15 +223,17 @@ public class MainGUI {
 			}
 		});
 		mnEventi.add(mntmOrganizzaEvento);
-
-		JMenuItem mntmVisualizzaEventi = new JMenuItem("Visualizza Eventi");
-		mntmVisualizzaEventi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VisualizzaEvento visualizza = new VisualizzaEvento();
-				visualizza.setVisible(true);
+		
+		JMenuItem mntmRicercaEvento = new JMenuItem("Ricerca Evento");
+		mntmRicercaEvento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RicercaEvento ric=new RicercaEvento();
+				ric.setVisible(true);
+				
+				
 			}
 		});
-		mnEventi.add(mntmVisualizzaEventi);
+		mnEventi.add(mntmRicercaEvento);
 
 		JMenuItem mntmPartecipazioneAdEvento = new JMenuItem("Partecipazione ad Evento");
 		mnEventi.add(mntmPartecipazioneAdEvento);

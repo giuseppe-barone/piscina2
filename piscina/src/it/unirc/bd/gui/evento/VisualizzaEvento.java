@@ -8,26 +8,25 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import it.unirc.bd.dao.beans.Evento;
-import it.unirc.bd.dao.beans.EventoDAOP;
 
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
+
 
 public class VisualizzaEvento extends JDialog {
+
 	private JTable table;
-	EventoDAOP eDAOP = new EventoDAOP();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 
 				try {
-					VisualizzaEvento dialog = new VisualizzaEvento();
+					VisualizzaEvento dialog = new VisualizzaEvento(null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -36,16 +35,16 @@ public class VisualizzaEvento extends JDialog {
 			}
 		});
 	}
-	public VisualizzaEvento() {
+	public VisualizzaEvento(Vector<Evento> list) {
 		setResizable(false);
-		setTitle("Visualizza Dipendenti");
+		setTitle("Visualizza Eventi");
 		setModal(true);
 		setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
-		load();
+		load(list);
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
@@ -53,7 +52,7 @@ public class VisualizzaEvento extends JDialog {
 		panel.add(pane);
 		setContentPane(panel);
 	}
-	private void load() {
+	private void load(Vector<Evento> list) {
 		DefaultTableModel model = new DefaultTableModel();
 		Object[] columnsName = new Object[4];
 		columnsName[0] = "Id";
@@ -61,10 +60,10 @@ public class VisualizzaEvento extends JDialog {
 		columnsName[2] = "Livello";
 		columnsName[3] = "Tipo";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Evento> list;
-		list=eDAOP.getAll();
+	
+		
 		System.out.println(list);
-		Object rowData[] = new Object[4]; 
+		Object rowData[] = new Object[5]; 
 		for (int a=0;a<list.size();a++) {
 			rowData[0] = list.elementAt(a).getIdEvento();
 			rowData[1] = list.elementAt(a).getData();
