@@ -1,6 +1,7 @@
 package it.unirc.bd.dao.beans;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,7 +55,68 @@ public class IscrittoDAOP {
 		return res;
 	} 
 
+	//----RICERCA PER DATA----
+	public Vector<Iscritto> RicercaPerData(Date data, int tipo){
+	
+			Vector<Iscritto> risultato=new Vector<Iscritto>();
+			
+			String query = "SELECT * FROM iscritto;";
+			Iscritto res;
+			PreparedStatement ps;
+			conn=DBManager.startConnection();
+			try {
+				
+					
+				ps = conn.prepareStatement(query);
+			
+				ResultSet rs = ps.executeQuery();
+				
+				while(rs.next()){
 
+					res=new Iscritto();
+					res.setIdIscritto(rs.getInt("idIscritto"));
+					res.setNome( rs.getString("Nome") );
+					res.setCognome(rs.getString("Cognome"));
+					res.setSesso( rs.getString("Sesso") );
+					res.setCellulare( rs.getString("Cellulare") );
+					res.setDataNascita(rs.getDate("DataDiNascita"));
+					res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+					
+					//POSSO INSERISRLO QUA IL CONTROLLO 
+					
+					
+					risultato.add(res);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			
+			for (int j=0;j<risultato.size();j++) {
+				if(tipo==0 && risultato.get(j).getDataNascita().compareTo(data)>=0) {//CERCO PRECEDENTI
+					System.out.println("CERCO I PRECEDENTI ALLA DATA PASSATA ");
+					risultato.remove(j);
+				}
+				
+			if(tipo==1 && risultato.get(j).getDataNascita().compareTo(data)!=0) {//CERCO UGUALI
+					System.out.println("CERCO GLI UGUALI ALLA DATA PASSATA ");
+					risultato.remove(j);
+				}
+				
+			if(tipo==2 && risultato.get(j).getDataNascita().compareTo(data)<=0) {//CERCO SUCCESSIVI
+					System.out.println("CERCO I SUCCESSIVI ALLA DATA PASSATA ");
+					risultato.remove(j);
+				}
+				
+			}
+			System.out.println("RISULTATI TROVATI: "+risultato.size());
+			System.out.println("_______________________________________________________________________________________________");
+			return risultato;
+
+		}
+	
+	
+	
 
 
 	//---INSERIMENTO ISCRITTO----
