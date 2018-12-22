@@ -23,6 +23,7 @@ import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
 import it.unirc.bd.gui.infortunio.VisualizzaInfortunio;
 import it.unirc.bd.gui.iscritto.InserisciIscritto;
+import it.unirc.bd.gui.iscritto.RicercaIscritto;
 import it.unirc.bd.gui.iscritto.VisualizzaAtleti;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 import it.unirc.bd.gui.prenotazione.InserisciPrenotazione;
@@ -93,6 +94,12 @@ public class MainGUI {
 		mnIscritto.add(mntmInserisciIscritto);
 
 		JMenuItem mntmRicercaIscritto = new JMenuItem("Ricerca Iscritto");
+		mntmRicercaIscritto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RicercaIscritto ric =new RicercaIscritto(false);
+				ric.setVisible(true);
+			}
+		});
 		mnIscritto.add(mntmRicercaIscritto);
 
 		JMenuItem mntmVisualizzaIscritto = new JMenuItem("Visualizza Iscritto");
@@ -111,6 +118,12 @@ public class MainGUI {
 		mnAtleta.add(mntmCreaAtleta);
 
 		JMenuItem mntmCercaAtleta = new JMenuItem("Cerca Atleta");
+		mntmCercaAtleta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RicercaIscritto vis =new RicercaIscritto(true);
+				vis.setVisible(true);
+			}
+		});
 		mnAtleta.add(mntmCercaAtleta);
 
 		JMenuItem mntmVisualizzaAtleti = new JMenuItem("Visualizza Atleti");

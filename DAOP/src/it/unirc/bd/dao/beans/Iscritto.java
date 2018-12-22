@@ -1,6 +1,8 @@
 package it.unirc.bd.dao.beans;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class Iscritto {
 	public Iscritto(int idIscritto, String nome, String cognome, String sesso, String cellulare, Date dataNascita,
@@ -131,4 +133,51 @@ public class Iscritto {
 	public String toStringAtleta() {
 		return nome +" "+cognome+" "+dataNascita ;
 	}
+	
+	//CALOCLO DELLA CATEGORIA IN BASE ALLA DATA DI NASCITA DELL'ATLETA
+	
+		public String CalcoloCategoria(Iscritto i) {
+			String risultato = null;
+			int eta = 0;
+			boolean isMaschio;
+			if (i.getSesso().equals("Maschio"))
+				isMaschio=true;
+			else
+				isMaschio=false;
+			//--------------CODICE PER IL CALCOLO DELL'ETA DA INSERIRE A PARTE PER PEPPE----------------
+			LocalDate corrente=LocalDate.now();
+			Date nascita=i.getDataNascita();
+			LocalDate LNascita=nascita.toLocalDate();
+			//System.out.println(LNascita.toString());
+
+			//System.out.println(corrente.toString());
+			if ((corrente != null) && (nascita != null)) {
+	          // System.out.println(Period.between(LNascita, corrente).getYears());
+	           eta=Period.between(LNascita, corrente).getYears();
+	           
+	        }
+			if (isMaschio) {	//SE è MASCHIO
+				if (eta<14)
+					risultato="Esordienti";
+				else if (eta<17)
+					risultato="Ragazzi";
+				else if (eta<21)
+					risultato="Cadetti";
+				else
+					risultato="Seniores";
+			}
+			else {				//SE NON è MASCIO
+				if (eta<13)
+					risultato="Esordienti";
+				else if (eta<15)
+					risultato="Ragazzi";
+				else if (eta<19)
+					risultato="Cadetti";
+				else
+					risultato="Seniores";
+			}
+			return risultato;
+		}
+	
+	
 }

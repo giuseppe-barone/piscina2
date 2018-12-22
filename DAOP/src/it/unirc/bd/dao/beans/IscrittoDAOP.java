@@ -57,9 +57,11 @@ public class IscrittoDAOP {
 
 	
 	//-----------------RICERCA PER SESSO -------------------
-		public Vector<Iscritto> RicercaPerSesso(String sesso) {
+		public Vector<Iscritto> RicercaPerSesso(String sesso, boolean isAtleta) {
 			Vector<Iscritto> risultato=new Vector<Iscritto>();
 			String query = "SELECT * FROM iscritto WHERE Sesso = ?";
+			if(isAtleta)
+				query = "SELECT * FROM iscritto WHERE Sesso = ? and MatricolaFin IS NOT NULL";
 			Iscritto res = null;
 			PreparedStatement ps;
 			conn=DBManager.startConnection();
@@ -86,19 +88,96 @@ public class IscrittoDAOP {
 			return risultato;
 		} 
 	
-	
+		
+		
+		//----RICERCA ATLETI PER CATEGORIA----
+		public Vector<Iscritto> RicercaPerCategoria(String categoria) {
+			Vector<Iscritto> risultato= new Vector<Iscritto>();
+			String query = "SELECT * FROM piscina.iscritto where MatricolaFin IS NOT NULL;";
+			Iscritto res;
+			PreparedStatement ps;
+			conn=DBManager.startConnection();
+			try {
+				ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					res=new Iscritto();
+					res.setIdIscritto(rs.getInt("idIscritto"));
+					res.setNome( rs.getString("Nome") );
+					res.setCognome(rs.getString("Cognome"));
+					res.setSesso( rs.getString("Sesso") );
+					res.setCellulare( rs.getString("Cellulare") );
+					res.setDataNascita(rs.getDate("DataDiNascita"));
+					res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+					if (categoria.equals(res.CalcoloCategoria(res)))
+					risultato.add(res);
+			}}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return risultato;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+	//----RICERCA ATLETI PER TIPOLOGIA DI GARA----
+		public Vector<Iscritto> RicercaPerTipoGara(String tipo) {
+			Vector<Iscritto> risultato= new Vector<Iscritto>();
+			String query = "SELECT iscritto.* FROM iscritto INNER JOIN partecipazione INNER JOIN evento ON evento.Tipo =? and evento.idEvento=partecipazione.idEvento and partecipazione.MatricolaFin=iscritto.MatricolaFin;";
+			Iscritto res;
+			PreparedStatement ps;
+			conn=DBManager.startConnection();
+			try {
+				ps = conn.prepareStatement(query);
+				ps.setString(1, tipo);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					res=new Iscritto();
+					res.setIdIscritto(rs.getInt("idIscritto"));
+					res.setNome( rs.getString("Nome") );
+					res.setCognome(rs.getString("Cognome"));
+					res.setSesso( rs.getString("Sesso") );
+					res.setCellulare( rs.getString("Cellulare") );
+					res.setDataNascita(rs.getDate("DataDiNascita"));
+					res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+					risultato.add(res);
+			}}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return risultato;
+		}
+		
+		
+		
+		
+		
+		
+		
+		//tolgo i punti e virgola alla fine e agiungo isAtleta nei parametri del metodo e l'if con isAtleta
+		
 	//----RICERCA PER DATA----
-	public Vector<Iscritto> RicercaPerData(Date data, int tipo){
+	public Vector<Iscritto> RicercaPerData(Date data, int tipo, boolean isAtleta){
 	
 			Vector<Iscritto> risultato=new Vector<Iscritto>();
 			
 			String query = "SELECT * FROM iscritto;";
 			if (tipo==0)
-				query="SELECT * FROM iscritto where DataDiNascita<?;";
+				query="SELECT * FROM iscritto where DataDiNascita<?";
 			else if (tipo==1)
-				query="SELECT * FROM iscritto where DataDiNascita=?;";
+				query="SELECT * FROM iscritto where DataDiNascita=?";
 			else if (tipo==2)
-				query="SELECT * FROM iscritto where DataDiNascita>?;";
+				query="SELECT * FROM iscritto where DataDiNascita>?";
+			if (isAtleta)
+				query=query+" AND MatricolaFin IS NOT NULL;";
+			
 			Iscritto res;
 			PreparedStatement ps;
 			conn=DBManager.startConnection();
@@ -139,17 +218,18 @@ public class IscrittoDAOP {
 	
 	
 	//----RICERCA PER NOME/COGNOME----
-		public Vector<Iscritto> RicercaPerNomeCognome(String nome, String cognome, boolean isNome, boolean isCognome){
+		public Vector<Iscritto> RicercaPerNomeCognome(String nome, String cognome, boolean isNome, boolean isCognome, boolean isAtleta){
 				Vector<Iscritto> risultato=new Vector<Iscritto>();
 				boolean completo=false;
 				String query = "SELECT * FROM iscritto;";
 				if (isNome && isCognome )
-					query="SELECT * FROM iscritto where Nome=? and Cognome=?;";
+					query="SELECT * FROM iscritto where Nome=? and Cognome=?";
 				else if (!isNome && isCognome)
-					query="SELECT * FROM iscritto where Cognome=?;";
+					query="SELECT * FROM iscritto where Cognome=?";
 				else if (isNome && !isCognome) {
-					query="SELECT * FROM iscritto where Nome=?;";
-					completo=true;
+					query="SELECT * FROM iscritto where Nome=?";
+				if (isAtleta)
+						query=query+" AND MatricolaFin IS NOT NULL;";
 				}
 				ResultSet rs=null;
 				Iscritto res;

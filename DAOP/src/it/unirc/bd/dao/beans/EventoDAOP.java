@@ -96,7 +96,31 @@ public class EventoDAOP {
 
 	}
 
+	//----ELENCO TIPI SENZA RIDONDANZE----
+	public DefaultComboBoxModel<String> ElencoTipi( ){
+		DefaultComboBoxModel<String> risultato=new DefaultComboBoxModel<String>();
+		String query = "SELECT DISTINCT Tipo FROM evento;";
+		String res;
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				res=rs.getString("Tipo");
+				risultato.addElement(res);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return risultato;
 
+	}
+	
+	
+		
+	
 	//----RICERCA PER TIPO----
 		public Vector<Evento> RicercaPerTipo(String tipo ){
 			Vector<Evento> risultato=new Vector<Evento>();

@@ -19,7 +19,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
 
-
+import it.unirc.bd.dao.beans.Evento;
+import it.unirc.bd.dao.beans.EventoDAOP;
 import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
 import javafx.scene.control.ToggleGroup;
@@ -38,9 +39,11 @@ import java.awt.Component;
 public class RicercaIscritto extends JDialog {
 	//OGETTI DAOP
 	IscrittoDAOP iDAOP =new IscrittoDAOP();
-
+	EventoDAOP eDAOP=new EventoDAOP();
 
 	//DATI DA PASSARE ALLA QUERY
+	private String Categoria;
+	private String TG;
 	private boolean isNome=false;
 	private boolean isCognome=false;
 	private int TipoRicercaData;
@@ -64,7 +67,7 @@ public class RicercaIscritto extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RicercaIscritto dialog = new RicercaIscritto();
+			RicercaIscritto dialog = new RicercaIscritto(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -75,15 +78,15 @@ public class RicercaIscritto extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RicercaIscritto() {
-		setBounds(100, 100, 477, 457);
+	public RicercaIscritto(boolean isAtleta) {
+		setBounds(100, 100, 481, 476);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
 		JButton btnRicerca = new JButton("Ricerca");
-		btnRicerca.setBounds(184, 372, 97, 25);
+		btnRicerca.setBounds(183, 394, 97, 25);
 		contentPanel.add(btnRicerca);
 
 		JPanel panel = new JPanel();
@@ -105,23 +108,19 @@ public class RicercaIscritto extends JDialog {
 
 
 		JRadioButton rbTutti = new JRadioButton("Tutti gli Iscritti");
-		rbTutti.setBounds(8, 342, 127, 25);
+		rbTutti.setBounds(8, 353, 127, 25);
 		contentPanel.add(rbTutti);
 		gruppo.add(rbTutti);
 
 		JComboBox cbbSesso = new JComboBox();
-		cbbSesso.setBounds(220, 292, 106, 22);
+		cbbSesso.setBounds(84, 292, 106, 22);
 		cbbSesso.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
 		cbbSesso.setEnabled(false);
 		contentPanel.add(cbbSesso);
 
-		JLabel lblSesso = new JLabel("Sesso:");
-		lblSesso.setBounds(155, 295, 40, 16);
-		contentPanel.add(lblSesso);
-
 		JRadioButton rbSesso = new JRadioButton("Sesso");
 
-		rbSesso.setBounds(8, 292, 127, 25);
+		rbSesso.setBounds(8, 291, 67, 25);
 		contentPanel.add(rbSesso);
 		gruppo.add(rbSesso);
 
@@ -182,7 +181,7 @@ public class RicercaIscritto extends JDialog {
 		gruppoData.add(rbSuccessiva);
 
 		JPanel pannelloNomeCognome = new JPanel();
-		pannelloNomeCognome.setBounds(155, 48, 234, 103);
+		pannelloNomeCognome.setBounds(155, 48, 283, 103);
 		pannelloNomeCognome.setEnabled(false);
 		pannelloNomeCognome.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Ricerca per Nome/Cognome", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		contentPanel.add(pannelloNomeCognome);
@@ -190,7 +189,7 @@ public class RicercaIscritto extends JDialog {
 
 		txtNome = new JTextField();
 		txtNome.setEnabled(false);
-		txtNome.setBounds(75, 27, 116, 22);
+		txtNome.setBounds(85, 27, 116, 22);
 		txtNome.setColumns(10);
 		pannelloNomeCognome.add(txtNome);
 
@@ -201,7 +200,7 @@ public class RicercaIscritto extends JDialog {
 
 		txtCognome = new JTextField();
 		txtCognome.setEnabled(false);
-		txtCognome.setBounds(75, 62, 116, 22);
+		txtCognome.setBounds(85, 62, 116, 22);
 		txtCognome.setColumns(10);
 		pannelloNomeCognome.add(txtCognome);
 
@@ -213,22 +212,70 @@ public class RicercaIscritto extends JDialog {
 		JCheckBox cbNome = new JCheckBox("");
 
 		cbNome.setEnabled(false);
-		cbNome.setBounds(199, 26, 25, 25);
+		cbNome.setBounds(221, 27, 25, 25);
 		pannelloNomeCognome.add(cbNome);
 
 		JCheckBox cbCognome = new JCheckBox("");
 
 		cbCognome.setEnabled(false);
-		cbCognome.setBounds(199, 61, 25, 25);
+		cbCognome.setBounds(221, 62, 25, 25);
 		pannelloNomeCognome.add(cbCognome);
 
 		JLabel lblRicercaPer = new JLabel("Ricerca per:");
 		lblRicercaPer.setBounds(8, 19, 77, 16);
 		contentPanel.add(lblRicercaPer);
+		
+		JComboBox<String> cbbTG = new JComboBox<String>();
+		
+		cbbTG.setEnabled(false);
+		cbbTG.setVisible(isAtleta);
+		cbbTG.setModel(eDAOP.ElencoTipi());
+		cbbTG.setBounds(265, 324, 173, 22);
+		contentPanel.add(cbbTG);
+		
+		JRadioButton rbTG = new JRadioButton("Tipologia di gare a cui ha preso parte:");
+		
+		rbTG.setBounds(8, 323, 249, 25);
+		rbTG.setVisible(isAtleta);
+		contentPanel.add(rbTG);
+		gruppo.add(rbTG);
+		
+		JRadioButton rbCategoria = new JRadioButton("Categoria");
+		rbCategoria.setVisible(isAtleta);
+		rbCategoria.setBounds(233, 291, 83, 25);
+		contentPanel.add(rbCategoria);
+		gruppo.add(rbCategoria);
+		
+		JComboBox cbbCategoria = new JComboBox();
+		cbbCategoria.setVisible(isAtleta);
+		cbbCategoria.setModel(new DefaultComboBoxModel(new String[] {"Esordienti", "Ragazzi", "Cadetti", "Seniores"}));
+		cbbCategoria.setEnabled(false);
+		cbbCategoria.setBounds(324, 290, 106, 22);
+		contentPanel.add(cbbCategoria);
 
 
 
 		//----LISTNER----
+		rbCategoria.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if (rbCategoria.isSelected()) {
+					cbbCategoria.setEnabled(true);
+				}
+				else
+					cbbCategoria.setEnabled(false);
+			}
+		});
+		
+		rbTG.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if (rbTG.isSelected()) {
+					cbbTG.setEnabled(true);
+				}
+				else
+					cbbTG.setEnabled(false);
+			}
+		});
+		
 		cbCognome.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (cbCognome.isSelected()) {
@@ -316,13 +363,16 @@ public class RicercaIscritto extends JDialog {
 				//JOptionPane.showMessageDialog(null, "Inserimento con successo");
 				if (rbTutti.isSelected()) {
 					isTutti=true;
-					vettore=iDAOP.getAll();
+					if (isAtleta)
+					vettore=iDAOP.getTuttiAtleti();
+					else
+						vettore=iDAOP.getAll();
 				}
 				else
 					isTutti=false;
 				if (rbData.isSelected()) {
 					Data =Date.valueOf(txtData.getText());
-					vettore=iDAOP.RicercaPerData(Data,TipoRicercaData);
+					vettore=iDAOP.RicercaPerData(Data,TipoRicercaData, isAtleta);
 
 				}
 				else
@@ -330,7 +380,7 @@ public class RicercaIscritto extends JDialog {
 				if (rbNomeCognome.isSelected()) {
 					Nome=txtNome.getText();
 					Cognome=txtCognome.getText();
-					vettore=iDAOP.RicercaPerNomeCognome(Nome, Cognome, isNome, isCognome);
+					vettore=iDAOP.RicercaPerNomeCognome(Nome, Cognome, isNome, isCognome,isAtleta);
 				}
 				else {
 					Nome="";
@@ -338,10 +388,19 @@ public class RicercaIscritto extends JDialog {
 				}
 				if (rbSesso.isSelected()) {
 					Sesso = cbbSesso.getModel().getElementAt(cbbSesso.getSelectedIndex()).toString();
-					vettore=iDAOP.RicercaPerSesso(Sesso);
+					vettore=iDAOP.RicercaPerSesso(Sesso, isAtleta);
 				}
-				else
-					Sesso="";				
+				if (rbCategoria.isSelected()) {
+					Categoria = cbbCategoria.getModel().getElementAt(cbbCategoria.getSelectedIndex()).toString();
+					System.out.println(Categoria);
+					vettore=iDAOP.RicercaPerCategoria(Categoria); 
+					}
+				if (rbTG.isSelected()) {
+					TG = cbbTG.getModel().getElementAt(cbbTG.getSelectedIndex()).toString();
+					System.out.println(TG);
+					vettore=iDAOP.RicercaPerTipoGara(TG); 
+				}
+				
 				//----VISUALIZZAZIONE DEI DATI AQUISITI----
 				if (isTutti)
 					System.out.println("Hai ricercato tutti gli eventi");
