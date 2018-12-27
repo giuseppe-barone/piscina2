@@ -10,6 +10,62 @@ import it.unirc.bd.dao.utils.DBManager;
 
 public class PrenotazioneDAOP {
 	private Connection conn = null;
+	
+	/* DA CONTROLLARE
+	 RICERCA TRAMITE ID
+	 public Prenotazione getRicercaId(Prenotazione p) {
+    String query = "SELECT * FROM Prenotazione WHERE idPrenotazione= ?";
+    Prenotazione res = null;
+    PreparedStatement ps;
+    conn = DBManager.startConnection();
+    try {
+      ps = conn.prepareStatement(query);
+      ps.setInt(1, p.getIdPrenotazione());
+      ResultSet rs = ps.executeQuery();
+      if(rs.next()) {
+        res = new Prenotazione();
+        res.setIdDipendente(rs.getInt("idIscritto"));
+        res.setCorsia(rs.getInt("Corsia"));
+        res.setData(rs.getDate("Data"));
+        res.setIdIscritto(rs.getInt("idIscritto"));
+        res.setTipoPiscina(rs.getString("TipoPiscina"));
+        res.setOra(rs.getInt("Ora"));
+        res.setIdDipendente(rs.getInt("idDipendente"));
+      }
+    }catch (SQLException e) {
+      e.printStackTrace();
+    }
+    DBManager.closeConnection();
+    return res;
+}
+	
+	RICERCA TRAMITE MULTI INFORMAZIONI DA VERIFICARE
+	public Prenotazione getMultiRicerca(Prenotazione p){
+		String query = "SELECT * FROM Prenotazione WHERE data=?, ora=?";
+		Prenotazione res = null;
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+      ps = conn.prepareStatement(query);
+      ps.setInt(1, p.getIdPrenotazione());
+      ResultSet rs = ps.executeQuery();
+      if(rs.next()) {
+        res = new Prenotazione();
+        res.setIdDipendente(rs.getInt("idIscritto"));
+        res.setCorsia(rs.getInt("Corsia"));
+        res.setData(rs.getDate("Data"));
+        res.setIdIscritto(rs.getInt("idIscritto"));
+        res.setTipoPiscina(rs.getString("TipoPiscina"));
+        res.setOra(rs.getInt("Ora"));
+        res.setIdDipendente(rs.getInt("idDipendente"));
+      }
+    }catch (SQLException e) {
+      e.printStackTrace();
+    }
+    DBManager.closeConnection();
+    return res;
+}
+	 */
 
 	public boolean salva(Prenotazione p) {
 		String query = "INSERT INTO prenotazione VALUES (?,?,?,?,?,?,?)";
