@@ -15,7 +15,6 @@ import it.unirc.bd.gui.corso.InserisciCorso;
 import it.unirc.bd.gui.corso.IscrizioneCorso;
 import it.unirc.bd.gui.corso.VisualizzaCorso;
 import it.unirc.bd.gui.dipendente.InserisciDipendente;
-import it.unirc.bd.gui.dipendente.VisualizzaAllenatore;
 import it.unirc.bd.gui.dipendente.VisualizzaDipendente;
 import it.unirc.bd.gui.evento.InserisciEvento;
 import it.unirc.bd.gui.evento.RicercaEvento;
@@ -185,14 +184,6 @@ public class MainGUI {
 			}
 		});
 		mnDipendenti.add(mntmVisualizzaDipendentei);
-
-		JMenuItem mntmVisualizzaAllenatori = new JMenuItem("Visualizza Allenatori");
-		mntmVisualizzaAllenatori.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VisualizzaAllenatore visualizza = new VisualizzaAllenatore();
-				visualizza.setVisible(true);
-			}
-		});
 		
 		JMenu mnCorsi = new JMenu("Corsi");
 		menuBar.add(mnCorsi);
