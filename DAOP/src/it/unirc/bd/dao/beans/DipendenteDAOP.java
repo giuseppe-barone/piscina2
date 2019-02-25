@@ -34,30 +34,6 @@ public class DipendenteDAOP {
 		return esito;
 	}
 
-
-	//----------------INSERISCI DIPENDENTE (ALLENATORE)----------------------
-	public boolean salvaAllenatore(Allenatore a){
-		String query = "INSERT INTO allenatore VALUES (?, ?,?)";
-		boolean esito=false;
-		conn=DBManager.startConnection();
-		try {
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, a.getIdAllenatore());
-			ps.setString(2, a.getQualifica() );
-			ps.setInt(3, a.getIdDipendente());
-			int tmp=ps.executeUpdate();
-			if (tmp==1)
-				esito=true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return esito;
-	}
-
-
-
-
 	//-----------------CONTROLLO DINAMICO ID DIPENDENTE -------------------
 	public boolean ControlloDinamicoIdDipendente(int ID) {
 		//----INSERIRE UN CONTROLLO CHE MI PERMETTA DI VEDERE SE L'OGETTO PASSATO è VUOTO E RESTITUISCA SUBITO UN VALORE
@@ -82,29 +58,7 @@ public class DipendenteDAOP {
 		return risultato;
 	}
 
-	//-----------------CONTROLLO DINAMICO ID ALLENATORE -------------------
-	public boolean ControlloDinamicoIdAllenatore(int ID) {
-		//----INSERIRE UN CONTROLLO CHE MI PERMETTA DI VEDERE SE L'OGETTO PASSATO è VUOTO E RESTITUISCA SUBITO UN VALORE
-		//INSERISCO QUESTO CONTROLLO PRIMA DEL RESTO DEL CONDICE PERCHè SENNO PARTIREBBE UNA QUERY CON DEI VALORI INCOMPATIBILI
-		//ANZICHE PASSARE AL METODO UN TIPO INT PASSARE AL METODO UN TIPO INTEGER (OGETTO) CHE PUò ESSERE ANCHE NULL
-		String query = "SELECT * FROM allenatore WHERE idAllenatore = ?";
-		boolean risultato =false;
-		PreparedStatement ps;
-		conn=DBManager.startConnection();
-		try {
-			ps = conn.prepareStatement(query);
-			ps.setInt(1, ID);
-			ResultSet rs = ps.executeQuery();
-			if(rs.next())
-				risultato=true;	//ESISTE UNA TUPLA CON QUELL'ID
-			else
-				risultato=false;//NON ESISTE UNA TUPLA CON QUELL'ID
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return risultato;
-	}
+
 
 	public Vector<Dipendente> getAll(){
 		String query = "SELECT * FROM dipendente";
@@ -125,25 +79,7 @@ public class DipendenteDAOP {
 		return list;
 	}
 
-	public Vector<Allenatore> getAllenatori(){
-		String query = "SELECT * FROM allenatore";
-		Vector<Allenatore> list= new Vector<Allenatore>();
-		PreparedStatement ps;
-		conn=DBManager.startConnection();
-		try {
-			ps=conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			Allenatore a=null;
-			while(rs.next()) {
-				list.add(recordToAllenatore(rs));
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return list;
-	}
+
 
 	protected Dipendente recordToDipendente(ResultSet rs) throws SQLException {
 		Dipendente d = new Dipendente();
@@ -155,13 +91,7 @@ public class DipendenteDAOP {
 		d.setTipologiaDipendente(rs.getInt("tipologiaDipendente"));
 		return d;
 	}
-	protected Allenatore recordToAllenatore(ResultSet rs) throws SQLException {
-		Allenatore a = new Allenatore();
-		a.setIdAllenatore(rs.getInt("idAllenatore"));
-		a.setQualifica(rs.getString("qualifica"));
-		a.setIdDipendente(rs.getInt("idDipendente"));
-		return a;
-	}
+
 
 }
 
