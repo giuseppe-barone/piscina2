@@ -39,8 +39,6 @@ public class InserisciCorso extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textIdCorso;
 	private JTextField textTipo;
-	private JTextField textIdAllenatore1;
-	private JTextField textIdAllenatore2;
 
 	/**
 	 * Launch the application.
@@ -104,18 +102,6 @@ public class InserisciCorso extends JDialog {
 		lblIdallenatore_1.setBounds(12, 132, 81, 16);
 		contentPanel.add(lblIdallenatore_1);
 		
-		textIdAllenatore1 = new JTextField();
-		
-		textIdAllenatore1.setColumns(10);
-		textIdAllenatore1.setBounds(105, 97, 116, 22);
-		contentPanel.add(textIdAllenatore1);
-		
-		textIdAllenatore2 = new JTextField();
-		
-		textIdAllenatore2.setColumns(10);
-		textIdAllenatore2.setBounds(105, 129, 116, 22);
-		contentPanel.add(textIdAllenatore2);
-		
 		JButton btnInserisci = new JButton("Inserisci");
 		
 		btnInserisci.setEnabled(false);
@@ -141,6 +127,14 @@ public class InserisciCorso extends JDialog {
 		lblAvvisoIdCorso.setBounds(134, 13, 258, 16);
 		
 		contentPanel.add(lblAvvisoIdCorso);
+		
+		JComboBox cbA1 = new JComboBox();
+		cbA1.setBounds(105, 100, 116, 22);
+		contentPanel.add(cbA1);
+		
+		JComboBox cbA2 = new JComboBox();
+		cbA2.setBounds(105, 129, 116, 22);
+		contentPanel.add(cbA2);
 	
 	
 		//----LISTNER CONTROLLI DINAMICI----
@@ -164,28 +158,6 @@ public class InserisciCorso extends JDialog {
 					btnInserisci.setEnabled(false);
 			}
 		});
-		textIdAllenatore1.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//CONTROLLI SUL VALORE DELL'ID ALLENATORE (SE è GIà PRESENTE, SE ESISTE L'ID, SE è UGUALE ALL'ALTRO)
-				lblAvvisoAll1.setText(ControlloAvvisoAllenatore(textIdAllenatore1.getText()));
-				//CONTROLLO ABILITAZIONE BOTTONE
-				if (controllobottone())
-					btnInserisci.setEnabled(true);
-				else
-					btnInserisci.setEnabled(false);
-			}
-		});
-		textIdAllenatore2.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//CONTROLLI SUL VALORE DELL'ID ALLENATORE (SE è GIà PRESENTE, SE ESISTE L'ID, SE è UGUALE ALL'ALTRO)
-				lblAvvisoAll2.setText(ControlloAvvisoAllenatore(textIdAllenatore2.getText()));
-				//CONTROLLO ABILITAZIONE BOTTONE
-				if (controllobottone())
-					btnInserisci.setEnabled(true);
-				else
-					btnInserisci.setEnabled(false);
-			}
-		});
 		
 		//----AQUISIZIONE DEI DATI DA PASSARE ALLA QUERY PER INSERIRE IL CORSO NEL DB----
 		btnInserisci.addActionListener(new ActionListener() {
@@ -195,8 +167,7 @@ public class InserisciCorso extends JDialog {
 				//Ora=cbOra.getModel().getElementAt(cbOra.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Ora =Integer.parseInt(cbOra.getModel().getElementAt(cbOra.getSelectedIndex()).toString()) ;
 				Tipo=textTipo.getText();
-				Allenatore1=Integer.parseInt(textIdAllenatore1.getText());
-				Allenatore2=Integer.parseInt(textIdAllenatore2.getText());
+
 				Corso c =new Corso(IdCorso, Giorni,Ora,Tipo,Allenatore1,Allenatore2);
 				cDAOP.salvaCorso(c);
 				
@@ -225,70 +196,10 @@ public class InserisciCorso extends JDialog {
 		
 		
 		
-		//----CONTROLLO PER AVVISO DI ID DUPLICATO ALLENATORE
-				public String ControlloAvvisoAllenatore(String IDA) {
-					String risultato="";
-					//CONTROLLO CHE BLOCCA IL METODO QUALORA IL VALORE SIA ASSENTE
-					if(IDA.equals(""))
-						return risultato;
-					//CONTROLLARE CHE I VALORI DEI DUE ALLENATORI NON SIANO UGUALI
-					if (textIdAllenatore1.getText().equals(textIdAllenatore2.getText())) {
-						risultato="Id allenatori uguali!";
-						return risultato;
-					}
-					//CONTROLLO CHE VERIFICA L'ESISTENZA DELL'ID
-					Integer IA =Integer.parseInt(IDA);	//------------IN CASO NON FUNZIONA "ID non esistente!" CAMBIARE DA INTEGER AD INT E POI CREARE UN ALTRA VARIABILE DI TIPO INTEGER DA PASSARE ALL'IF DOPO
-					if (!IDA.equals("") && !dDAOP.ControlloDinamicoIdAllenatore(IA))
-						risultato="ID non esistente!";
-					//CONTROLLO CHE VERIFICA LA PRESENZA DELL'ALLENATORE ALL'INTERNO DI QUALCHE ALTRO CORSO
-					if (cDAOP.ControlloPresenzaAllenatore(IA))
-						risultato="Allenatore occupato";
-					return risultato;
-				}
+		
 	
 	
 	
 	
-	//----CONTROLLO PER L'ABILITAZIONE DEL BOTTONE----RITORNA FALSO SE IL BOTTONE NON SI DEVE ATTIVARE
-	//----PROVO A TOGLIERE TUTTI GLI ELSE IF E LI SOSTITUISCO CON DEGL'IF SEMPLICI
-		public boolean controllobottone() {
-			boolean risultato=true ;
-			//---------CONTROLLI COMPILAZIONE CAMPI CORSO----------
-			if (textIdCorso.getText().equals("") || textTipo.getText().equals("") || textIdAllenatore1.getText().equals("") || textIdAllenatore2.getText().equals("") ) {
-				risultato=false;
-				System.out.println("CAMPI CORSO INDISPENSABILI NON COMPILATI ");
-			}
-			//----CONTROLLO CHE GLI ALLENATORI SAINO DIVERSI TRA LORO----
-			else if (textIdAllenatore1.getText().equals(textIdAllenatore2.getText())) {
-				risultato=false;
-				System.out.println("ID ALLENATORE UGUALI TRA LORO");
-			}
-			//----CONTROLLO PRECEDENTE ESISTENZA ID CORSO----
-			else if (cDAOP.ControlloDinamicoIdCorso(Integer.parseInt(textIdCorso.getText()))) {
-			risultato=false;
-			System.out.println("ID CORSO GIA ESISTENTE");
-			}
-			//CONTROLLARE SE NON ESISTE L'ALLENATORE
-			else if (!dDAOP.ControlloDinamicoIdAllenatore(Integer.parseInt(textIdAllenatore1.getText()))) {
-				risultato=false;
-				System.out.println("ID ALLENATORE 1 NON ESISTENTE");
-				}
-			else if (!dDAOP.ControlloDinamicoIdAllenatore(Integer.parseInt(textIdAllenatore2.getText()))) {
-				risultato=false;
-				System.out.println("ID ALLENATORE 2 NON ESISTENTE");
-				}
-			//CONTROLLO SE SONO LIBERI ENTRAMBI GLI ALLENATORI
-			else if (cDAOP.ControlloPresenzaAllenatore(Integer.parseInt(textIdAllenatore1.getText()))||cDAOP.ControlloPresenzaAllenatore(Integer.parseInt(textIdAllenatore2.getText()))) {
-				risultato=false;
-				System.out.println("ALLENATORE 1 O 2 OCCUPATO");
-				}
-			
-			//----CONTROLLARE SE UN ALLENATORE è GIA PRESENTE ALL'INTERNO DEI CORSI----
-			if (risultato)
-				System.out.println("TUTTI I CAMPI SONO VALIDI");
-			System.out.println("____________________________________________________________________________");
-			
-			return risultato;
-			
-		}
+
 }
