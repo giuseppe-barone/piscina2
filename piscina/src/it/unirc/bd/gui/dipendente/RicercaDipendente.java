@@ -25,7 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.CaretListener;
 
-import it.unirc.bd.dao.beans.Allenatore;
+
 import it.unirc.bd.dao.beans.Dipendente;
 import it.unirc.bd.dao.beans.DipendenteDAOP;
 import it.unirc.bd.gui.InserimentoSuccesso;
@@ -39,11 +39,10 @@ public class RicercaDipendente extends JDialog {
 
 
 	private JTextField textIDDipendente;
-	private boolean isAllenatore;	//MI SERVE PER VERIFICARE SE ABBIAMO SELEZIONATO TIPO: ALLENATORE
+
 	private JTextField textNome;
 	private JTextField textCognome;
 	private JTextField textCellulare;
-	private JTextField textIDAllenatore;
 	//---------VARIABILI DIPENDENTE DA PASSARE ALLE QUERY---------
 	private Integer IDDipendente;
 	private String Nome;
@@ -154,47 +153,6 @@ public class RicercaDipendente extends JDialog {
 
 		getContentPane().add(cbTipoDipendente);
 
-		JPanel pannelloAllenatore = new JPanel();
-		pannelloAllenatore.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Allenatore", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pannelloAllenatore.setBounds(14, 202, 370, 88);
-		pannelloAllenatore.setEnabled(false);
-		getContentPane().add(pannelloAllenatore);
-		pannelloAllenatore.setLayout(null);
-
-
-
-
-
-
-
-		JLabel lblNewLabel_1 = new JLabel("ID Allenatore:");
-		lblNewLabel_1.setEnabled(false);
-		lblNewLabel_1.setBounds(12, 29, 79, 16);
-		pannelloAllenatore.add(lblNewLabel_1);
-
-		textIDAllenatore = new JTextField();
-		textIDAllenatore.setEnabled(false);
-		textIDAllenatore.setBounds(103, 26, 116, 22);
-		pannelloAllenatore.add(textIDAllenatore);
-		textIDAllenatore.setColumns(10);
-
-		JLabel lblQualifica = new JLabel("Qualifica:");
-		lblQualifica.setEnabled(false);
-		lblQualifica.setBounds(12, 58, 56, 16);
-		pannelloAllenatore.add(lblQualifica);
-
-		JComboBox cbQualifica = new JComboBox();
-		cbQualifica.setEnabled(false);
-		cbQualifica.setModel(new DefaultComboBoxModel(new String[] {"A", "B", "C", "D"}));
-		cbQualifica.setBounds(103, 55, 56, 22);
-		pannelloAllenatore.add(cbQualifica);
-
-		JLabel lblAvvisoA = new JLabel("");
-		lblAvvisoA.setForeground(Color.RED);
-		lblAvvisoA.setEnabled(false);
-		lblAvvisoA.setBounds(180, 58, 178, 16);
-		pannelloAllenatore.add(lblAvvisoA);
-
 		JButton btnInserisci = new JButton("Inserisci");
 
 		btnInserisci.setEnabled(false);
@@ -211,28 +169,7 @@ public class RicercaDipendente extends JDialog {
 
 		cbTipoDipendente.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				//----------------CONTROLLO PER VEDERE SE SI VUOLE INSERIRE UN ALLENATORE---------------------
-				if (cbTipoDipendente.getSelectedIndex()==2) {	//ABBILITAZIONE COMPONENTI PER ALLENATORE
-					isAllenatore=true;
-					pannelloAllenatore.setEnabled(true);
-					Component[] components=  pannelloAllenatore.getComponents();
-					for (Component component : components) {
-						component.setEnabled(true);
-					} 
-					//CODICE PER RISOLVERE IL PROBLEMA CHE SI VERIFICA QUANDO SI ATTIVA IL BOTTONE PRIMA DI SELEZIONARE ALLENATORE E POI SELEZIONANDO ALLENATORE RIMANE ATTIVATO
-					if (controllobottone()==false)
-						btnInserisci.setEnabled(false);
-					else
-						btnInserisci.setEnabled(true);
-				}
-				else  {		//DISABBILITAZIONE COMPONENTI ALLENATORE
-					isAllenatore=false;
-					pannelloAllenatore.setEnabled(false);
-					Component[] components=  pannelloAllenatore.getComponents();
-					for (Component component : components) {
-						component.setEnabled(false);
-					} 
-				}
+				
 
 			}
 		});
@@ -272,17 +209,6 @@ public class RicercaDipendente extends JDialog {
 					btnInserisci.setEnabled(true);
 			}
 		});
-		textIDAllenatore.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//----CONTROLLO AVVISO ID DUPLICATO----
-				lblAvvisoA.setText(ControlloAvvisoAllenatore());
-				//----CONTROLLI DI ABILITAZIONE BOTTONE----
-				if (controllobottone()==false)
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-			}
-		});
 
 
 		//------AQUISIZIONE VALORI DELLA VARIABILI DAI COMPONENTI E PASSAGGIO ALLE QUERY TRAMITE BOTTONE ----------------
@@ -296,23 +222,9 @@ public class RicercaDipendente extends JDialog {
 				Sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Tipologia=cbTipoDipendente.getSelectedIndex();
 				//AQUISIZIONE VALORI ALLENATORE
-				if (isAllenatore) {
-					IDAllenatore=Integer.parseInt(textIDAllenatore.getText());	//CASTING DA STRING A INT
-					Qualifica=(String) cbQualifica.getModel().getElementAt(cbQualifica.getSelectedIndex());	//ATTENZIONE AL CASTING
-				}
+				
 				Dipendente d = new Dipendente(IDDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
 				dDAOP.salvaDipendente(d);	//INSERIMENTO TUPLA
-				//----CONTROLLO SE L'UTENTE VUOLE INSERIRE UN DIPENDENTE ALLENATORE----
-				if (isAllenatore) {
-					Allenatore a = new Allenatore(IDAllenatore, Qualifica, IDDipendente);
-					dDAOP.salvaAllenatore(a);
-					InserimentoSuccesso InsSuc= new InserimentoSuccesso();
-					InsSuc.setVisible(true);
-
-				}
-				
-				
-				
 			}
 		});
 	}
@@ -331,16 +243,7 @@ public class RicercaDipendente extends JDialog {
 	
 	
 	
-	//----CONTROLLO PER AVVISO DI ID DUPLICATO ALLENATORE
-		public String ControlloAvvisoAllenatore() {
-			String risultato="";
-			String IDA = textIDAllenatore.getText();
-			int IA =Integer.parseInt(IDA);
-			if (!IDA.equals("") && dDAOP.ControlloDinamicoIdAllenatore(IA) && isAllenatore)
-				risultato="ID esistente o non valido!";
-			return risultato;
-			
-		}
+	
 	
 	
 	
@@ -354,17 +257,7 @@ public class RicercaDipendente extends JDialog {
 		}
 		else
 			System.out.println("CAMPI DIPENDENTE COMPILATI");
-		//--------CONTROLLI LATO ALLENATORE-----------
-		if (isAllenatore && textIDAllenatore.getText().equals("")) {
-			risultato=false;
-			System.out.println("CAMPI ALLENATORE NON COMPILATI");
-		}
-		else if (isAllenatore && dDAOP.ControlloDinamicoIdAllenatore(Integer.parseInt(textIDAllenatore.getText()))) {
-			risultato=false;
-			System.out.println("ID ALLENATORE GIA ESISTENTE");
-		}
-		else
-			System.out.println("CAMPI ALLENATORI COMPILATI SE RICHIESTI");
+		
 		return risultato;
 
 	}
