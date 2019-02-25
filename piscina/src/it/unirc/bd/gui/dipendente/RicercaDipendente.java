@@ -83,7 +83,7 @@ public class RicercaDipendente extends JDialog {
 
 		getContentPane().setEnabled(false);
 		setTitle("Inserisci Dipendente");
-		setBounds(100, 100, 410, 389);
+		setBounds(100, 100, 410, 277);
 		getContentPane().setLayout(null);
 
 		JLabel lblId = new JLabel("ID:");
@@ -156,7 +156,7 @@ public class RicercaDipendente extends JDialog {
 		JButton btnInserisci = new JButton("Inserisci");
 
 		btnInserisci.setEnabled(false);
-		btnInserisci.setBounds(141, 303, 97, 25);
+		btnInserisci.setBounds(142, 192, 97, 25);
 		getContentPane().add(btnInserisci);
 
 		JLabel lblAvvisoD = new JLabel("");
