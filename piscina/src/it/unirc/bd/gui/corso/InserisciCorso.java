@@ -10,13 +10,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
 import javax.swing.event.CaretListener;
 
 import it.unirc.bd.dao.beans.Corso;
 import it.unirc.bd.dao.beans.CorsoDAOP;
+import it.unirc.bd.dao.beans.Dipendente;
 import it.unirc.bd.dao.beans.DipendenteDAOP;
+import it.unirc.bd.dao.beans.IscrittoDAOP;
 
 import javax.swing.event.CaretEvent;
 import java.awt.event.ActionListener;
@@ -103,8 +106,6 @@ public class InserisciCorso extends JDialog {
 		contentPanel.add(lblIdallenatore_1);
 		
 		JButton btnInserisci = new JButton("Inserisci");
-		
-		btnInserisci.setEnabled(false);
 		btnInserisci.setBounds(12, 161, 97, 25);
 		contentPanel.add(btnInserisci);
 		
@@ -115,12 +116,12 @@ public class InserisciCorso extends JDialog {
 		
 		JLabel lblAvvisoAll1 = new JLabel("X");
 		lblAvvisoAll1.setForeground(Color.RED);
-		lblAvvisoAll1.setBounds(233, 100, 159, 16);
+		lblAvvisoAll1.setBounds(403, 100, 159, 16);
 		contentPanel.add(lblAvvisoAll1);
 		
 		JLabel lblAvvisoAll2 = new JLabel("X");
 		lblAvvisoAll2.setForeground(Color.RED);
-		lblAvvisoAll2.setBounds(233, 132, 159, 16);
+		lblAvvisoAll2.setBounds(403, 132, 159, 16);
 		contentPanel.add(lblAvvisoAll2);
 		
 		JLabel lblAvvisoIdCorso = new JLabel("New label");
@@ -128,12 +129,14 @@ public class InserisciCorso extends JDialog {
 		
 		contentPanel.add(lblAvvisoIdCorso);
 		
-		JComboBox cbA1 = new JComboBox();
-		cbA1.setBounds(105, 100, 116, 22);
+		JComboBox<Dipendente> cbA1 = new JComboBox<Dipendente>();
+		cbA1.setModel(dDAOP.getAllenatorecb());
+		cbA1.setBounds(105, 100, 168, 22);
 		contentPanel.add(cbA1);
 		
-		JComboBox cbA2 = new JComboBox();
-		cbA2.setBounds(105, 129, 116, 22);
+		JComboBox<Dipendente> cbA2 = new JComboBox<Dipendente>();
+		cbA2.setModel(dDAOP.getAllenatorecb());
+		cbA2.setBounds(105, 129, 168, 22);
 		contentPanel.add(cbA2);
 	
 	
@@ -143,19 +146,19 @@ public class InserisciCorso extends JDialog {
 				//CONTROLLO DUPLICAZIONE ID CORSO
 				lblAvvisoIdCorso.setText(ControlloAvvisoCorso());
 				//CONTROLLO ABILITAZIONE BOTTONE
-				if (controllobottone())
+			/*	if (controllobottone())
 					btnInserisci.setEnabled(true);
 				else
-					btnInserisci.setEnabled(false);
+					btnInserisci.setEnabled(false);*/
 			}
 		});
 		textTipo.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent arg0) {
 				//CONTROLLO ABILITAZIONE BOTTONE
-				if (controllobottone())
+				/*if (controllobottone())
 					btnInserisci.setEnabled(true);
 				else
-					btnInserisci.setEnabled(false);
+					btnInserisci.setEnabled(false);*/
 			}
 		});
 		
