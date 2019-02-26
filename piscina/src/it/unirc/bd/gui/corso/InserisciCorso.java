@@ -165,8 +165,9 @@ public class InserisciCorso extends JDialog {
 		//----AQUISIZIONE DEI DATI DA PASSARE ALLA QUERY PER INSERIRE IL CORSO NEL DB----
 		btnInserisci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IdCorso=Integer.parseInt(textIdCorso.getText());
+			//	IdCorso=Integer.parseInt(textIdCorso.getText()); è AUTOINCREMENTALE
 				Giorni=cbGiorni.getSelectedIndex();	
+				
 				//Ora=cbOra.getModel().getElementAt(cbOra.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Ora =Integer.parseInt(cbOra.getModel().getElementAt(cbOra.getSelectedIndex()).toString()) ;
 				Tipo=textTipo.getText();
