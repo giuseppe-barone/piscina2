@@ -19,10 +19,12 @@ import it.unirc.bd.dao.beans.Corso;
 import it.unirc.bd.dao.beans.CorsoDAOP;
 import it.unirc.bd.dao.beans.Dipendente;
 import it.unirc.bd.dao.beans.DipendenteDAOP;
+import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
 
 import javax.swing.event.CaretEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 
 public class InserisciCorso extends JDialog {
@@ -171,8 +173,14 @@ public class InserisciCorso extends JDialog {
 				//Ora=cbOra.getModel().getElementAt(cbOra.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Ora =Integer.parseInt(cbOra.getModel().getElementAt(cbOra.getSelectedIndex()).toString()) ;
 				Tipo=textTipo.getText();
-
-				Corso c =new Corso(IdCorso, Giorni,Ora,Tipo,Allenatore1,Allenatore2);
+				//AQUISIZIONE ID ALLENATORE 1 E 2
+				//prelevo MatricolaFin Iscritto copio i risultai della ricerca degli eventi in un vector per risalire all'id di quello selezionato
+				Dipendente dipendente =getAllenatore(dDAOP.getAllenatorecb(), cbA1.getSelectedIndex());
+				Allenatore1=dipendente.getIdDipendente();
+				dipendente =getAllenatore(dDAOP.getAllenatorecb(), cbA2.getSelectedIndex());
+				Allenatore2=dipendente.getIdDipendente();
+				System.out.println(Integer.toString(Allenatore1) + " " + " " + Integer.toString(Allenatore2));
+				Corso c =new Corso(null, Giorni,Ora,Tipo,Allenatore1,Allenatore2);
 				cDAOP.salvaCorso(c);
 				
 			}
@@ -198,7 +206,17 @@ public class InserisciCorso extends JDialog {
 		}
 		
 		
-		
+		//Prelevo allenatore tramite l'indice della combobox RESTITUISCO L'OGETTO SCELTO
+		public Dipendente getAllenatore(ComboBoxModel<Dipendente> model, int indice) {
+			Dipendente risultato= new Dipendente();
+			Vector<Dipendente> vettoreDipendenti =new Vector<Dipendente>();
+			for (int i=0;i<model.getSize();i++) {
+				vettoreDipendenti.add(model.getElementAt(i));
+			}
+			risultato=vettoreDipendenti.get(indice);
+			return risultato;
+		}
+
 		
 		
 	

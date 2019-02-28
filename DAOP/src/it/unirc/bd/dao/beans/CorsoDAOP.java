@@ -18,17 +18,17 @@ public class CorsoDAOP {
 
 	//----------------INSERISCI CORSO----------------------
 	public boolean salvaCorso(Corso c){
-		String query = "INSERT INTO corso VALUES (?,?,?,?,?)";
+		String query = "INSERT INTO `piscina`.`corso` (`Giorni`, `Ora`, `Tipo`, `Allenatore1`, `Allenatore2`) VALUES ( ?, ?, ?, ?, ?)";
 		boolean esito=false;
 		conn=DBManager.startConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-		//	ps.setInt(1, c.getIdCorso().intValue());
 			ps.setInt(1, c.getGiorni().intValue() );
 			ps.setInt(2, c.getOra().intValue());
 			ps.setString(3, c.getTipo());
 			ps.setInt(4, c.getAllenatore1().intValue());
 			ps.setInt(5, c.getAllenatore2().intValue());
+			System.out.println(query);
 			int tmp=ps.executeUpdate();
 			if (tmp==1)
 				esito=true;
