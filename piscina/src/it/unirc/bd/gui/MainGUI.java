@@ -17,6 +17,7 @@ import it.unirc.bd.gui.corso.VisualizzaCorso;
 import it.unirc.bd.gui.dipendente.InserisciDipendente;
 import it.unirc.bd.gui.dipendente.VisualizzaDipendente;
 import it.unirc.bd.gui.evento.InserisciEvento;
+import it.unirc.bd.gui.evento.PartecipazioneEvento;
 import it.unirc.bd.gui.evento.RicercaEvento;
 import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
@@ -242,6 +243,12 @@ public class MainGUI {
 		mnEventi.add(mntmRicercaEvento);
 
 		JMenuItem mntmPartecipazioneAdEvento = new JMenuItem("Partecipazione ad Evento");
+		mntmPartecipazioneAdEvento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PartecipazioneEvento partecipa = new PartecipazioneEvento();
+				partecipa.setVisible(true);
+			}
+		});
 		mnEventi.add(mntmPartecipazioneAdEvento);
 
 		JMenu mnPrenotazioni = new JMenu("Prenotazioni");
