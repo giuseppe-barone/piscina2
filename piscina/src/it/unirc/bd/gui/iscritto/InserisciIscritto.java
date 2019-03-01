@@ -64,6 +64,8 @@ public class InserisciIscritto extends JDialog {
 	 * @return 
 	 */
 	public InserisciIscritto() {
+		setResizable(false);
+		setTitle("Inserisci");
 		setAlwaysOnTop(true);
 		setBounds(100, 100, 456, 273);
 		getContentPane().setLayout(new BorderLayout());

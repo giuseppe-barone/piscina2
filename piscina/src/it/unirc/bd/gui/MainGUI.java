@@ -23,6 +23,7 @@ import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
 import it.unirc.bd.gui.infortunio.VisualizzaInfortunio;
 import it.unirc.bd.gui.iscritto.InserisciIscritto;
+import it.unirc.bd.gui.iscritto.RicercaIscritti;
 import it.unirc.bd.gui.iscritto.RicercaIscritto;
 import it.unirc.bd.gui.iscritto.VisualizzaAtleti;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
@@ -36,7 +37,7 @@ import java.awt.event.ActionEvent;
 public class MainGUI {
 	 IscrittoDAOP iDAOP=new IscrittoDAOP();
 	
-	private JFrame frame;
+	private JFrame frmHome;
 
 	/**
 	 * Launch the application.
@@ -46,7 +47,7 @@ public class MainGUI {
 			public void run() {
 				try {
 					MainGUI window = new MainGUI();
-					window.frame.setVisible(true);
+					window.frmHome.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -65,12 +66,14 @@ public class MainGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 554, 285);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmHome = new JFrame();
+		frmHome.setTitle("Home");
+		frmHome.setResizable(false);
+		frmHome.setBounds(100, 100, 554, 285);
+		frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		frmHome.setJMenuBar(menuBar);
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
@@ -96,7 +99,7 @@ public class MainGUI {
 		JMenuItem mntmRicercaIscritto = new JMenuItem("Ricerca Iscritto");
 		mntmRicercaIscritto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				RicercaIscritto ric =new RicercaIscritto(false);
+				RicercaIscritti ric =new RicercaIscritti();
 				ric.setVisible(true);
 			}
 		});
@@ -277,20 +280,20 @@ public class MainGUI {
 
 		JMenu mnStatistiche = new JMenu("Statistiche");
 		menuBar.add(mnStatistiche);
-		frame.getContentPane().setLayout(null);
+		frmHome.getContentPane().setLayout(null);
 
 		JLabel lblProssimeEventiIn = new JLabel("Prossimi eventi in programma:");
 		lblProssimeEventiIn.setBounds(12, 13, 180, 16);
-		frame.getContentPane().add(lblProssimeEventiIn);
+		frmHome.getContentPane().add(lblProssimeEventiIn);
 
 		JLabel lblInfermieria = new JLabel("Infermeria:");
 		lblInfermieria.setBounds(12, 113, 68, 16);
-		frame.getContentPane().add(lblInfermieria);
+		frmHome.getContentPane().add(lblInfermieria);
 
 		JPanel panelEvento1 = new JPanel();
 		panelEvento1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelEvento1.setBounds(12, 42, 163, 60);
-		frame.getContentPane().add(panelEvento1);
+		frmHome.getContentPane().add(panelEvento1);
 		panelEvento1.setLayout(null);
 
 		JLabel lblTipoEvento1 = new JLabel("Tipo");
@@ -309,7 +312,7 @@ public class MainGUI {
 		panelEvento2.setLayout(null);
 		panelEvento2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelEvento2.setBounds(187, 42, 163, 60);
-		frame.getContentPane().add(panelEvento2);
+		frmHome.getContentPane().add(panelEvento2);
 
 		JLabel lblTipoEvento2 = new JLabel("Tipo");
 		lblTipoEvento2.setBounds(5, 5, 56, 16);
@@ -327,7 +330,7 @@ public class MainGUI {
 		panel.setLayout(null);
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panel.setBounds(362, 42, 163, 60);
-		frame.getContentPane().add(panel);
+		frmHome.getContentPane().add(panel);
 
 		JLabel lblTipoEvento3 = new JLabel("Tipo");
 		lblTipoEvento3.setBounds(5, 5, 56, 16);
@@ -345,7 +348,7 @@ public class MainGUI {
 		panelInfortunio1.setLayout(null);
 		panelInfortunio1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelInfortunio1.setBounds(12, 142, 163, 60);
-		frame.getContentPane().add(panelInfortunio1);
+		frmHome.getContentPane().add(panelInfortunio1);
 
 		JLabel lblnome1 = new JLabel("Nome");
 		lblnome1.setBounds(5, 5, 56, 16);
@@ -367,7 +370,7 @@ public class MainGUI {
 		panelInfortunio2.setLayout(null);
 		panelInfortunio2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelInfortunio2.setBounds(187, 142, 163, 60);
-		frame.getContentPane().add(panelInfortunio2);
+		frmHome.getContentPane().add(panelInfortunio2);
 
 		JLabel lblnome2 = new JLabel("Nome");
 		lblnome2.setBounds(5, 5, 56, 16);
@@ -389,7 +392,7 @@ public class MainGUI {
 		panelInfortunio3.setLayout(null);
 		panelInfortunio3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelInfortunio3.setBounds(362, 142, 163, 60);
-		frame.getContentPane().add(panelInfortunio3);
+		frmHome.getContentPane().add(panelInfortunio3);
 
 		JLabel lblnome3 = new JLabel("Nome");
 		lblnome3.setBounds(5, 5, 56, 16);
