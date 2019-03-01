@@ -26,6 +26,30 @@ public class IscrittoDAOP {
 		res.setMatricolaFIN(rs.getInt("MatricolaFIN"));
 		return res;
 	}
+	
+	//RICERCA TUTTI GLI ISCRITTI
+	public Vector<Iscritto> getAll() {
+		String query = "SELECT * FROM iscritto";
+		Vector<Iscritto> list = new Vector<Iscritto>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Iscritto res=null;
+			while(rs.next()){
+				list.add(recordToIscritto(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	} 
+	
+	
+	
+	
 	//----RICERCA PER MatricoolaFin----
 	//-----------------RICERCA PER ID -------------------
 	public Iscritto getAtleta(Iscritto i) {
@@ -116,14 +140,65 @@ public class IscrittoDAOP {
 				e.printStackTrace();
 			}
 			DBManager.closeConnection();
+			System.out.println(risultato.toString());
 			return risultato;
 		}
 		
 		
 		
+		//-----------------RICERCA PER COMPOSTA -------------------
+				public Vector<Iscritto> RicercaComposta(String Nome, String Cognome, String Sesso, Date Data, boolean datamin, boolean datamag) {
+					String nome ="";
+					String cognome ="";
+					String sesso ="";
+					String data ="";
+					if (Nome!=null)
+					nome=" AND Nome='" + Nome + "' " ;
+					if (Cognome!=null)
+					cognome=" AND Cognome='" + Cognome + "' " ;
+					if (Sesso!=null)
+					sesso=" AND Sesso='" + Sesso + "' " ;
+					
+					//CONTROLLO SULLA DATA
+					if (Data!=null) {
+						if (datamin)	//se la scelta è stata: cercare date minori di quella inserita
+							data=" AND DataDiNascita<'" + Data.toString() + "' " ;
+						else if(datamag)	//se la scelta è stata: cercare date maggiori di quella inserita
+							data=" AND DataDiNascita>'" + Data.toString() + "' " ;
+						else	//se la scelta è stata: cercare date uguali a quella inserita
+							data=" AND DataDiNascita='" + Data.toString() + "' " ;
+					}
+					
+						System.out.println(nome+cognome+sesso);
+					Vector<Iscritto> risultato=new Vector<Iscritto>();
+					String query = "SELECT * FROM piscina.iscritto where IdIscritto is not null "+nome +cognome+sesso+data+" ;";
+					Iscritto res = null;
+					PreparedStatement ps;
+					conn=DBManager.startConnection();
+					try {
+						ps = conn.prepareStatement(query);
+						System.out.println(query);
+						ResultSet rs = ps.executeQuery();
+						while(rs.next()){
+							res=new Iscritto();
+							res.setIdIscritto(rs.getInt("idIscritto"));
+							res.setNome( rs.getString("Nome") );
+							res.setCognome(rs.getString("Cognome"));
+							res.setSesso( rs.getString("Sesso") );
+							res.setCellulare( rs.getString("Cellulare") );
+							res.setDataNascita(rs.getDate("DataDiNascita"));
+							res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+							risultato.add(res);
+
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					DBManager.closeConnection();
+					return risultato;
+				} 
 		
-		
-		
+				
 		
 		
 	//----RICERCA ATLETI PER TIPOLOGIA DI GARA----
@@ -405,24 +480,16 @@ public class IscrittoDAOP {
 		return risultato;
 
 	}		
-	public Vector<Iscritto> getAll() {
-		String query = "SELECT * FROM iscritto";
-		Vector<Iscritto> list = new Vector<Iscritto>();
-		PreparedStatement ps;
-		conn=DBManager.startConnection();
-		try {
-			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			Iscritto res=null;
-			while(rs.next()){
-				list.add(recordToIscritto(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return list;
-	} 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public Vector<Iscritto> getTuttiAtleti() {
 		String query = "SELECT * FROM iscritto WHERE MatricolaFIN IS NOT NULL";
 		Vector<Iscritto> list = new Vector<Iscritto>();
@@ -439,6 +506,7 @@ public class IscrittoDAOP {
 			e.printStackTrace();
 		}
 		DBManager.closeConnection();
+		System.out.println(list.toString());
 		return list;
 	} 
 }
