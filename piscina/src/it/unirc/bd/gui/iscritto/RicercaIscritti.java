@@ -87,7 +87,7 @@ public class RicercaIscritti extends JDialog {
 		contentPanel.add(lblSelezionaICriteri);
 		
 		JButton btnAvvia = new JButton("Cerca");
-		btnAvvia.setBounds(257, 319, 97, 25);
+		btnAvvia.setBounds(237, 319, 97, 25);
 		contentPanel.add(btnAvvia);
 		
 		JRadioButton radioGeneralita = new JRadioButton("");
