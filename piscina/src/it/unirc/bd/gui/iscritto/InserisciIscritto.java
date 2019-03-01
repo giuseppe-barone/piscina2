@@ -222,7 +222,7 @@ public class InserisciIscritto extends JDialog {
 			}
 		});
 
-		btnINSERISCI.setBounds(172, 175, 97, 25);
+		btnINSERISCI.setBounds(154, 176, 97, 25);
 		contentPanel.add(btnINSERISCI);
 
 
