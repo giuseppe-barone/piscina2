@@ -103,69 +103,84 @@ public class RicercaIscritti extends JDialog {
 		panelGeneralita.setLayout(null);
 		
 		textNome = new JTextField();
+		textNome.setEnabled(false);
 		textNome.setBounds(141, 25, 116, 22);
 		panelGeneralita.add(textNome);
 		textNome.setColumns(10);
 		
 		JLabel lblNome = new JLabel("Nome");
+		lblNome.setEnabled(false);
 		lblNome.setBounds(51, 35, 56, 16);
 		panelGeneralita.add(lblNome);
 		
 		JCheckBox checkNome = new JCheckBox("");
+		checkNome.setEnabled(false);
 		checkNome.setBounds(18, 31, 25, 25);
 		panelGeneralita.add(checkNome);
 		
 		JCheckBox checkCognome = new JCheckBox("");
+		checkCognome.setEnabled(false);
 		checkCognome.setBounds(18, 65, 25, 25);
 		panelGeneralita.add(checkCognome);
 		
 		JLabel lblCognome = new JLabel("Cognome");
+		lblCognome.setEnabled(false);
 		lblCognome.setBounds(51, 69, 56, 16);
 		panelGeneralita.add(lblCognome);
 		
 		textCognome = new JTextField();
+		textCognome.setEnabled(false);
 		textCognome.setBounds(141, 60, 116, 22);
 		panelGeneralita.add(textCognome);
 		textCognome.setColumns(10);
 		
 		JComboBox comboSesso = new JComboBox();
+		comboSesso.setEnabled(false);
 		comboSesso.setBounds(141, 95, 116, 22);
 		panelGeneralita.add(comboSesso);
 		comboSesso.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
 		
 		JLabel lblSesso = new JLabel("Sesso");
+		lblSesso.setEnabled(false);
 		lblSesso.setBounds(51, 98, 56, 16);
 		panelGeneralita.add(lblSesso);
 		
 		JCheckBox checkSesso = new JCheckBox("");
+		checkSesso.setEnabled(false);
 		checkSesso.setBounds(18, 94, 25, 25);
 		panelGeneralita.add(checkSesso);
 		
 		JCheckBox checkData = new JCheckBox("");
+		checkData.setEnabled(false);
 		checkData.setBounds(18, 127, 25, 25);
 		panelGeneralita.add(checkData);
 		
 		JLabel lblData = new JLabel("Data di nascita");
+		lblData.setEnabled(false);
 		lblData.setBounds(51, 131, 95, 16);
 		panelGeneralita.add(lblData);
 		
 		textData = new JTextField();
+		textData.setEnabled(false);
 		textData.setBounds(141, 126, 116, 22);
 		panelGeneralita.add(textData);
 		textData.setColumns(10);
 		
 				
 				JRadioButton radioUg = new JRadioButton("=");
+				radioUg.setEnabled(false);
 				radioUg.setBounds(181, 156, 42, 25);
 				panelGeneralita.add(radioUg);
 				gruppoData.add(radioUg);
 				
 				JRadioButton radioMin = new JRadioButton("<");
+				radioMin.setEnabled(false);
 				radioMin.setBounds(141, 156, 42, 25);
 				panelGeneralita.add(radioMin);
 				gruppoData.add(radioMin);
 				
 				JRadioButton radioMag = new JRadioButton(">");
+				radioMag.setEnabled(false);
 				radioMag.setBounds(224, 156, 42, 25);
 				panelGeneralita.add(radioMag);
 				gruppoData.add(radioMag);
@@ -181,6 +196,7 @@ public class RicercaIscritti extends JDialog {
 				gruppoTipoRicerca.add(radioAtleti);
 				
 				JRadioButton radioTutti = new JRadioButton("Tutti");
+				radioTutti.setSelected(true);
 				radioTutti.setBounds(22, 301, 95, 25);
 				contentPanel.add(radioTutti);
 				gruppoTipoRicerca.add(radioTutti);
