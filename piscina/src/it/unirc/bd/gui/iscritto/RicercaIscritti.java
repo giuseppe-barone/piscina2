@@ -38,8 +38,8 @@ public class RicercaIscritti extends JDialog {
 	private String sesso="";
 	private String categoria="";
 	private Date data;
-	private boolean datamin;
-	private boolean datamag;
+	private boolean datamin=false;
+	private boolean datamag=false;
 	ButtonGroup gruppoData = new ButtonGroup();
 	ButtonGroup gruppoTipoRicerca = new ButtonGroup();
 
@@ -169,18 +169,42 @@ public class RicercaIscritti extends JDialog {
 		
 				
 				JRadioButton radioUg = new JRadioButton("=");
+				radioUg.addChangeListener(new ChangeListener() {
+					public void stateChanged(ChangeEvent e) {
+						if (radioUg.isSelected()) {
+							datamin=false;
+							datamag=false;
+						}
+					}
+				});
 				radioUg.setEnabled(false);
 				radioUg.setBounds(181, 156, 42, 25);
 				panelGeneralita.add(radioUg);
 				gruppoData.add(radioUg);
 				
 				JRadioButton radioMin = new JRadioButton("<");
+				radioMin.addChangeListener(new ChangeListener() {
+					public void stateChanged(ChangeEvent arg0) {
+						if (radioMin.isSelected())
+							datamin=true;
+						else
+							datamin=false;
+					}
+				});
 				radioMin.setEnabled(false);
 				radioMin.setBounds(141, 156, 42, 25);
 				panelGeneralita.add(radioMin);
 				gruppoData.add(radioMin);
 				
 				JRadioButton radioMag = new JRadioButton(">");
+				radioMag.addChangeListener(new ChangeListener() {
+					public void stateChanged(ChangeEvent e) {
+						if (radioMag.isSelected())
+							datamag=true;
+						else
+							datamag=false;
+					}
+				});
 				radioMag.setEnabled(false);
 				radioMag.setBounds(224, 156, 42, 25);
 				panelGeneralita.add(radioMag);
@@ -221,7 +245,7 @@ public class RicercaIscritti extends JDialog {
 				
 				
 				btnAvvia.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
+					public void actionPerformed(ActionEvent arg0) { 
 				
 				
 				
@@ -245,16 +269,21 @@ public class RicercaIscritti extends JDialog {
 				System.out.println(nome+" "+ cognome + " " +sesso+" " + data);
 				if (radioCategoria.isSelected()) {
 					categoria=(String)comboCategoria.getModel().getElementAt(comboCategoria.getSelectedIndex());
-					iDAOP.RicercaPerCategoria(categoria);
+					VisualizzaIscritto visualizza = new VisualizzaIscritto(iDAOP.RicercaPerCategoria(categoria));
+					visualizza.setVisible(true);
 				}
-				if (radioAtleti.isSelected())
-					iDAOP.getTuttiAtleti();
-				if (radioTutti.isSelected())
-					iDAOP.getAll();
-				
-				iDAOP.RicercaComposta(nome, cognome, sesso, data, datamin, datamag);
-				
-				
+				if (radioAtleti.isSelected()) {
+					VisualizzaIscritto visualizza = new VisualizzaIscritto(iDAOP.getTuttiAtleti());
+					visualizza.setVisible(true);
+				}
+				if (radioTutti.isSelected()) {
+					VisualizzaIscritto visualizza = new VisualizzaIscritto(iDAOP.getAll());
+					visualizza.setVisible(true);
+					}
+				if (radioGeneralita.isSelected()) {
+					VisualizzaIscritto visualizza = new VisualizzaIscritto(iDAOP.RicercaComposta(nome, cognome, sesso, data, datamin, datamag));
+					visualizza.setVisible(true);
+					}
 			}
 		});
 		

@@ -30,11 +30,11 @@ public class InserisciIscritto extends JDialog {
 	IscrittoDAOP iDAOP = new IscrittoDAOP();
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtNOME;
-	private JTextField txtCOGNOME;
-	private JTextField txtDATA;
-	private JTextField txtCELLULARE;
-	private JTextField txtMATRICOLAFIN;
+	private JTextField txtNome;
+	private JTextField txtCognome;
+	private JTextField txtData;
+	private JTextField txtCellulare;
+	private JTextField txtMatricolaFin;
 	//-----VARIABILI ISCRITTO DA PASSARE ALLA QUERY------
 	private int idIscritto=0;
 	private String nome;
@@ -50,7 +50,7 @@ public class InserisciIscritto extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			InserisciIscritto dialog = new InserisciIscritto();
+			InserisciIscritto dialog = new InserisciIscritto(false, null); //METTO FALSE PERCHè NEL TESTING NON VOGLIO APRIRE LA FINESTRA IN MODALITà MODIFICA ISCRITTO PER QUESTO MOTIVO NON PASSO ALCUN OGETTO ISCRITTO
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -62,7 +62,10 @@ public class InserisciIscritto extends JDialog {
 	 * Create the dialog.
 	 * @return 
 	 */
-	public InserisciIscritto() {
+	//Inserendo il parametro Modifica posso utilizzare la stessa finestra per la modifica e non solo per l'inserimento facendo apparire l'apposito tasto MODIFICA
+	//Inserendo il parametro Iscritto ho la possibilità di prelevare dall'ogetto iscritto i parametri modificabili e farli visualizzare
+	//negli appositi box per facilitarne la modifica da parte dell'utente
+	public InserisciIscritto(boolean Modifica, Iscritto iscritto) { 
 		setResizable(false);
 		setTitle("Inserisci");
 		setAlwaysOnTop(true);
@@ -71,37 +74,55 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		
+		JButton btnModifica = new JButton("Modifica");
+		
+		btnModifica.setEnabled(false);
+		btnModifica.setVisible(false);
+		
+		btnModifica.setBounds(286, 129, 97, 25);
+		contentPanel.add(btnModifica);
+		
 
 		JLabel lblNOME = new JLabel("Nome:");
 		lblNOME.setBounds(12, 16, 56, 16);
 		contentPanel.add(lblNOME);
 
-		txtNOME = new JTextField();
-		txtNOME.setBounds(108, 13, 116, 22);
-		contentPanel.add(txtNOME);
-		txtNOME.setColumns(10);
+		txtNome = new JTextField();
+		txtNome.setBounds(108, 13, 116, 22);
+		contentPanel.add(txtNome);
+		txtNome.setColumns(10);
 
-		txtCOGNOME = new JTextField();
-		txtCOGNOME.setBounds(307, 13, 116, 22);
-		contentPanel.add(txtCOGNOME);
-		txtCOGNOME.setColumns(10);
+		txtCognome = new JTextField();
+		txtCognome.setBounds(307, 13, 116, 22);
+		contentPanel.add(txtCognome);
+		txtCognome.setColumns(10);
 
-		txtDATA = new JTextField();
-		txtDATA.setText("yy-mm-dd");
-		txtDATA.setBounds(108, 50, 116, 22);
-		contentPanel.add(txtDATA);
-		txtDATA.setColumns(10);
+		txtData = new JTextField();
+		txtData.setText("yy-mm-dd");
+		txtData.setBounds(108, 50, 116, 22);
+		contentPanel.add(txtData);
+		txtData.setColumns(10);
 
-		txtCELLULARE = new JTextField();
-		txtCELLULARE.setBounds(307, 50, 116, 22);
-		contentPanel.add(txtCELLULARE);
-		txtCELLULARE.setColumns(10);
+		txtCellulare = new JTextField();
+		txtCellulare.setBounds(307, 50, 116, 22);
+		contentPanel.add(txtCellulare);
+		txtCellulare.setColumns(10);
 
-		txtMATRICOLAFIN = new JTextField();
-		txtMATRICOLAFIN.setToolTipText("Lasciare vuoto se non \u00E8 un'atleta");
-		txtMATRICOLAFIN.setBounds(108, 87, 116, 22);
-		contentPanel.add(txtMATRICOLAFIN);
-		txtMATRICOLAFIN.setColumns(10);
+		txtMatricolaFin = new JTextField();
+		txtMatricolaFin.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
+				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
+					btnModifica.setEnabled(false);
+				else
+					btnModifica.setEnabled(true);
+			}
+		});
+		txtMatricolaFin.setToolTipText("Lasciare vuoto se non \u00E8 un'atleta");
+		txtMatricolaFin.setBounds(108, 87, 116, 22);
+		contentPanel.add(txtMatricolaFin);
+		txtMatricolaFin.setColumns(10);
 
 		JLabel lblDATA = new JLabel("Data Nascita:");
 		lblDATA.setBounds(12, 53, 84, 16);
@@ -119,75 +140,90 @@ public class InserisciIscritto extends JDialog {
 		lblSESSO.setBounds(236, 90, 56, 16);
 		contentPanel.add(lblSESSO);
 
-		JComboBox cbSESSO = new JComboBox();
-		cbSESSO.setBounds(307, 85, 84, 22);
-		cbSESSO.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
-		cbSESSO.setToolTipText("");
-		contentPanel.add(cbSESSO);
+		JComboBox cbSesso = new JComboBox();
+		cbSesso.setBounds(307, 85, 84, 22);
+		cbSesso.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
+		cbSesso.setToolTipText("");
+		contentPanel.add(cbSesso);
 
 		JLabel lblMatricolaFin = new JLabel("Matricola FIN");
 		lblMatricolaFin.setBounds(12, 90, 84, 16);
 		contentPanel.add(lblMatricolaFin);
 
-		JButton btnINSERISCI = new JButton("Inserisci");
-		btnINSERISCI.setEnabled(false);
-		txtNOME.addCaretListener(new CaretListener() {
+		JButton btnInserisci = new JButton("Inserisci");
+		btnInserisci.setEnabled(false);
+		txtNome.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI ABILITAZIONE BOTTONE----
+				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
 				if(controlloBottone()==false)
-					btnINSERISCI.setEnabled(false);
+					btnInserisci.setEnabled(false);
 				else
-					btnINSERISCI.setEnabled(true);
+					btnInserisci.setEnabled(true);
+				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
+				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
+					btnModifica.setEnabled(false);
+				else
+					btnModifica.setEnabled(true);
 			}
 		});
-		txtCOGNOME.addCaretListener(new CaretListener() {
+		txtCognome.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI ABILITAZIONE BOTTONE----
+				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
 				if(controlloBottone()==false)
-					btnINSERISCI.setEnabled(false);
+					btnInserisci.setEnabled(false);
 				else
-					btnINSERISCI.setEnabled(true);
+					btnInserisci.setEnabled(true);
+				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
+				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
+					btnModifica.setEnabled(false);
+				else
+					btnModifica.setEnabled(true);
 			}
 		});
-		txtDATA.addCaretListener(new CaretListener() {
+		txtData.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI ABILITAZIONE BOTTONE----
+				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
 				if(controlloBottone()==false)
-					btnINSERISCI.setEnabled(false);
+					btnInserisci.setEnabled(false);
 				else
-					btnINSERISCI.setEnabled(true);
+					btnInserisci.setEnabled(true);
+				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
+				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
+					btnModifica.setEnabled(false);
+				else
+					btnModifica.setEnabled(true);
 			}
 		});
 
 
 
-		btnINSERISCI.addActionListener(new ActionListener() { //INSERIMENTO ISCRITTO
+		btnInserisci.addActionListener(new ActionListener() { //INSERIMENTO ISCRITTO
 			public void actionPerformed(ActionEvent arg0) {
 
-				nome = txtNOME.getText();
-				cognome = txtCOGNOME.getText();
-				sesso=(String) cbSESSO.getModel().getElementAt(cbSESSO.getSelectedIndex());	//CASTING
-				cellulare = txtCELLULARE.getText();
-				dataNascita = Date.valueOf(txtDATA.getText());
+				nome = txtNome.getText();
+				cognome = txtCognome.getText();
+				sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//CASTING
+				cellulare = txtCellulare.getText();
+				dataNascita = Date.valueOf(txtData.getText());
 				System.out.println("acquisisco: IDISCRITTO,NOME, COGNOME, SESSO, CELLULARE, DATADINASCITA");
 				//----CONTROLLO PER LA PRESENZA DELLA MATRICOLA FIN
-				if(txtMATRICOLAFIN.getText().equals("")||txtMATRICOLAFIN.getText().equals(null))
+				if(txtMatricolaFin.getText().equals("")||txtMatricolaFin.getText().equals(null))
 					matricolaFIN=null;
 				
 				else
-					matricolaFIN = Integer.parseInt(txtMATRICOLAFIN.getText());
+					matricolaFIN = Integer.parseInt(txtMatricolaFin.getText());
 				//System.out.println(Integer.toString(matricolaFIN));
 				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, dataNascita, matricolaFIN);
 				System.out.println("-----------------ddddddddddddddddddddddddddd--------------------------------------------");
 				if (iDAOP.salvaIscritto(i)) {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
-					txtDATA.setText("");
+					txtData.setText("");
 
-					txtNOME.setText("");
-					txtCOGNOME.setText("");
-					txtCELLULARE.setText("");
-					txtMATRICOLAFIN.setText("");
+					txtNome.setText("");
+					txtCognome.setText("");
+					txtCellulare.setText("");
+					txtMatricolaFin.setText("");
 				}
 				else
 					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
@@ -195,11 +231,48 @@ public class InserisciIscritto extends JDialog {
 			}
 		});
 
-		btnINSERISCI.setBounds(177, 129, 97, 25);
-		contentPanel.add(btnINSERISCI);
+		btnInserisci.setBounds(177, 129, 97, 25);
+		contentPanel.add(btnInserisci);
+		btnInserisci.setVisible(false);
+		
+		
 
-
-
+		if (Modifica==true) {
+			btnModifica.setVisible(true);
+			btnInserisci.setVisible(false);
+		}
+		else{
+			btnModifica.setVisible(false);
+			btnInserisci.setVisible(true);
+		}
+		
+		//MECCANISMO DI MODIFICA
+		if (Modifica) {
+			txtNome.setText(iscritto.getNome());
+			txtCognome.setText(iscritto.getCognome());
+			txtData.setText(iscritto.getDataNascita().toString());
+			txtCellulare.setText(iscritto.getCellulare());
+			txtMatricolaFin.setText(iscritto.getMatricolaFIN().toString());
+		}
+		
+		//LISTNER MODIFICA
+		
+		btnModifica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				nome = txtNome.getText();
+				cognome = txtCognome.getText();
+				sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//CASTING
+				cellulare = txtCellulare.getText();
+				dataNascita = Date.valueOf(txtData.getText());
+				if (txtMatricolaFin.getText().equals(null))
+					matricolaFIN=null;
+				else
+					matricolaFIN=Integer.valueOf(txtMatricolaFin.getText());
+				Iscritto i = new Iscritto(iscritto.getIdIscritto(),nome, cognome, sesso, cellulare,  dataNascita,matricolaFIN);
+				iDAOP.ModificaIscritto(i);
+			}
+		});
+		
 
 
 	}
@@ -207,7 +280,7 @@ public class InserisciIscritto extends JDialog {
 	public boolean controlloBottone() {
 		boolean risultato=true;
 		//---CONTROLLI COMPILAZIONE CORSO---
-		if(txtNOME.getText().equals("")|| txtCOGNOME.getText().equals("")|| txtDATA.getText().equals("") ) {
+		if(txtNome.getText().equals("")|| txtCognome.getText().equals("")|| txtData.getText().equals("") ) {
 			risultato=false;
 			System.out.println("CAMPI ISCRITTO NON COMPILATI O ID ESISTENTE");
 		}
@@ -219,7 +292,7 @@ public class InserisciIscritto extends JDialog {
 	
 	public void CalcoloEta() {	//CODICE NON UTILIZATO IN QUESTO SCRIPT, è STATO SOLO SALVATO QUI MA UTILIZZATO IN UN AL'TRO SCRIPT
 		LocalDate corrente=LocalDate.now();
-		Date nascita=dataNascita.valueOf(txtDATA.getText());
+		Date nascita=dataNascita.valueOf(txtData.getText());
 		LocalDate LNascita=nascita.toLocalDate();
 		System.out.println(LNascita.toString());
 

@@ -44,14 +44,68 @@ public class IscrittoDAOP {
 			e.printStackTrace();
 		}
 		DBManager.closeConnection();
+		System.out.println(list.toString());
 		return list;
 	} 
 	
 	
+	  //--------------------MODIFICA ISCRITTO/ATLETA-----------------
+		public boolean ModificaIscritto(Iscritto i){
+			String query = "UPDATE Iscritto SET Nome=?, Cognome=?, Sesso=? , Cellulare=? , DataDiNascita=? , MatricolaFin=?  WHERE idIscritto=?";
+			boolean esito=false;
+			conn=DBManager.startConnection();
+			try {
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(7, i.getIdIscritto());
+			ps.setString(1, i.getNome());
+			ps.setString(2, i.getCognome());
+			ps.setString(3, i.getSesso());
+			ps.setString(4, i.getCellulare());
+			ps.setDate(5, i.getDataNascita());
+			ps.setInt(6, i.getMatricolaFIN());
+			int tmp=ps.executeUpdate();
+			if (tmp==1)
+			esito=true;
+			} catch (SQLException e) {
+			e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return esito;
+			}
+	
+	
+	
+	//-----------------RICERCA PER ID -------------------
+		public Iscritto getIscrittoId(Integer ID) {
+			String query = "SELECT * FROM iscritto WHERE IdIscritto = ?";
+			Iscritto res = null;
+			PreparedStatement ps;
+			conn=DBManager.startConnection();
+			try {
+				ps = conn.prepareStatement(query);
+				ps.setInt(1, ID);
+				ResultSet rs = ps.executeQuery();
+				if(rs.next()){
+					res=new Iscritto();
+					res.setIdIscritto(rs.getInt("idIscritto"));
+					res.setNome( rs.getString("Nome") );
+					res.setCognome(rs.getString("Cognome"));
+					res.setSesso( rs.getString("Sesso") );
+					res.setCellulare( rs.getString("Cellulare") );
+					res.setDataNascita(rs.getDate("DataDiNascita"));
+					res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			System.out.println(res.toString());
+			return res;
+		} 
 	
 	
 	//----RICERCA PER MatricoolaFin----
-	//-----------------RICERCA PER ID -------------------
 	public Iscritto getAtleta(Iscritto i) {
 		String query = "SELECT * FROM iscritto WHERE MatricolaFin = ?";
 		Iscritto res = null;
@@ -76,6 +130,7 @@ public class IscrittoDAOP {
 			e.printStackTrace();
 		}
 		DBManager.closeConnection();
+		System.out.println(res.toString());
 		return res;
 	} 
 
@@ -109,6 +164,7 @@ public class IscrittoDAOP {
 				e.printStackTrace();
 			}
 			DBManager.closeConnection();
+			System.out.println(risultato.toString());
 			return risultato;
 		} 
 	
@@ -195,6 +251,7 @@ public class IscrittoDAOP {
 						e.printStackTrace();
 					}
 					DBManager.closeConnection();
+					System.out.println(risultato.toString());
 					return risultato;
 				} 
 		
@@ -227,6 +284,7 @@ public class IscrittoDAOP {
 				e.printStackTrace();
 			}
 			DBManager.closeConnection();
+			System.out.println(risultato.toString());
 			return risultato;
 		}
 		
@@ -285,6 +343,7 @@ public class IscrittoDAOP {
 			
 			System.out.println("RISULTATI TROVATI: "+risultato.size());
 			System.out.println("_______________________________________________________________________________________________");
+			System.out.println(risultato.toString());
 			return risultato;
 
 		}
@@ -353,6 +412,7 @@ public class IscrittoDAOP {
 				
 				System.out.println("RISULTATI TROVATI: "+risultato.size());
 				System.out.println("_______________________________________________________________________________________________");
+				System.out.println(risultato.toString());
 				return risultato;
 
 			}

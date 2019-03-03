@@ -12,6 +12,9 @@ import java.util.Vector;
 
 import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
+import javax.swing.border.TitledBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VisualizzaIscritto extends JDialog{
 	IscrittoDAOP iDAOP = new IscrittoDAOP();
@@ -35,16 +38,28 @@ public class VisualizzaIscritto extends JDialog{
 		setResizable(false);
 		setTitle("Visualizza Iscritti");
 		setModal(true);
-		setBounds(100, 100, 543, 414);
+		setBounds(100, 100, 585, 453);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))); //codice per provare come aquisire dati dal click sulla tabella
+			//	Integer ID =Integer.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0));
+				Integer ID =(Integer)table.getModel().getValueAt(table.getSelectedRow(),0);
+				InserisciIscritto modifica = new InserisciIscritto(true, iDAOP.getIscrittoId(ID));
+				modifica.setVisible(true);
+			}
+		});
+		table.setBorder(null);
 		load(vettore);
 		JPanel panel = new JPanel();
+		panel.setBorder(null);
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
-		pane.setBounds(12, 0, 525, 366);
+		pane.setBounds(24, 24, 525, 366);
 		panel.add(pane);
 		setContentPane(panel);
 	}

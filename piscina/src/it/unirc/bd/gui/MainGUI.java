@@ -90,8 +90,8 @@ public class MainGUI {
 		JMenuItem mntmInserisciIscritto = new JMenuItem("Nuovo Iscritto");
 		mntmInserisciIscritto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InserisciIscritto inserisci = new InserisciIscritto();
-				inserisci.setVisible(true);
+				InserisciIscritto inserisci = new InserisciIscritto(false, null); //METTO FALSE PERCHè NON è UNA MODIFICA e non devo passare nessun'ogetto di tipo Iscritto per eventuale modifica
+				inserisci.setVisible(true); 
 			}
 		});
 		mnIscritto.add(mntmInserisciIscritto);
@@ -105,7 +105,7 @@ public class MainGUI {
 		});
 		mnIscritto.add(mntmRicercaIscritto);
 
-		JMenuItem mntmVisualizzaIscritto = new JMenuItem("Visualizza Iscritto");
+		JMenuItem mntmVisualizzaIscritto = new JMenuItem("Visualizza Iscritto"); 
 		mntmVisualizzaIscritto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VisualizzaIscritto visualizza = new VisualizzaIscritto(iDAOP.getAll());
