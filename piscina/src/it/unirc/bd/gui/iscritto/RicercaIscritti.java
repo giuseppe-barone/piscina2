@@ -161,6 +161,7 @@ public class RicercaIscritti extends JDialog {
 		panelGeneralita.add(lblData);
 		
 		textData = new JTextField();
+		textData.setText("yy-mm-dd");
 		textData.setEnabled(false);
 		textData.setBounds(141, 126, 116, 22);
 		panelGeneralita.add(textData);

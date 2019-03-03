@@ -370,7 +370,7 @@ public class IscrittoDAOP {
 		if (i.getMatricolaFIN()==null)
 			isAtleta=false;
 		if (isAtleta)
-			query = "INSERT INTO iscritto VALUES (?,?,?,?,?,?,?)";
+			query = "INSERT INTO `piscina`.`iscritto` (`Nome`, `Cognome`, `Sesso`, `Cellulare`, `DataDiNascita`, `MatricolaFin`) VALUES (?,?,?,?,?,?);";
 		else
 			query = "INSERT INTO `piscina`.`iscritto` ( `Nome`, `Cognome`, `Sesso`,`Cellulare`, `DataDiNascita`) VALUES (?,?,?,?,?);";
 		boolean esito=false;
@@ -382,9 +382,8 @@ public class IscrittoDAOP {
 			ps.setString(3, i.getSesso());
 			ps.setString(4, i.getCellulare());
 			ps.setDate(5, i.getDataNascita());
-
 			if(isAtleta)
-				ps.setInt(7, i.getMatricolaFIN());
+				ps.setInt(6, i.getMatricolaFIN().intValue());
 
 			int tmp=ps.executeUpdate();
 			if (tmp==1)

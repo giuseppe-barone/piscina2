@@ -66,65 +66,67 @@ public class InserisciIscritto extends JDialog {
 		setResizable(false);
 		setTitle("Inserisci");
 		setAlwaysOnTop(true);
-		setBounds(100, 100, 456, 273);
+		setBounds(100, 100, 456, 202);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
 		JLabel lblNOME = new JLabel("Nome:");
-		lblNOME.setBounds(12, 54, 56, 16);
+		lblNOME.setBounds(12, 16, 56, 16);
 		contentPanel.add(lblNOME);
 
 		txtNOME = new JTextField();
-		txtNOME.setBounds(108, 51, 116, 22);
+		txtNOME.setBounds(108, 13, 116, 22);
 		contentPanel.add(txtNOME);
 		txtNOME.setColumns(10);
 
 		txtCOGNOME = new JTextField();
-		txtCOGNOME.setBounds(307, 51, 116, 22);
+		txtCOGNOME.setBounds(307, 13, 116, 22);
 		contentPanel.add(txtCOGNOME);
 		txtCOGNOME.setColumns(10);
 
 		txtDATA = new JTextField();
-		txtDATA.setBounds(108, 88, 116, 22);
+		txtDATA.setText("yy-mm-dd");
+		txtDATA.setBounds(108, 50, 116, 22);
 		contentPanel.add(txtDATA);
 		txtDATA.setColumns(10);
 
 		txtCELLULARE = new JTextField();
-		txtCELLULARE.setBounds(307, 88, 116, 22);
+		txtCELLULARE.setBounds(307, 50, 116, 22);
 		contentPanel.add(txtCELLULARE);
 		txtCELLULARE.setColumns(10);
 
 		txtMATRICOLAFIN = new JTextField();
-		txtMATRICOLAFIN.setBounds(108, 125, 116, 22);
+		txtMATRICOLAFIN.setToolTipText("Lasciare vuoto se non \u00E8 un'atleta");
+		txtMATRICOLAFIN.setBounds(108, 87, 116, 22);
 		contentPanel.add(txtMATRICOLAFIN);
 		txtMATRICOLAFIN.setColumns(10);
 
 		JLabel lblDATA = new JLabel("Data Nascita:");
-		lblDATA.setBounds(12, 91, 84, 16);
+		lblDATA.setBounds(12, 53, 84, 16);
 		contentPanel.add(lblDATA);
 
 		JLabel lblCOGNOME = new JLabel("Cognome:");
-		lblCOGNOME.setBounds(238, 54, 73, 16);
+		lblCOGNOME.setBounds(238, 16, 73, 16);
 		contentPanel.add(lblCOGNOME);
 
 		JLabel lblCELLULLARE = new JLabel("Cellulare");
-		lblCELLULLARE.setBounds(238, 88, 73, 22);
+		lblCELLULLARE.setBounds(238, 50, 73, 22);
 		contentPanel.add(lblCELLULLARE);
 
 		JLabel lblSESSO = new JLabel("Sesso:");
-		lblSESSO.setBounds(236, 128, 56, 16);
+		lblSESSO.setBounds(236, 90, 56, 16);
 		contentPanel.add(lblSESSO);
 
 		JComboBox cbSESSO = new JComboBox();
-		cbSESSO.setBounds(307, 123, 84, 22);
+		cbSESSO.setBounds(307, 85, 84, 22);
 		cbSESSO.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
 		cbSESSO.setToolTipText("");
 		contentPanel.add(cbSESSO);
 
 		JLabel lblMatricolaFin = new JLabel("Matricola FIN");
-		lblMatricolaFin.setBounds(12, 128, 84, 16);
+		lblMatricolaFin.setBounds(12, 90, 84, 16);
 		contentPanel.add(lblMatricolaFin);
 
 		JButton btnINSERISCI = new JButton("Inserisci");
@@ -164,9 +166,9 @@ public class InserisciIscritto extends JDialog {
 
 				nome = txtNOME.getText();
 				cognome = txtCOGNOME.getText();
-				sesso=(String) cbSESSO.getModel().getElementAt(cbSESSO.getSelectedIndex());	//ATTENZIONE AL CASTING
+				sesso=(String) cbSESSO.getModel().getElementAt(cbSESSO.getSelectedIndex());	//CASTING
 				cellulare = txtCELLULARE.getText();
-				dataNascita = dataNascita.valueOf(txtDATA.getText());
+				dataNascita = Date.valueOf(txtDATA.getText());
 				System.out.println("acquisisco: IDISCRITTO,NOME, COGNOME, SESSO, CELLULARE, DATADINASCITA");
 				//----CONTROLLO PER LA PRESENZA DELLA MATRICOLA FIN
 				if(txtMATRICOLAFIN.getText().equals("")||txtMATRICOLAFIN.getText().equals(null))
@@ -193,7 +195,7 @@ public class InserisciIscritto extends JDialog {
 			}
 		});
 
-		btnINSERISCI.setBounds(154, 176, 97, 25);
+		btnINSERISCI.setBounds(177, 129, 97, 25);
 		contentPanel.add(btnINSERISCI);
 
 
@@ -215,7 +217,7 @@ public class InserisciIscritto extends JDialog {
 	}
 	
 	
-	public void CalcoloEta() {
+	public void CalcoloEta() {	//CODICE NON UTILIZATO IN QUESTO SCRIPT, è STATO SOLO SALVATO QUI MA UTILIZZATO IN UN AL'TRO SCRIPT
 		LocalDate corrente=LocalDate.now();
 		Date nascita=dataNascita.valueOf(txtDATA.getText());
 		LocalDate LNascita=nascita.toLocalDate();
