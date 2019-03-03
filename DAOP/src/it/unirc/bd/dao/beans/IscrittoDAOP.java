@@ -372,17 +372,16 @@ public class IscrittoDAOP {
 		if (isAtleta)
 			query = "INSERT INTO iscritto VALUES (?,?,?,?,?,?,?)";
 		else
-			query = "INSERT INTO `piscina`.`iscritto` (`idIscritto`, `Nome`, `Cognome`, `Sesso`,`Cellulare`, `DataDiNascita`) VALUES (?,?,?,?,?,?);";
+			query = "INSERT INTO `piscina`.`iscritto` ( `Nome`, `Cognome`, `Sesso`,`Cellulare`, `DataDiNascita`) VALUES (?,?,?,?,?);";
 		boolean esito=false;
 		conn=DBManager.startConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, i.getIdIscritto());
-			ps.setString(2, i.getNome() );
-			ps.setString(3, i.getCognome());
-			ps.setString(4, i.getSesso());
-			ps.setString(5, i.getCellulare());
-			ps.setDate(6, i.getDataNascita());
+			ps.setString(1, i.getNome() );
+			ps.setString(2, i.getCognome());
+			ps.setString(3, i.getSesso());
+			ps.setString(4, i.getCellulare());
+			ps.setDate(5, i.getDataNascita());
 
 			if(isAtleta)
 				ps.setInt(7, i.getMatricolaFIN());

@@ -30,14 +30,13 @@ public class InserisciIscritto extends JDialog {
 	IscrittoDAOP iDAOP = new IscrittoDAOP();
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtID;
 	private JTextField txtNOME;
 	private JTextField txtCOGNOME;
 	private JTextField txtDATA;
 	private JTextField txtCELLULARE;
 	private JTextField txtMATRICOLAFIN;
 	//-----VARIABILI ISCRITTO DA PASSARE ALLA QUERY------
-	private int idIscritto;
+	private int idIscritto=0;
 	private String nome;
 	private String cognome;
 	private String sesso;
@@ -72,16 +71,6 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		{
-			txtID = new JTextField();
-			txtID.setBounds(108, 16, 116, 22);
-			contentPanel.add(txtID);
-			txtID.setColumns(10);
-		}
-
-		JLabel lblID = new JLabel("ID: ");
-		lblID.setBounds(12, 18, 56, 19);
-		contentPanel.add(lblID);
 
 		JLabel lblNOME = new JLabel("Nome:");
 		lblNOME.setBounds(12, 54, 56, 16);
@@ -134,30 +123,12 @@ public class InserisciIscritto extends JDialog {
 		cbSESSO.setToolTipText("");
 		contentPanel.add(cbSESSO);
 
-		JLabel lblAvviso = new JLabel("avviso");
-		lblAvviso.setForeground(Color.RED);
-		lblAvviso.setBounds(254, 19, 174, 16);
-		contentPanel.add(lblAvviso);
-
 		JLabel lblMatricolaFin = new JLabel("Matricola FIN");
 		lblMatricolaFin.setBounds(12, 128, 84, 16);
 		contentPanel.add(lblMatricolaFin);
 
 		JButton btnINSERISCI = new JButton("Inserisci");
 		btnINSERISCI.setEnabled(false);
-
-		//---LISTENER----PER L'ATTIVAZIONE DEL BOTTONE PER IL CONTROLLO DEGLI ID-----
-		txtID.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI AVVISI ID DUPLICATO---
-				lblAvviso.setText(ControlloAvvisoIscritto());
-				//---CONTROLLI DI ABILITAZIONE BOTTONE---
-				if(controlloBottone()==false)
-					btnINSERISCI.setEnabled(false);
-				else
-					btnINSERISCI.setEnabled(true);
-			}
-		});
 		txtNOME.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				//---CONTROLLI ABILITAZIONE BOTTONE----
@@ -190,7 +161,7 @@ public class InserisciIscritto extends JDialog {
 
 		btnINSERISCI.addActionListener(new ActionListener() { //INSERIMENTO ISCRITTO
 			public void actionPerformed(ActionEvent arg0) {
-				idIscritto=Integer.parseInt(txtID.getText()); //CASTING DA STRING A INT
+
 				nome = txtNOME.getText();
 				cognome = txtCOGNOME.getText();
 				sesso=(String) cbSESSO.getModel().getElementAt(cbSESSO.getSelectedIndex());	//ATTENZIONE AL CASTING
@@ -210,7 +181,7 @@ public class InserisciIscritto extends JDialog {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
 					txtDATA.setText("");
-					txtID.setText("");
+
 					txtNOME.setText("");
 					txtCOGNOME.setText("");
 					txtCELLULARE.setText("");
@@ -230,26 +201,11 @@ public class InserisciIscritto extends JDialog {
 
 
 	}
-	//---CONTROLLO PER AVVISO DI ID DUPLICATO O ESISTENTE
-	public String ControlloAvvisoIscritto() {
-		String risultato="";
-		String IDI = txtID.getText();
-		if(IDI.equals("")) {
-			System.out.println("NON C'E NESSUN VALORE");
-			return risultato;
-		}
-		Integer ID=Integer.parseInt(IDI);
-		if(!IDI.equals("")&&iDAOP.ControlloDinamicoIdIscritto(ID)) {
-			System.out.println("ID ESISTENTE");
-			risultato="ID esistente";
-		}
-
-		return risultato;
-	}
+	
 	public boolean controlloBottone() {
 		boolean risultato=true;
 		//---CONTROLLI COMPILAZIONE CORSO---
-		if(txtID.getText().equals("")||txtNOME.getText().equals("")|| txtCOGNOME.getText().equals("")|| txtDATA.getText().equals("") || iDAOP.ControlloDinamicoIdIscritto(Integer.parseInt(txtID.getText()))) {
+		if(txtNOME.getText().equals("")|| txtCOGNOME.getText().equals("")|| txtDATA.getText().equals("") ) {
 			risultato=false;
 			System.out.println("CAMPI ISCRITTO NON COMPILATI O ID ESISTENTE");
 		}
@@ -257,9 +213,7 @@ public class InserisciIscritto extends JDialog {
 			System.out.println("CAMPI ISCRITTO COMPILATI");
 		return risultato;
 	}
-	public boolean controlloIDIscritto() {
-		return iDAOP.ControlloDinamicoIdIscritto(Integer.parseInt(txtID.getText()));
-	}
+	
 	
 	public void CalcoloEta() {
 		LocalDate corrente=LocalDate.now();
