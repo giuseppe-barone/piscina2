@@ -22,14 +22,12 @@ import java.awt.event.ActionEvent;
 
 public class InserisciInfortunio extends JDialog {
 	InfortunioDAOP iDAOP = new InfortunioDAOP();
-
-	private JTextField txtIdInfortunio;
 	private JTextField txtData;
 	private JTextField txtSosta;
 	private JTextField txtGravita;
 	private JTextField txtMatricola;
 	//VARIABILI DA PASSARE ALLA QUERY
-	private int idInfortunio;
+	private int idInfortunio=0;
 	private Date data;
 	private int GiorniSosta;
 	private int gravita;
@@ -54,17 +52,6 @@ public class InserisciInfortunio extends JDialog {
 	public InserisciInfortunio() {
 		setBounds(100, 100, 497, 188);
 		getContentPane().setLayout(null);
-		{
-			JLabel lblIdInfortunio = new JLabel("Id Infortunio");
-			lblIdInfortunio.setBounds(12, 13, 75, 16);
-			getContentPane().add(lblIdInfortunio);
-		}
-		{
-			txtIdInfortunio = new JTextField();
-			txtIdInfortunio.setBounds(102, 10, 116, 22);
-			getContentPane().add(txtIdInfortunio);
-			txtIdInfortunio.setColumns(10);
-		}
 		{
 			JLabel lblData = new JLabel("Data");
 			lblData.setBounds(12, 56, 56, 16);
@@ -127,15 +114,6 @@ public class InserisciInfortunio extends JDialog {
 			});
 			btnInserisci.setBounds(338, 98, 97, 25);
 			getContentPane().add(btnInserisci);
-		
-			txtIdInfortunio.addCaretListener(new CaretListener() {
-				public void caretUpdate(CaretEvent e) {
-					if(controlloBottone()==false)
-						btnInserisci.setEnabled(false);
-					else
-						btnInserisci.setEnabled(true);
-				}
-			});
 			txtData.addCaretListener(new CaretListener() {
 				public void caretUpdate(CaretEvent e) {
 					if(controlloBottone()==false)
