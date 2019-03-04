@@ -2,7 +2,7 @@ package it.unirc.bd.dao.beans;
 
 public class Dipendente {
 	
-	public int idDipendente;
+	public int IdDipendente;
 	public String Nome;
 	public String Cognome;
 	public String Cellulare;
@@ -15,7 +15,7 @@ public class Dipendente {
 public Dipendente(int idDipendente, String nome, String cognome, String cellulare, String sesso,
 			int tipologiaDipendente) {
 		super();
-		this.idDipendente = idDipendente;
+		IdDipendente = idDipendente;
 		Nome = nome;
 		Cognome = cognome;
 		Cellulare = cellulare;
@@ -23,10 +23,10 @@ public Dipendente(int idDipendente, String nome, String cognome, String cellular
 		TipologiaDipendente = tipologiaDipendente;
 	}
 public int getIdDipendente() {
-	return idDipendente;
+	return IdDipendente;
 }
 public void setIdDipendente(int idDipendente) {
-	this.idDipendente = idDipendente;
+	IdDipendente = idDipendente;
 }
 public String getNome() {
 	return Nome;
@@ -60,8 +60,11 @@ public void setTipologiaDipendente(int tipologiaDipendente) {
 }
 @Override
 public String toString() {
-	return "ID: " + idDipendente + " "+ Nome + " " + Cognome + " ";
+	return "Dipendente [IdDipendente=" + IdDipendente + ", Nome=" + Nome + ", Cognome=" + Cognome + ", Cellulare="
+			+ Cellulare + ", Sesso=" + Sesso + ", TipologiaDipendente=" + TipologiaDipendente + "]";
 }
+
+
 
 
 }

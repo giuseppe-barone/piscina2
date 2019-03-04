@@ -1,4 +1,4 @@
-package it.unirc.bd.gui.dipendente;
+ package it.unirc.bd.gui.dipendente;
 
 import java.awt.EventQueue;
 
@@ -35,15 +35,11 @@ import javax.swing.event.CaretEvent;
 
 public class InserisciDipendente extends JDialog {
 	DipendenteDAOP dDAOP = new DipendenteDAOP();
-
-
-
-	private JTextField textIDDipendente;
+	private Dipendente d = new Dipendente();
 	private JTextField textNome;
 	private JTextField textCognome;
 	private JTextField textCellulare;
 	//---------VARIABILI DIPENDENTE DA PASSARE ALLE QUERY---------
-	private int IDDipendente;
 	private String Nome;
 	private String Cognome;
 	private String Cellulare;
@@ -80,54 +76,43 @@ public class InserisciDipendente extends JDialog {
 
 		getContentPane().setEnabled(false);
 		setTitle("Inserisci Dipendente");
-		setBounds(100, 100, 410, 303);
+		setBounds(100, 100, 410, 255);
 		getContentPane().setLayout(null);
 
-		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(12, 27, 17, 16);
-		getContentPane().add(lblId);
-
-		textIDDipendente = new JTextField();
-		textIDDipendente.setText("0");
-
-		textIDDipendente.setBounds(62, 24, 56, 22);
-		getContentPane().add(textIDDipendente);
-		textIDDipendente.setColumns(10);
-
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(12, 67, 38, 16);
+		lblNome.setBounds(12, 30, 38, 16);
 		getContentPane().add(lblNome);
 
 		textNome = new JTextField();
 
-		textNome.setBounds(62, 64, 116, 22);
+		textNome.setBounds(62, 27, 116, 22);
 		getContentPane().add(textNome);
 		textNome.setColumns(10);
 
 		textCognome = new JTextField();
-		textCognome.setBounds(258, 64, 116, 22);
+		textCognome.setBounds(258, 27, 116, 22);
 		textCognome.setColumns(10);
 		getContentPane().add(textCognome);
 
 		JLabel lblCognome = new JLabel("Cognome:");
-		lblCognome.setBounds(190, 67, 68, 16);
+		lblCognome.setBounds(190, 30, 68, 16);
 		getContentPane().add(lblCognome);
 
 		JLabel lblNumeroDiCellulare = new JLabel("Numero di cellulare:");
-		lblNumeroDiCellulare.setBounds(12, 111, 116, 16);
+		lblNumeroDiCellulare.setBounds(12, 74, 116, 16);
 		getContentPane().add(lblNumeroDiCellulare);
 
 		textCellulare = new JTextField();
-		textCellulare.setBounds(142, 108, 116, 22);
+		textCellulare.setBounds(142, 71, 116, 22);
 		getContentPane().add(textCellulare);
 		textCellulare.setColumns(10);
 
 		JLabel lblSesso = new JLabel("Sesso:");
-		lblSesso.setBounds(12, 157, 47, 16);
+		lblSesso.setBounds(12, 120, 47, 16);
 		getContentPane().add(lblSesso);
 
 		JComboBox cbSesso = new JComboBox();
-		cbSesso.setBounds(62, 154, 80, 22);
+		cbSesso.setBounds(62, 117, 80, 22);
 		cbSesso.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
 		cbSesso.setToolTipText("");
 		getContentPane().add(cbSesso);
@@ -135,12 +120,12 @@ public class InserisciDipendente extends JDialog {
 
 
 		JLabel lblNewLabel = new JLabel("Tipologia Dipendente:");
-		lblNewLabel.setBounds(150, 157, 125, 16);
+		lblNewLabel.setBounds(150, 120, 125, 16);
 		getContentPane().add(lblNewLabel);
 
 		JComboBox cbTipoDipendente = new JComboBox();
 
-		cbTipoDipendente.setBounds(282, 154, 92, 22);
+		cbTipoDipendente.setBounds(282, 117, 92, 22);
 		cbTipoDipendente.setModel(new DefaultComboBoxModel(new String[] {"Segretario", "Tecnico", "Allenatore"}));
 		cbTipoDipendente.setToolTipText("");
 
@@ -149,28 +134,13 @@ public class InserisciDipendente extends JDialog {
 		JButton btnInserisci = new JButton("Inserisci");
 
 		btnInserisci.setEnabled(false);
-		btnInserisci.setBounds(142, 209, 97, 25);
+		btnInserisci.setBounds(142, 172, 97, 25);
 		getContentPane().add(btnInserisci);
 
 		JLabel lblAvvisoD = new JLabel("");
 		lblAvvisoD.setForeground(Color.RED);
 		lblAvvisoD.setBounds(142, 27, 209, 16);
 		getContentPane().add(lblAvvisoD);
-
-
-
-		//---------LISTNER----------PER L'ATTIVAZIONE DEL BOTTONE E PER IL CONTROLLO DINAMICO DEGL'ID
-		textIDDipendente.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//----CONTROLLI AVVISI ID DUPLICATO----
-				lblAvvisoD.setText(ControlloAvvisoDipendente());
-				//----CONTROLLI DI ABILITAZIONE BOTTONE----
-				if (controllobottone()==false )
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-			}
-		});
 		textNome.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				//----CONTROLLI DI ABILITAZIONE BOTTONE----
@@ -196,13 +166,12 @@ public class InserisciDipendente extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				InserimentoSuccesso InsSuc= new InserimentoSuccesso();
 				//AQUISIZIONE VALORI DIPENDENTE
-				IDDipendente=Integer.parseInt(textIDDipendente.getText());	//CASTING DA STRING A INT
 				Cellulare=textCellulare.getText();
 				Nome=textNome.getText();
 				Cognome=textCognome.getText();
 				Sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Tipologia=cbTipoDipendente.getSelectedIndex();
-				Dipendente d = new Dipendente(IDDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
+				//Dipendente d = new Dipendente(Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
 				dDAOP.salvaDipendente(d);	//INSERIMENTO TUPLA
 				InsSuc.setVisible(true);
 			
@@ -213,27 +182,13 @@ public class InserisciDipendente extends JDialog {
 		});
 	}
 
-
-	//----CONTROLLO PER AVVISO DI ID DUPLICATO DIPENDENTE
-	public String ControlloAvvisoDipendente() {
-		String risultato="";
-		String IDD = textIDDipendente.getText();
-		int ID =Integer.parseInt(IDD);
-		//if(IDD.equals(""))
-			//return risultato;
-		if (!IDD.equals("") && dDAOP.ControlloDinamicoIdDipendente(ID))
-			risultato="ID esistente o non valido!";
-		return risultato;
-		
-	}
-	
 	
 	
 	//----CONTROLLO PER L'ABILITAZIONE DEL BOTTONE----
 	public boolean controllobottone() {
 		boolean risultato=true ;
 		//---------CONTROLLI LATO DIPENDENTE----------
-		if (textIDDipendente.getText().equals("") || textNome.getText().equals("") || textCognome.getText().equals("") || dDAOP.ControlloDinamicoIdDipendente(Integer.parseInt(textIDDipendente.getText()))) {
+		if (textNome.getText().equals("") || textCognome.getText().equals("")) {
 			risultato=false;
 			System.out.println("CAMPI DIPENDENTE NON COMPILATI O ID ESISTENTE");
 		}
@@ -242,15 +197,6 @@ public class InserisciDipendente extends JDialog {
 		return risultato;
 
 	}
-
-
-
-
-	public boolean controlloIDDipendente () {
-		return dDAOP.ControlloDinamicoIdDipendente(Integer.parseInt(textIDDipendente.getText()));
-	}
-
-
 
 
 }

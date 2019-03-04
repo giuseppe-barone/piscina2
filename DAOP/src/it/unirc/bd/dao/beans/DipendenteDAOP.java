@@ -36,31 +36,6 @@ public class DipendenteDAOP {
 		return esito;
 	}
 
-	//-----------------CONTROLLO DINAMICO ID DIPENDENTE -------------------
-	public boolean ControlloDinamicoIdDipendente(int ID) {
-		//----INSERIRE UN CONTROLLO CHE MI PERMETTA DI VEDERE SE L'OGETTO PASSATO è VUOTO E RESTITUISCA SUBITO UN VALORE
-		//INSERISCO QUESTO CONTROLLO PRIMA DEL RESTO DEL CONDICE PERCHè SENNO PARTIREBBE UNA QUERY CON DEI VALORI INCOMPATIBILI
-		//ANZICHE PASSARE AL METODO UN TIPO INT PASSARE AL METODO UN TIPO INTEGER (OGETTO) CHE PUò ESSERE ANCHE NULL
-		String query = "SELECT * FROM dipendente WHERE idDipendente = ?";
-		boolean risultato =false;
-		PreparedStatement ps;
-		conn=DBManager.startConnection();
-		try {
-			ps = conn.prepareStatement(query);
-			ps.setInt(1, ID);
-			ResultSet rs = ps.executeQuery();
-			if(rs.next())
-				risultato=true;	//ESISTE UNA TUPLA CON QUELL'ID
-			else
-				risultato=false;//NON ESISTE UNA TUPLA CON QUELL'ID
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return risultato;
-	}
-
-
 	//----RESTITUZIONE DI TUTTI GLI EVENTI----PER LA COMBOBOX ----PROVA CON OGETTO DI TIPO EVENTO----FUNZIONA
 		public DefaultComboBoxModel<Dipendente> getAllenatorecb(){
 			DefaultComboBoxModel<Dipendente> risultato = new DefaultComboBoxModel<Dipendente>();

@@ -202,7 +202,7 @@ public class IscrittoDAOP {
 		
 		
 		
-		//-----------------RICERCA PER COMPOSTA -------------------
+		//-----------------RICERCA COMPOSTA -------------------
 				public Vector<Iscritto> RicercaComposta(String Nome, String Cognome, String Sesso, Date Data, boolean datamin, boolean datamag) {
 					String nome ="";
 					String cognome ="";
