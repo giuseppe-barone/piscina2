@@ -122,9 +122,97 @@ public class DipendenteDAOP {
 		d.setTipologiaDipendente(rs.getInt("tipologiaDipendente"));
 		return d;
 	}
+	
+	//--------RICERCA PER SESSO---------
+	public Vector<Dipendente> RicercaPerSesso(String sesso) {
+		Vector<Dipendente> risultato=new Vector<Dipendente>();
+		String query = "SELECT * FROM dipendente WHERE Sesso = ?";
+		Dipendente res = null;
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, sesso);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				res=new Dipendente();
+				res.setIdDipendente(rs.getInt("idDipendente"));
+				res.setNome( rs.getString("Nome") );
+				res.setCognome(rs.getString("Cognome"));
+				res.setCellulare( rs.getString("Cellulare") );
+				res.setSesso( rs.getString("Sesso") );
+				risultato.add(res);
 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		System.out.println(risultato.toString());
+		return risultato;
+	} 
+	//----RICERCA PER NOME/COGNOME----
+			public Vector<Dipendente> RicercaPerNomeCognome(String nome, String cognome, boolean isNome, boolean isCognome){
+					Vector<Dipendente> risultato=new Vector<Dipendente>();
+					boolean completo=false;
+					String query = "SELECT * FROM dipendente;";
+					if (isNome && isCognome )
+						query="SELECT * FROM dipendente where Nome=? and Cognome=?";
+					else if (!isNome && isCognome)
+						query="SELECT * FROM dipendente where Cognome=?";
+					else if (isNome && !isCognome) {
+						query="SELECT * FROM dipendente where Nome=?";
+					}
+					ResultSet rs=null;
+					Dipendente res;
+					PreparedStatement ps;
+					conn=DBManager.startConnection();
+					try {
+						
+						
+						if (isNome && isCognome ) {
+							ps = conn.prepareStatement(query);
+							ps.setString(1, nome);
+							ps.setString(2,cognome);
+							rs = ps.executeQuery();
+						}
+						else if (!isNome && isCognome) {
+							ps = conn.prepareStatement(query);
+							ps.setString(1, cognome);
+							rs = ps.executeQuery();
+						}
+						else if (isNome && !isCognome) {
+							ps = conn.prepareStatement(query);
+							ps.setString(1, nome);
+							rs = ps.executeQuery();
+						}
+						
+						
+						while(rs.next()){
 
-}
+							res=new Dipendente();
+							res.setIdDipendente(rs.getInt("idIscritto"));
+							res.setNome( rs.getString("Nome") );
+							res.setCognome(rs.getString("Cognome"));
+							res.setCellulare( rs.getString("Cellulare") );
+							res.setSesso( rs.getString("Sesso") );
+							risultato.add(res);
+							
+							
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					DBManager.closeConnection();
+					
+					
+					System.out.println("RISULTATI TROVATI: "+risultato.size());
+					System.out.println("_______________________________________________________________________________________________");
+					System.out.println(risultato.toString());
+					return risultato;
+
+				}
+		}
 
 
 
