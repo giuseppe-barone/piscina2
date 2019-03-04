@@ -29,7 +29,6 @@ public class InserisciInfortunio extends JDialog {
 	InfortunioDAOP iDAOP = new InfortunioDAOP();
 	IscrittoDAOP iscrittoDAOP =new IscrittoDAOP();
 	private JTextField txtData;
-	private JTextField txtSosta;
 	private JTextField txtGravita;
 	//VARIABILI DA PASSARE ALLA QUERY
 	private int idInfortunio=0;
@@ -74,12 +73,6 @@ public class InserisciInfortunio extends JDialog {
 			getContentPane().add(lblGiorniDiSosta);
 		}
 		{
-			txtSosta = new JTextField();
-			txtSosta.setBounds(102, 68, 116, 22);
-			getContentPane().add(txtSosta);
-			txtSosta.setColumns(10);
-		}
-		{
 			JLabel lblGravita = new JLabel("Gravit\u00E0");
 			lblGravita.setBounds(12, 103, 56, 16);
 			getContentPane().add(lblGravita);
@@ -94,18 +87,6 @@ public class InserisciInfortunio extends JDialog {
 		
 			JButton btnInserisci = new JButton("Inserisci");
 			btnInserisci.setEnabled(false);
-			btnInserisci.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					JOptionPane.showMessageDialog(null, "Inserimento Riuscito");
-
-					data = Date.valueOf(txtData.getText());
-					GiorniSosta = Integer.parseInt(txtSosta.getText());
-					gravita = Integer.parseInt(txtGravita.getText());
-					//DEVO PASSARE IL VALORE MATRICOLAFIN
-					Infortunio i = new Infortunio(idInfortunio, data, GiorniSosta, gravita, MatricolaFIN);
-					iDAOP.salva(i);
-				}
-			});
 			btnInserisci.setBounds(67, 131, 97, 25);
 			getContentPane().add(btnInserisci);
 			
@@ -117,20 +98,17 @@ public class InserisciInfortunio extends JDialog {
 			comboMatricola.setBounds(102, 10, 329, 22);
 			comboMatricola.setModel(iscrittoDAOP.getAtleticb());
 			getContentPane().add(comboMatricola);
+			
+			JSpinner spinnerGiorni = new JSpinner();
+			spinnerGiorni.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+			spinnerGiorni.setBounds(102, 68, 116, 22);
+			getContentPane().add(spinnerGiorni);
 			txtData.addCaretListener(new CaretListener() {
 				public void caretUpdate(CaretEvent e) {
 					if(controlloBottone()==false)
 						btnInserisci.setEnabled(false);
 					else
 						btnInserisci.setEnabled(true);
-				}
-			});
-			txtSosta.addCaretListener(new CaretListener() {
-				public void caretUpdate(CaretEvent e) {
-					if(controlloBottone()==false)
-						btnInserisci.setEnabled(false);
-					else
-						btnInserisci.setEnabled(true); 
 				}
 			});
 			txtGravita.addCaretListener(new CaretListener() {
@@ -141,11 +119,30 @@ public class InserisciInfortunio extends JDialog {
 						btnInserisci.setEnabled(true);
 				}
 			});
+			
+			
+			btnInserisci.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					JOptionPane.showMessageDialog(null, "Inserimento Riuscito");
+					//Prendere la matricola 
+					MatricolaFIN = iscrittoDAOP.getAtleticb().getElementAt(comboMatricola.getSelectedIndex()).getMatricolaFIN();
+					data = Date.valueOf(txtData.getText());
+					GiorniSosta = (Integer)spinnerGiorni.getValue();   //   Integer.parseInt(txtSosta.getText());
+					System.out.println(Integer.toString(GiorniSosta) );/*
+					gravita = Integer.parseInt(txtGravita.getText());
+					//DEVO PASSARE IL VALORE MATRICOLAFIN
+					Infortunio i = new Infortunio(idInfortunio, data, GiorniSosta, gravita, MatricolaFIN);
+					iDAOP.salva(i);*/
+				}
+			});
+			
+			
+			
 	}
 	//CONTROLLO  PER L'ATTIVAZIONE DEL BOTTONE
 	public boolean controlloBottone() {
 		boolean risultato=true;
-		if(txtData.getText().equals("")||txtSosta.getText().equals("")||txtGravita.getText().equals(""))
+		if(txtData.getText().equals("")/*||txtSosta.getText().equals("")*/||txtGravita.getText().equals(""))
 			risultato=false;
 		else
 			risultato=true;
