@@ -171,9 +171,17 @@ public class InserisciDipendente extends JDialog {
 				Cognome=textCognome.getText();
 				Sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Tipologia=cbTipoDipendente.getSelectedIndex();
-				Dipendente d = new Dipendente( IdDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
-				dDAOP.salvaDipendente(d);	//INSERIMENTO TUPLA
-				InsSuc.setVisible(true);
+				System.out.println(Cellulare+" "+Nome+" "+Cognome+" "+Sesso+" "+Tipologia);
+				Dipendente dip=new Dipendente();
+				dip.setCellulare(Cellulare);
+				dip.setNome(Nome);
+				dip.setCognome(Cognome);
+				dip.setSesso(Sesso);
+				dip.setTipologiaDipendente(Tipologia); 
+				
+				//Dipendente d = new Dipendente( IdDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	
+				dDAOP.salvaDipendente(dip);	//INSERIMENTO TUPLA
+				
 			
 				
 				

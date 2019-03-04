@@ -15,17 +15,16 @@ public class DipendenteDAOP {
 	private static Connection conn = null;
 	//----------------INSERISCI DIPENDENTE----------------------
 	public boolean salvaDipendente(Dipendente d){
-		String query = "INSERT INTO dipendente VALUES (?, ?,?,?,?,?)";
+		String query = "INSERT INTO `piscina`.`dipendente` (`Nome`, `Cognome`, `Cellulare`, `Sesso`, `TipologiaDipendente`) VALUES (?, ?, ?, ?, ?);";
 		boolean esito=false;
 		conn=DBManager.startConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, d.getIdDipendente());
-			ps.setString(2, d.getNome() );
-			ps.setString(3, d.getCognome());
-			ps.setString(4, d.getCellulare());
-			ps.setString(5, d.getSesso());
-			ps.setInt(6, d.getTipologiaDipendente());
+			ps.setString(1, d.getNome() );
+			ps.setString(2, d.getCognome());
+			ps.setString(3, d.getCellulare());
+			ps.setString(4, d.getSesso());
+			ps.setInt(5, d.getTipologiaDipendente());
 			int tmp=ps.executeUpdate();
 			if (tmp==1)
 				esito=true;
