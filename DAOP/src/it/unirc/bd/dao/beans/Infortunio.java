@@ -3,7 +3,7 @@ package it.unirc.bd.dao.beans;
 import java.sql.Date;
 
 public class Infortunio {
-	private int idInfortunio;
+	private Integer idInfortunio;
 	private Date data;
 	private int GiorniSosta;
 	private int Gravita;
@@ -12,7 +12,7 @@ public class Infortunio {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Infortunio(int idInfortunio, Date data, int giorniSosta, int gravita, int matricolaFIN) {
+	public Infortunio(Integer idInfortunio, Date data, int giorniSosta, int gravita, int matricolaFIN) {
 		super();
 		this.idInfortunio = idInfortunio;
 		this.data = data;
@@ -22,7 +22,7 @@ public class Infortunio {
 	}
 	@Override
 	public String toString() {
-		return "Infortunio [idInfortunio=" + idInfortunio + ", data=" + data + ", GiorniSosta=" + GiorniSosta
+		return "Infortunio [idInfortunio=" + Integer.toString(idInfortunio) + ", data=" + data + ", GiorniSosta=" + GiorniSosta
 				+ ", Gravita=" + Gravita + ", MatricolaFIN=" + MatricolaFIN + "]"; 
 	}
 	@Override
@@ -60,10 +60,10 @@ public class Infortunio {
 			return false;
 		return true;
 	}
-	public int getIdInfortunio() {
+	public Integer getIdInfortunio() {
 		return idInfortunio;
 	}
-	public void setIdInfortunio(int idInfortunio) {
+	public void setIdInfortunio(Integer idInfortunio) {
 		this.idInfortunio = idInfortunio;
 	}
 	public Date getData() {

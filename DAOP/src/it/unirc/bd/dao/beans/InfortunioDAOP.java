@@ -12,16 +12,15 @@ public class InfortunioDAOP {
 	private Connection conn = null;
 
 	public boolean salva(Infortunio i) {
-		String query = "INSERT INTO infortunio VALUES(?,?,?,?,?)";
+		String query = "INSERT INTO `piscina`.`infortunio` (`Data`, `GiorniDiRiposo`, `Gravita`, `MatricolaFin`) VALUES (?, ?, ?, ?);";
 		boolean esito=false;
 		conn = DBManager.startConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, i.getIdInfortunio());
-			ps.setDate(2, i.getData());
-			ps.setInt(3, i.getGiorniSosta());
-			ps.setInt(4, i.getGravita());
-			ps.setInt(5, i.getMatricolaFIN());
+			ps.setDate(1, i.getData());
+			ps.setInt(2, i.getGiorniSosta());
+			ps.setInt(3, i.getGravita());
+			ps.setInt(4, i.getMatricolaFIN());
 			int tmp = ps.executeUpdate();
 			if(tmp==1)
 				esito=true;
