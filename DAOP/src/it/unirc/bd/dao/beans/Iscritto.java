@@ -30,8 +30,7 @@ public class Iscritto {
 	
 	@Override
 	public String toString() {
-		return "Iscritto [IdIscritto=" + IdIscritto + ", nome=" + nome + ", cognome=" + cognome + ", sesso=" + sesso
-				+ ", cellulare=" + cellulare + ", dataNascita=" + dataNascita + ", matricolaFIN=" + matricolaFIN + "]";
+		return nome + " " + cognome + " " + sesso + " " + dataNascita + " MatricolaFin=" + matricolaFIN ; 
 	}
 	@Override
 	public int hashCode() {

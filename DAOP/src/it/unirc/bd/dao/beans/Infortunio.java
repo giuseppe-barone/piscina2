@@ -23,7 +23,7 @@ public class Infortunio {
 	@Override
 	public String toString() {
 		return "Infortunio [idInfortunio=" + idInfortunio + ", data=" + data + ", GiorniSosta=" + GiorniSosta
-				+ ", Gravita=" + Gravita + ", MatricolaFIN=" + MatricolaFIN + "]";
+				+ ", Gravita=" + Gravita + ", MatricolaFIN=" + MatricolaFIN + "]"; 
 	}
 	@Override
 	public int hashCode() {

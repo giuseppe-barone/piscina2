@@ -41,7 +41,7 @@ public class IscrittoDAOP {
 				list.add(recordToIscritto(rs));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		DBManager.closeConnection();
 		System.out.println(list.toString());
