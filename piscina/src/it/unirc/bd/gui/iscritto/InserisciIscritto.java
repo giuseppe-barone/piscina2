@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JCalendar;
 
 public class InserisciIscritto extends JDialog {
 	IscrittoDAOP iDAOP = new IscrittoDAOP();

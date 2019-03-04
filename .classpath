@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="DAOP/src"/>
 	<classpathentry kind="src" path="piscina/src"/>
 	<classpathentry kind="lib" path="DAOP/lib/mysql-connector-java-8.0.13.jar"/>
+	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="DAOP/bin"/>
 </classpath>
