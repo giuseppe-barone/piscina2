@@ -35,11 +35,12 @@ import javax.swing.event.CaretEvent;
 
 public class InserisciDipendente extends JDialog {
 	DipendenteDAOP dDAOP = new DipendenteDAOP();
-	private Dipendente d = new Dipendente();
+	//private Dipendente d = new Dipendente();
 	private JTextField textNome;
 	private JTextField textCognome;
 	private JTextField textCellulare;
 	//---------VARIABILI DIPENDENTE DA PASSARE ALLE QUERY---------
+	private Integer IdDipendente;
 	private String Nome;
 	private String Cognome;
 	private String Cellulare;
@@ -84,7 +85,6 @@ public class InserisciDipendente extends JDialog {
 		getContentPane().add(lblNome);
 
 		textNome = new JTextField();
-
 		textNome.setBounds(62, 27, 116, 22);
 		getContentPane().add(textNome);
 		textNome.setColumns(10);
@@ -171,7 +171,7 @@ public class InserisciDipendente extends JDialog {
 				Cognome=textCognome.getText();
 				Sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Tipologia=cbTipoDipendente.getSelectedIndex();
-				//Dipendente d = new Dipendente(Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
+				Dipendente d = new Dipendente( IdDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	//CREAZIONE OGETTO DA INSERIRE
 				dDAOP.salvaDipendente(d);	//INSERIMENTO TUPLA
 				InsSuc.setVisible(true);
 			
