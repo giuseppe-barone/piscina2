@@ -3,6 +3,8 @@ package it.unirc.bd.gui.infortunio;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -27,7 +29,7 @@ public class VisualizzaInfortunio extends JDialog {
 			public void run() {
 
 				try {
-					VisualizzaInfortunio dialog = new VisualizzaInfortunio();
+					VisualizzaInfortunio dialog = new VisualizzaInfortunio(null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -36,7 +38,7 @@ public class VisualizzaInfortunio extends JDialog {
 			}
 		});
 	}
-	public VisualizzaInfortunio() {
+	public VisualizzaInfortunio(Vector<String[]> risultato) throws SQLException {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		setModal(true);
@@ -45,7 +47,7 @@ public class VisualizzaInfortunio extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
-		load();
+		load(risultato);
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
@@ -53,27 +55,27 @@ public class VisualizzaInfortunio extends JDialog {
 		panel.add(pane);
 		setContentPane(panel);
 	}
-	private void load() {
+	private void load(Vector<String[]> risultato) throws SQLException {
 		DefaultTableModel model = new DefaultTableModel();
 		Object[] columnsName = new Object[5];
-		columnsName[0] = "Id";
-		columnsName[1] = "Data";
-		columnsName[2] = "Giorni di Sosta";
+		columnsName[0] = "Nome";
+		columnsName[1] = "Cognome";
+		columnsName[2] = "Matricola FIN";
 		columnsName[3] = "Gravità";
-		columnsName[4] = "MatricolaFIN";
+		columnsName[4] = "Data";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Infortunio> list;
-		list=iDAOP.getAll();
-		System.out.println(list);
+		System.out.println(risultato.toString());
 		Object rowData[] = new Object[5]; 
-		for (int a=0;a<list.size();a++) {
-			rowData[0] = list.elementAt(a).getIdInfortunio();
-			rowData[1] = list.elementAt(a).getData();
-			rowData[2] = list.elementAt(a).getGiorniSosta();
-			rowData[3] = list.elementAt(a).getGravita();
-			rowData[4] = list.elementAt(a).getMatricolaFIN();
-			model.addRow(rowData);
+		
+		for (int i =0; i<risultato.size();i++) {
+			for (int colonna=0;colonna<5;colonna++) {
+				rowData[colonna]=risultato.elementAt(i)[colonna];
+			}
 		}
+		
+			model.addRow(rowData);
+		
+	
 		table.setModel(model);
 	}
 }

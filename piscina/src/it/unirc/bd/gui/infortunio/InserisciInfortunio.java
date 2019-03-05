@@ -81,7 +81,7 @@ public class InserisciInfortunio extends JDialog {
 		
 			JButton btnInserisci = new JButton("Inserisci");
 			btnInserisci.setEnabled(false);
-			btnInserisci.setBounds(67, 131, 97, 25);
+			btnInserisci.setBounds(102, 131, 97, 25);
 			getContentPane().add(btnInserisci);
 			
 			JLabel lblAtleta = new JLabel("Atleta");
@@ -102,6 +102,11 @@ public class InserisciInfortunio extends JDialog {
 			comboGravita.setModel(new DefaultComboBoxModel(new String[] {"Lieve", "Media", "Elevata"}));
 			comboGravita.setBounds(102, 100, 130, 22);
 			getContentPane().add(comboGravita);
+			
+			JButton buttonModifica = new JButton("Modifica");
+			buttonModifica.setEnabled(false);
+			buttonModifica.setBounds(211, 131, 97, 25);
+			getContentPane().add(buttonModifica);
 			txtData.addCaretListener(new CaretListener() {
 				public void caretUpdate(CaretEvent e) {
 					if(controlloBottone()==false)

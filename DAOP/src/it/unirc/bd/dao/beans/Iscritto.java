@@ -30,7 +30,7 @@ public class Iscritto {
 	
 	@Override
 	public String toString() {
-		return nome + " " + cognome + " " + sesso + " " + dataNascita + " MatricolaFin=" + matricolaFIN ; 
+		return nome + " " + cognome + " " + sesso + " " + dataNascita + " Mat.FIN=" + matricolaFIN ; 
 	}
 	@Override
 	public int hashCode() {

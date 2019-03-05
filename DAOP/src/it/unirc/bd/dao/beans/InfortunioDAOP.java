@@ -58,4 +58,42 @@ public class InfortunioDAOP {
 		DBManager.closeConnection();
 		return list;
 	} 
+	
+	
+	//-----------------RICERCA PER MatricolaFin -------------------
+			public Vector<String[]> getIscrittoId(int ID) {
+				String query = "SELECT iscritto.Nome, iscritto.Cognome,iscritto.MatricolaFin, infortunio.Gravita,  infortunio.Data \r\n" + 
+						"FROM iscritto JOIN infortunio\r\n" + 
+						"ON iscritto.MatricolaFin = infortunio.MatricolaFin where iscritto.MatricolaFin=?;";
+				Iscritto res = null;
+				PreparedStatement ps;
+				Vector<String[]> list = new Vector<String[]>();
+				String[] stringa=new String[5]; 
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					ps.setInt(1, ID);
+					ResultSet rs = ps.executeQuery();
+					if(rs.next()){
+						stringa[0]=rs.getString("Nome");
+						stringa[1]=rs.getString("Cognome");
+						stringa[2]=Integer.toString(rs.getInt("MatricolaFin"));
+						stringa[3]=Integer.toString(rs.getInt("Gravita"));
+						stringa[4]=rs.getDate("Data").toString();
+						for (int i =0;i<stringa.length;i++)
+							System.out.println(stringa[i]+" ");
+						list.add(stringa);
+
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();
+			//	System.out.println(list.toString());
+				return list;
+			} 
+		
+	
+	
+	
 }
