@@ -1,6 +1,7 @@
 package it.unirc.bd.dao.beans;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -212,6 +213,72 @@ public class DipendenteDAOP {
 					return risultato;
 
 				}
+			//------RICERCA PER TIPOLOGIA------
+			public Vector<Dipendente> RicercaPerTipologia(String tipo) {
+				Vector<Dipendente> risultato= new Vector<Dipendente>();
+				String query = "SELECT * FROM piscina.dipendente;";
+				Dipendente res;
+				PreparedStatement ps;
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					//ps.setString(1, tipo);
+					ResultSet rs = ps.executeQuery();
+					while(rs.next()) {
+						res=new Dipendente();
+						res.setIdDipendente(rs.getInt("idDipendente"));
+						res.setNome( rs.getString("Nome") );
+						res.setCognome(rs.getString("Cognome"));
+						res.setCellulare( rs.getString("Cellulare") );
+						res.setSesso( rs.getString("Sesso") );
+						risultato.add(res);
+				}}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();
+				System.out.println(risultato.toString());
+				return risultato;
+			}
+			//-----------------RICERCA COMPOSTA -------------------
+			public Vector<Dipendente> RicercaComposta(String Nome, String Cognome, String Sesso) {
+				String nome ="";
+				String cognome ="";
+				String sesso ="";
+				if (Nome!=null)
+				nome=" AND Nome='" + Nome + "' " ;
+				if (Cognome!=null)
+				cognome=" AND Cognome='" + Cognome + "' " ;
+				if (Sesso!=null)
+				sesso=" AND Sesso='" + Sesso + "' " ;
+				
+				System.out.println(nome+cognome+sesso);
+				Vector<Dipendente> risultato=new Vector<Dipendente>();
+				String query = "SELECT * FROM piscina.dipendente where idDipendente is not null "+nome +cognome+sesso+" ;";
+				Dipendente res = null;
+				PreparedStatement ps;
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					System.out.println(query);
+					ResultSet rs = ps.executeQuery();
+					while(rs.next()){
+						res=new Dipendente();
+						res.setIdDipendente(rs.getInt("idDipendente"));
+						res.setNome( rs.getString("Nome") );
+						res.setCognome(rs.getString("Cognome"));
+						res.setCellulare( rs.getString("Cellulare") );
+						res.setSesso( rs.getString("Sesso") );
+						risultato.add(res);
+
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();
+				System.out.println(risultato.toString());
+				return risultato;
+			} 
 		}
 
 
