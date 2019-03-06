@@ -17,25 +17,17 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import it.unirc.bd.dao.beans.DipendenteDAOP;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
 
 public class RicercaDipendente extends JDialog {
 	private JTextField txtNome;
 	private JTextField txtCognome;
 
-	DipendenteDAOP dDAOP = new DipendenteDAOP();
-	
-	private String nome="";
-	private String cognome="";
-	private String sesso="";
-	private String tipologia="";
 	ButtonGroup TipoRicerca = new ButtonGroup();
 	ButtonGroup Sesso = new ButtonGroup();
 	/**
@@ -61,70 +53,65 @@ public class RicercaDipendente extends JDialog {
 
 		JPanel PannelloGeneralita = new JPanel();
 		PannelloGeneralita.setBorder(new TitledBorder(null, "Generalit\u00E0", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		PannelloGeneralita.setBounds(117, 41, 275, 123);
+		PannelloGeneralita.setBounds(161, 41, 231, 123);
 		getContentPane().add(PannelloGeneralita);
 		PannelloGeneralita.setLayout(null);
 
 
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setBounds(65, 31, 43, 16);
+		lblNome.setBounds(12, 31, 43, 16);
 		PannelloGeneralita.add(lblNome);
 		lblNome.setEnabled(false);
 
 		JLabel lblCognome = new JLabel("Cognome");
-		lblCognome.setBounds(65, 60, 61, 16);
+		lblCognome.setBounds(12, 60, 61, 16);
 		PannelloGeneralita.add(lblCognome);
 		lblCognome.setEnabled(false);
 
 		txtNome = new JTextField();
-		txtNome.setBounds(135, 28, 116, 22);
+		txtNome.setBounds(82, 28, 116, 22);
 		PannelloGeneralita.add(txtNome);
 		txtNome.setColumns(10);
 		txtNome.setEnabled(false);
 
 		txtCognome = new JTextField();
-		txtCognome.setBounds(135, 57, 116, 22);
+		txtCognome.setBounds(82, 57, 116, 22);
 		PannelloGeneralita.add(txtCognome);
 		txtCognome.setColumns(10);
 		txtCognome.setEnabled(false);
 
 		JLabel lblSesso = new JLabel("Sesso");
-		lblSesso.setBounds(65, 94, 56, 16);
+		lblSesso.setBounds(12, 94, 56, 16);
 		PannelloGeneralita.add(lblSesso);
 		lblSesso.setEnabled(false);
-		
-		JCheckBox checkNome = new JCheckBox("");
-		checkNome.setBounds(13, 27, 30, 25);
-		PannelloGeneralita.add(checkNome);
-		
-		JCheckBox checkCognome = new JCheckBox("");
-		checkCognome.setBounds(13, 56, 30, 25);
-		PannelloGeneralita.add(checkCognome);
-		
-		JCheckBox checkSesso = new JCheckBox("");
-		checkSesso.setBounds(13, 90, 22, 25);
-		PannelloGeneralita.add(checkSesso);
-		
-		JComboBox cbSesso = new JComboBox();
-		cbSesso.setBounds(135, 91, 82, 22);
-		cbSesso.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
-		PannelloGeneralita.add(cbSesso);
+
+		JRadioButton rdbtnM = new JRadioButton("M");
+		rdbtnM.setBounds(82, 88, 43, 25);
+		PannelloGeneralita.add(rdbtnM);
+		Sesso.add(rdbtnM);
+		rdbtnM.setEnabled(false);
+
+		JRadioButton rdbtnF = new JRadioButton("F");
+		rdbtnF.setBounds(137, 88, 48, 25);
+		PannelloGeneralita.add(rdbtnF);
+		Sesso.add(rdbtnF);
+		rdbtnF.setEnabled(false);
 
 		JRadioButton rdbtnGeneralit = new JRadioButton("Generalit\u00E0");
 		rdbtnGeneralit.setBounds(8, 37, 127, 25);
 		getContentPane().add(rdbtnGeneralit);
 		TipoRicerca.add(rdbtnGeneralit);
 
-		JRadioButton rdbtnTipo = new JRadioButton("Tipologia Dipendente");
-		rdbtnTipo.setBounds(8, 176, 149, 25);
-		getContentPane().add(rdbtnTipo);
-		TipoRicerca.add(rdbtnTipo);
+		JRadioButton rdbtnTipologiaDipendente = new JRadioButton("Tipologia Dipendente");
+		rdbtnTipologiaDipendente.setBounds(8, 176, 149, 25);
+		getContentPane().add(rdbtnTipologiaDipendente);
+		TipoRicerca.add(rdbtnTipologiaDipendente);
 
-		JComboBox cbTipo = new JComboBox();
-		cbTipo.setBounds(161, 177, 120, 22);
-		cbTipo.setModel(new DefaultComboBoxModel(new String[] {"Segretario", "Tecnico", "Allenatore"}));
-		getContentPane().add(cbTipo);
-		cbTipo.setEnabled(false);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(161, 177, 120, 22);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Segretario", "Tecnico", "Allenatore"}));
+		getContentPane().add(comboBox);
+		comboBox.setEnabled(false);
 
 		JRadioButton rdbtnTutti = new JRadioButton("Tutti");
 		rdbtnTutti.setBounds(8, 221, 69, 25);
@@ -150,47 +137,17 @@ public class RicercaDipendente extends JDialog {
 				}	
 			}
 		});
-		rdbtnTipo.addChangeListener(new ChangeListener() {
+		rdbtnTipologiaDipendente.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				if(rdbtnTipo.isSelected()) {
-					cbTipo.setEnabled(true);
+				if(rdbtnTipologiaDipendente.isSelected()) {
+					comboBox.setEnabled(true);
 				}
 				else
-					cbTipo.setEnabled(false);
+					comboBox.setEnabled(false);
 			}
 		});
 		btnRicerca.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { 
-				//MODELLO CHE PASSA I PARAMETRI AL DAOP CHE POI PROVVEDERà A FORMULARE LA QUERY
-				if (checkNome.isSelected())
-					nome=txtNome.getText();
-				else
-					nome=null;
-				if (checkCognome.isSelected())
-					cognome=txtCognome.getText();
-				else
-					cognome=null;
-				if (checkSesso.isSelected())
-					sesso=(String)cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex()) ;
-				else
-					sesso=null;
-				System.out.println(nome+" "+ cognome + " " +sesso+" ");
-				
-				if (rdbtnTipo.isSelected()) {
-					tipologia=(String)cbTipo.getModel().getElementAt(cbTipo.getSelectedIndex());
-					VisualizzaDipendente visualizza = new VisualizzaDipendente(dDAOP.RicercaPerTipologia(tipologia));
-					visualizza.setVisible(true);
-				}
-				if (rdbtnTutti.isSelected()) {
-					VisualizzaDipendente visualizza = new VisualizzaDipendente(dDAOP.getAll());
-					visualizza.setVisible(true);
-					}
-				if (rdbtnGeneralit.isSelected()) {
-					VisualizzaDipendente visualizza = new VisualizzaDipendente(dDAOP.RicercaComposta(nome, cognome, sesso));
-					visualizza.setVisible(true);
-					}
-				
-			}
-		;
+			public void actionPerformed(ActionEvent arg0) { }
 		});
-}}
+	}
+}

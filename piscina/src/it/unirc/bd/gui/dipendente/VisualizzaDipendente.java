@@ -23,7 +23,7 @@ public class VisualizzaDipendente extends JDialog {
 	DipendenteDAOP dDAOP = new DipendenteDAOP();
 
 	private JTable table;
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 
@@ -36,8 +36,8 @@ public class VisualizzaDipendente extends JDialog {
 				}
 			}
 		});
-	}*/
-	public VisualizzaDipendente(Vector<Dipendente> vector) {
+	}
+	public VisualizzaDipendente() {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		setModal(true);
