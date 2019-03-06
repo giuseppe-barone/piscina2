@@ -85,10 +85,10 @@ public class RicercaInfortunio extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				if (radioAtleta.isSelected()) {
 					MatricolaFin=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta.getSelectedIndex()).getMatricolaFIN();
-					infortunioDAOP.getIscrittoId(MatricolaFin);
-					Vector<String[]>risultato=infortunioDAOP.getIscrittoId(MatricolaFin);
-					VisualizzaInfortunio vis =new VisualizzaInfortunio(risultato);
-					vis.setVisible(true);			
+				//	infortunioDAOP.getIscrittoId(MatricolaFin);
+					//Vector<String[]>risultato=infortunioDAOP.getIscrittoId(MatricolaFin);
+				//	VisualizzaInfortunio vis =new VisualizzaInfortunio(risultato);
+				//	vis.setVisible(true);			
 				}
 					
 			}

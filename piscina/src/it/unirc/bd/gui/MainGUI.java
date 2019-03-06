@@ -158,8 +158,8 @@ public class MainGUI {
 		JMenuItem mntmVisualizzaInfortunio = new JMenuItem("Visualizza Infortunio");
 		mntmVisualizzaInfortunio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VisualizzaInfortunio visualizza =  new VisualizzaInfortunio();
-				visualizza.setVisible(true);
+				//VisualizzaInfortunio visualizza =  new VisualizzaInfortunio(null);
+			//	visualizza.setVisible(true);
 			}
 		});
 		mnInfortunii.add(mntmVisualizzaInfortunio);
@@ -183,8 +183,8 @@ public class MainGUI {
 		JMenuItem mntmVisualizzaDipendentei = new JMenuItem("Visualizza Dipendenti");
 		mntmVisualizzaDipendentei.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VisualizzaDipendente visualizza = new VisualizzaDipendente();
-				visualizza.setVisible(true);
+				//VisualizzaDipendente visualizza = new VisualizzaDipendente();
+			//	visualizza.setVisible(true);
 			}
 		});
 		mnDipendenti.add(mntmVisualizzaDipendentei);
