@@ -5,10 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
+
 import java.util.Vector;
 
 import it.unirc.bd.dao.utils.DBManager;
+
+
 
 
 
@@ -95,8 +97,7 @@ public class InfortunioDAOP {
 				DBManager.closeConnection();
 			//	System.out.println(list.toString());
 				
-				VisualizzaInfortunio vis=new VisualizzaInfortunio(lista);
-				vis.setVisible(true);
+
 				
 				
 				return lista;

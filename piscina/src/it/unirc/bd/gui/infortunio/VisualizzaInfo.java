@@ -1,23 +1,25 @@
 package it.unirc.bd.gui.infortunio;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import it.unirc.bd.dao.beans.InfortunioDAOP;
+public class VisualizzaInfo extends JDialog {
 
-public class VisualizzaInfortunio extends JDialog {
-	private JTable table;
-	InfortunioDAOP iDAOP = new InfortunioDAOP();
+	private final JPanel contentPanel = new JPanel();
+
+
 	
-	
-	public VisualizzaInfortunio(LinkedList<String[]> risultato) throws SQLException {
+	public VisualizzaInfo(LinkedList<String[]> risultato) throws SQLException {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		setModal(true);
@@ -25,7 +27,7 @@ public class VisualizzaInfortunio extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		table = new JTable();
+		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
 		Object[] columnsName = new Object[5];
 		columnsName[0] = "Nome";
@@ -49,6 +51,10 @@ public class VisualizzaInfortunio extends JDialog {
 		setContentPane(panel);
 	}
 	
-
+	
+	
+	
+	
+	
 
 }

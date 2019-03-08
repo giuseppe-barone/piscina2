@@ -15,6 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
@@ -45,7 +47,7 @@ public class RicercaInfortunio extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RicercaInfortunio() {
+	public RicercaInfortunio() throws SQLException{
 		setBounds(100, 100, 415, 244);
 		getContentPane().setLayout(null);
 		
@@ -86,8 +88,8 @@ public class RicercaInfortunio extends JDialog {
 				if (radioAtleta.isSelected()) {
 					MatricolaFin=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta.getSelectedIndex()).getMatricolaFIN();
 				//	infortunioDAOP.getIscrittoId(MatricolaFin);
-					//Vector<String[]>risultato=infortunioDAOP.getIscrittoId(MatricolaFin);
-				//	VisualizzaInfortunio vis =new VisualizzaInfortunio(risultato);
+					LinkedList<String[]>risultato=infortunioDAOP.getIscrittoId(MatricolaFin);
+					VisualizzaInfo vis =new VisualizzaInfo(risultato);
 				//	vis.setVisible(true);			
 				}
 					
