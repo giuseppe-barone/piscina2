@@ -3,6 +3,8 @@ package it.unirc.bd.gui.dipendente;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -17,6 +19,7 @@ import it.unirc.bd.dao.beans.Dipendente;
 import it.unirc.bd.dao.beans.DipendenteDAOP;
 import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
+import it.unirc.bd.gui.iscritto.InserisciIscritto;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 
 public class VisualizzaDipendente extends JDialog {
@@ -46,7 +49,15 @@ public class VisualizzaDipendente extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
-		load();
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0)));
+				Integer ID = (Integer)table.getModel().getValueAt(table.getSelectedRow(), 0);
+				InserisciDipendente modifica = new InserisciDipendente(true, dDAOP.getDipendenteId(ID));
+				modifica.setVisible(true);
+			}});
+			
+		load(vector);
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
@@ -54,7 +65,7 @@ public class VisualizzaDipendente extends JDialog {
 		panel.add(pane);
 		setContentPane(panel);
 	}
-	private void load() {
+	private void load(Vector<Dipendente> vector) {
 		DefaultTableModel model = new DefaultTableModel();
 		Object[] columnsName = new Object[6];
 		columnsName[0] = "Id";
@@ -64,17 +75,18 @@ public class VisualizzaDipendente extends JDialog {
 		columnsName[4] = "Sesso";
 		columnsName[5] = "Tipologia di Dipendente";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Dipendente> list;
+		/*Vector<Dipendente> list;
 		list=dDAOP.getAll();
-		System.out.println(list);
+		System.out.println(list);*/
+		
 		Object rowData[] = new Object[6]; 
-		for (int a=0;a<list.size();a++) {
-			rowData[0] = list.elementAt(a).getIdDipendente();
-			rowData[1] = list.elementAt(a).getNome();
-			rowData[2] = list.elementAt(a).getCognome();
-			rowData[3] = list.elementAt(a).getCellulare();
-			rowData[4] = list.elementAt(a).getSesso();
-			rowData[5] = list.elementAt(a).getTipologiaDipendente();
+		for (int a=0;a<vector.size();a++) {
+			rowData[0] = vector.elementAt(a).getIdDipendente();
+			rowData[1] = vector.elementAt(a).getNome();
+			rowData[2] = vector.elementAt(a).getCognome();
+			rowData[3] = vector.elementAt(a).getCellulare();
+			rowData[4] = vector.elementAt(a).getSesso();
+			rowData[5] = vector.elementAt(a).getTipologiaDipendente();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

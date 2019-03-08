@@ -279,6 +279,32 @@ public class DipendenteDAOP {
 				System.out.println(risultato.toString());
 				return risultato;
 			} 
+			//-----------------RICERCA PER ID -------------------
+			public Dipendente getDipendenteId(Integer ID) {
+				String query = "SELECT * FROM dipendente WHERE idDipendente = ?";
+				Dipendente res = null;
+				PreparedStatement ps;
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					ps.setInt(1, ID);
+					ResultSet rs = ps.executeQuery();
+					if(rs.next()){
+						res=new Dipendente();
+						res.setIdDipendente(rs.getInt("idDipendente"));
+						res.setNome( rs.getString("Nome") );
+						res.setCognome(rs.getString("Cognome"));
+						res.setCellulare( rs.getString("Cellulare") );
+						res.setSesso( rs.getString("Sesso") );
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();
+				System.out.println(res.toString());
+				return res;
+			} 
+		
 		}
 
 

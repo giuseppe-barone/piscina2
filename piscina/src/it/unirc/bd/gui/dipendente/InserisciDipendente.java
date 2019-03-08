@@ -60,7 +60,7 @@ public class InserisciDipendente extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InserisciDipendente dialog = new InserisciDipendente();
+					InserisciDipendente dialog = new InserisciDipendente(false, null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -72,8 +72,10 @@ public class InserisciDipendente extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param dipendente 
+	 * @param modifica 
 	 */
-	public InserisciDipendente() {
+	public InserisciDipendente(boolean modifica, Dipendente dipendente) {
 
 		getContentPane().setEnabled(false);
 		setTitle("Inserisci Dipendente");
