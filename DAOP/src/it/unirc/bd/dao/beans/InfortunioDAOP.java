@@ -1,10 +1,13 @@
 package it.unirc.bd.dao.beans;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
+import java.time.LocalDate;
+import java.time.Period;
+
 
 import java.util.Vector;
 
@@ -16,6 +19,7 @@ import it.unirc.bd.dao.utils.DBManager;
 
 
 public class InfortunioDAOP {
+	private Iscritto iscritto=new Iscritto();
 	private Connection conn = null;
 
 	public boolean salva(Infortunio i) {
@@ -68,42 +72,290 @@ public class InfortunioDAOP {
 	
 	
 	//-----------------RICERCA PER MatricolaFin -------------------
-			public LinkedList<String[]> getIscrittoId(int ID) throws SQLException {
+			public Vector<String[]> getIscrittoId(int ID) throws SQLException {
 				String query = "SELECT iscritto.Nome, iscritto.Cognome,iscritto.MatricolaFin, infortunio.Gravita,  infortunio.Data \r\n" + 
 						"FROM iscritto JOIN infortunio\r\n" + 
 						"ON iscritto.MatricolaFin = infortunio.MatricolaFin where iscritto.MatricolaFin=?;";
 				Iscritto res = null;
 				PreparedStatement ps;
-				LinkedList<String[]> lista=new LinkedList<String[]>();
-				String[] stringa=new String[5]; 
+				Vector<String[]> lista=new Vector<String[]>();
+ 
 				conn=DBManager.startConnection();
 				try {
 					ps = conn.prepareStatement(query);
 					ps.setInt(1, ID);
 					ResultSet rs = ps.executeQuery();
+					int contatore=0;
 					while(rs.next()){
+						String[] stringa=new String[5];
+						contatore++;
 						stringa[0]=rs.getString("Nome");
+						//System.out.println(stringa[0]);
 						stringa[1]=rs.getString("Cognome");
+						//System.out.println(stringa[1]);
 						stringa[2]=Integer.toString(rs.getInt("MatricolaFin"));
-						stringa[3]=Integer.toString(rs.getInt("Gravita"));
+						//System.out.println(stringa[2]);
+						switch (rs.getInt("Gravita")) {
+						case 1:
+							stringa[3]="Lieve";
+							break;
+						case 2:
+							stringa[3]="Media";
+							break;
+						case 3:
+							stringa[3]="Elevata";
+							break;
+						}
+						//stringa[3]=Integer.toString(rs.getInt("Gravita"));
+						//System.out.println(stringa[3]);
 						stringa[4]=rs.getDate("Data").toString();
-						//for (int i =0;i<stringa.length;i++)
-						//	System.out.println(stringa[i]+" ");
+						//System.out.println(stringa[4]);
+						//System.out.println(contatore);
+						/*for (int i =0;i<stringa.length;i++)
+							System.out.println(stringa[i]+" ");*/
 						lista.add(stringa);
+						System.out.println("STRINGA AGGIUNTA");
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 				DBManager.closeConnection();
-			//	System.out.println(list.toString());
+			
 				
-
-				
-				
+			/*	System.out.println("PROVA DI SCRITTURA-------------INIZIO------------");
+				for (String[] s : lista) {
+					for (int x=0;x<5;x++)
+						System.out.println(s[x]);
+				}
+				System.out.println("PROVA DI SCRITTURA-------------FINE--------------");
+				*/
 				return lista;
 			} 
 		
 	
 	
+			//-----------------RICERCA PER Gravità -------------------
+			public Vector<String[]> getGravita(int Gravita) throws SQLException {
+				String query = "SELECT iscritto.Nome, iscritto.Cognome,iscritto.MatricolaFin, infortunio.Gravita,  infortunio.Data \r\n" + 
+						"FROM iscritto JOIN infortunio\r\n" + 
+						"ON iscritto.MatricolaFin = infortunio.MatricolaFin where infortunio.Gravita=?";
+				Iscritto res = null;
+				PreparedStatement ps;
+				Vector<String[]> lista=new Vector<String[]>();
+ 
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					ps.setInt(1, Gravita);
+					ResultSet rs = ps.executeQuery();
+					int contatore=0;
+					while(rs.next()){
+						String[] stringa=new String[5];
+						contatore++;
+						stringa[0]=rs.getString("Nome");
+						//System.out.println(stringa[0]);
+						stringa[1]=rs.getString("Cognome");
+						//System.out.println(stringa[1]);
+						stringa[2]=Integer.toString(rs.getInt("MatricolaFin"));
+						//System.out.println(stringa[2]);
+						switch (rs.getInt("Gravita")) {
+						case 1:
+							stringa[3]="Lieve";
+							break;
+						case 2:
+							stringa[3]="Media";
+							break;
+						case 3:
+							stringa[3]="Elevata";
+							break;
+						}
+						//stringa[3]=Integer.toString(rs.getInt("Gravita"));
+						//System.out.println(stringa[3]);
+						stringa[4]=rs.getDate("Data").toString();
+						//System.out.println(stringa[4]);
+						//System.out.println(contatore);
+						/*for (int i =0;i<stringa.length;i++)
+							System.out.println(stringa[i]+" ");*/
+						lista.add(stringa);
+						System.out.println("STRINGA AGGIUNTA");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();				
+				/*System.out.println("PROVA DI SCRITTURA-------------INIZIO------------");
+				for (String[] s : lista) {
+					for (int x=0;x<5;x++)
+						System.out.println(s[x]);
+				}
+				System.out.println("PROVA DI SCRITTURA-------------FINE--------------");
+				*/
+				return lista;
+			} 
+			
+			
+			//-----------------RICERCA Tutti -------------------
+			public Vector<String[]> getTutti() throws SQLException {
+				String query = "SELECT iscritto.Nome, iscritto.Cognome,iscritto.MatricolaFin, infortunio.Gravita,  infortunio.Data \r\n" + 
+						"FROM iscritto JOIN infortunio\r\n" + 
+						"ON iscritto.MatricolaFin = infortunio.MatricolaFin ;";
+				Iscritto res = null;
+				PreparedStatement ps;
+				Vector<String[]> lista=new Vector<String[]>();
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+				
+					ResultSet rs = ps.executeQuery();
+					int contatore=0;
+					while(rs.next()){
+						String[] stringa=new String[5];
+						contatore++;
+						stringa[0]=rs.getString("Nome");
+						//System.out.println(stringa[0]);
+						stringa[1]=rs.getString("Cognome");
+						//System.out.println(stringa[1]);
+						stringa[2]=Integer.toString(rs.getInt("MatricolaFin"));
+						//System.out.println(stringa[2]);
+						switch (rs.getInt("Gravita")) {
+						case 1:
+							stringa[3]="Lieve";
+							break;
+						case 2:
+							stringa[3]="Media";
+							break;
+						case 3:
+							stringa[3]="Elevata";
+							break;
+						}
+						//stringa[3]=Integer.toString(rs.getInt("Gravita"));
+						//System.out.println(stringa[3]);
+						stringa[4]=rs.getDate("Data").toString();
+						//System.out.println(stringa[4]);
+						//System.out.println(contatore);
+						/*for (int i =0;i<stringa.length;i++)
+							System.out.println(stringa[i]+" ");*/
+						lista.add(stringa);
+						System.out.println("STRINGA AGGIUNTA");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();				
+				/*System.out.println("PROVA DI SCRITTURA-------------INIZIO------------");
+				for (String[] s : lista) {
+					for (int x=0;x<5;x++)
+						System.out.println(s[x]);
+				}
+				System.out.println("PROVA DI SCRITTURA-------------FINE--------------");
+				*/
+				return lista;
+			} 
+			
+			
+			//-----------------RICERCA Categoria -------------------
+			public Vector<String[]> getCategoria(String Categoria) throws SQLException {
+				String query = "SELECT iscritto.Nome, iscritto.Cognome,iscritto.MatricolaFin, iscritto.Sesso, iscritto.DataDiNascita, infortunio.Gravita,  infortunio.Data \r\n" + 
+						"FROM iscritto JOIN infortunio\r\n" + 
+						"ON iscritto.MatricolaFin = infortunio.MatricolaFin  ;";
+				Iscritto res = null;
+				PreparedStatement ps;
+				Vector<String[]> lista=new Vector<String[]>();
+ 
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					ResultSet rs = ps.executeQuery();
+					int contatore=0;
+					while(rs.next()){
+						String[] stringa=new String[5];
+						contatore++;
+						stringa[0]=rs.getString("Nome");
+						//System.out.println(stringa[0]);
+						stringa[1]=rs.getString("Cognome");
+						//System.out.println(stringa[1]);
+						stringa[2]=Integer.toString(rs.getInt("MatricolaFin"));
+						//System.out.println(stringa[2]);
+						switch (rs.getInt("Gravita")) {
+						case 1:
+							stringa[3]="Lieve";
+							break;
+						case 2:
+							stringa[3]="Media";
+							break;
+						case 3:
+							stringa[3]="Elevata";
+							break;
+						}
+						//stringa[3]=Integer.toString(rs.getInt("Gravita"));
+						//System.out.println(stringa[3]);
+						stringa[4]=rs.getDate("Data").toString();
+						//System.out.println(stringa[4]);
+						//System.out.println(contatore);
+						/*for (int i =0;i<stringa.length;i++)
+							System.out.println(stringa[i]+" ");*/
+						if (CalcoloCategoria(rs.getString("Sesso"), rs.getDate("DataDiNascita")).equals(Categoria))
+							lista.add(stringa);
+						System.out.println("STRINGA AGGIUNTA");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();				
+				/*System.out.println("PROVA DI SCRITTURA-------------INIZIO------------");
+				for (String[] s : lista) {
+					for (int x=0;x<5;x++)
+						System.out.println(s[x]);
+				}
+				System.out.println("PROVA DI SCRITTURA-------------FINE--------------");
+				*/
+				return lista;
+			} 
+			
+			//CALCOLO CATEGORIA
+			public String CalcoloCategoria(String sesso, Date data) {
+				String risultato = null;
+				int eta = 0;
+				boolean isMaschio;
+				if (sesso.equals("Maschio"))
+					isMaschio=true;
+				else
+					isMaschio=false;
+				//--------------CODICE PER IL CALCOLO DELL'ETA DA INSERIRE A PARTE PER PEPPE----------------
+				LocalDate corrente=LocalDate.now();
+				Date nascita=data;
+				LocalDate LNascita=nascita.toLocalDate();
+				//System.out.println(LNascita.toString());
+
+				//System.out.println(corrente.toString());
+				if ((corrente != null) && (nascita != null)) {
+		          // System.out.println(Period.between(LNascita, corrente).getYears());
+		           eta=Period.between(LNascita, corrente).getYears();
+		           
+		        }
+				if (isMaschio) {	//SE è MASCHIO
+					if (eta<14)
+						risultato="Esordienti";
+					else if (eta<17)
+						risultato="Ragazzi";
+					else if (eta<21)
+						risultato="Cadetti";
+					else
+						risultato="Seniores";
+				}
+				else {				//SE NON è MASCIO
+					if (eta<13)
+						risultato="Esordienti";
+					else if (eta<15)
+						risultato="Ragazzi";
+					else if (eta<19)
+						risultato="Cadetti";
+					else
+						risultato="Seniores";
+				}
+				return risultato;
+			}
+			
+			
 	
 }

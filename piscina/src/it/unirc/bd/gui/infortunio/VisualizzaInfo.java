@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,7 +20,7 @@ public class VisualizzaInfo extends JDialog {
 
 
 	
-	public VisualizzaInfo(LinkedList<String[]> risultato) throws SQLException {
+	public VisualizzaInfo(Vector<String[]> risultato) throws SQLException {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		setModal(true);

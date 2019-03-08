@@ -21,7 +21,7 @@ import it.unirc.bd.gui.evento.PartecipazioneEvento;
 import it.unirc.bd.gui.evento.RicercaEvento;
 import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
-import it.unirc.bd.gui.infortunio.VisualizzaInfortunio;
+
 import it.unirc.bd.gui.iscritto.InserisciIscritto;
 import it.unirc.bd.gui.iscritto.RicercaIscritti;
 import it.unirc.bd.gui.iscritto.RicercaIscritto;
@@ -145,7 +145,7 @@ public class MainGUI {
 		JMenuItem mntmInserisciInfortunio = new JMenuItem("Inserisci Infortunio");
 		mntmInserisciInfortunio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InserisciInfortunio inserisci =  new InserisciInfortunio();
+				InserisciInfortunio inserisci =  new InserisciInfortunio(null, null);
 				inserisci.setVisible(true);
 			}
 		});

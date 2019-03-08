@@ -40,7 +40,7 @@ public class InserisciInfortunio extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try {
 			InserisciInfortunio dialog = new InserisciInfortunio();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -48,12 +48,12 @@ public class InserisciInfortunio extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Create the dialog.
 	 */
-	public InserisciInfortunio() {
+	public InserisciInfortunio(Boolean modifica, Infortunio info) {
 		setBounds(100, 100, 466, 216);
 		getContentPane().setLayout(null);
 		{
