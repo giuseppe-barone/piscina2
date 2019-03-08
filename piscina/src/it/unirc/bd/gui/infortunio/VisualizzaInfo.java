@@ -14,8 +14,14 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class VisualizzaInfo extends JDialog {
+import it.unirc.bd.dao.beans.InfortunioDAOP;
+import it.unirc.bd.gui.iscritto.InserisciIscritto;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class VisualizzaInfo extends JDialog {
+	public InfortunioDAOP infortunioDAOP =new InfortunioDAOP();
 	private final JPanel contentPanel = new JPanel();
 
 
@@ -29,17 +35,28 @@ public class VisualizzaInfo extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		JTable table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 5))); //codice per provare come aquisire dati dal click sulla tabella
+				//	Integer ID =Integer.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0));
+					Integer ID =Integer.valueOf((String) table.getModel().getValueAt(table.getSelectedRow(),5));
+					InserisciInfortunio modifica = new InserisciInfortunio(true, infortunioDAOP.getIDInfo(ID) );
+					modifica.setVisible(true);
+			}
+		});
 		DefaultTableModel model = new DefaultTableModel();
-		Object[] columnsName = new Object[5];
+		Object[] columnsName = new Object[6];		
 		columnsName[0] = "Nome";
 		columnsName[1] = "Cognome";
 		columnsName[2] = "Matricola FIN";
 		columnsName[3] = "Gravità";
 		columnsName[4] = "Data";
+		columnsName[5] = "ID";
 		model.setColumnIdentifiers(columnsName);
-		Object rowData[] = new Object[5]; 		
+		Object rowData[] = new Object[6]; 		
 		for (String[] i:risultato) {
-			for (int j=0;j<5;j++)
+			for (int j=0;j<6;j++)
 				rowData[j]=i[j];
 			model.addRow(rowData);
 			}	
