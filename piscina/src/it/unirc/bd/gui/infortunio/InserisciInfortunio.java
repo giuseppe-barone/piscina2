@@ -40,7 +40,7 @@ public class InserisciInfortunio extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try {
 			InserisciInfortunio dialog = new InserisciInfortunio();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -48,12 +48,12 @@ public class InserisciInfortunio extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Create the dialog.
 	 */
-	public InserisciInfortunio() {
+	public InserisciInfortunio(Boolean modifica, Infortunio info) {
 		setBounds(100, 100, 466, 216);
 		getContentPane().setLayout(null);
 		{
@@ -79,10 +79,10 @@ public class InserisciInfortunio extends JDialog {
 		}
 
 		
-			JButton btnInserisci = new JButton("Inserisci");
-			btnInserisci.setEnabled(false);
-			btnInserisci.setBounds(102, 131, 97, 25);
-			getContentPane().add(btnInserisci);
+			JButton buttonInserisci = new JButton("Inserisci");
+			buttonInserisci.setEnabled(false);
+			buttonInserisci.setBounds(102, 131, 97, 25);
+			getContentPane().add(buttonInserisci);
 			
 			JLabel lblAtleta = new JLabel("Atleta");
 			lblAtleta.setBounds(12, 13, 56, 16);
@@ -104,20 +104,47 @@ public class InserisciInfortunio extends JDialog {
 			getContentPane().add(comboGravita);
 			
 			JButton buttonModifica = new JButton("Modifica");
-			buttonModifica.setEnabled(false);
+			
 			buttonModifica.setBounds(211, 131, 97, 25);
 			getContentPane().add(buttonModifica);
+			
+			//FINESTRA IN MODALITà MODIFICA
+			if (modifica) {
+				buttonInserisci.setVisible(false);
+				buttonModifica.setVisible(true);
+				txtData.setText(info.getData().toString());
+				spinnerGiorni.setValue(Integer.valueOf(info.getGiorniSosta()));
+				switch(info.getGravita()) {
+				case 1:
+					comboGravita.setSelectedIndex(0);
+					break;
+				case 2:
+					comboGravita.setSelectedIndex(1);
+					break;
+				case 3:
+					comboGravita.setSelectedIndex(2);
+					break;
+				}
+				
+			}	
+			
+			//-------------------LISTNER-----------------
+			
 			txtData.addCaretListener(new CaretListener() {
 				public void caretUpdate(CaretEvent e) {
-					if(controlloBottone()==false)
-						btnInserisci.setEnabled(false);
-					else
-						btnInserisci.setEnabled(true);
+					if(controlloBottone()==false) {
+						buttonInserisci.setEnabled(false);
+						buttonModifica.setEnabled(false);
+					}
+					else {
+						buttonInserisci.setEnabled(true);
+						buttonModifica.setEnabled(true);
+					}
 				}
 			});
 			
 			
-			btnInserisci.addActionListener(new ActionListener() {
+			buttonInserisci.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//Prendere la matricola 
 					MatricolaFIN = iscrittoDAOP.getAtleticb().getElementAt(comboMatricola.getSelectedIndex()).getMatricolaFIN();
@@ -134,6 +161,26 @@ public class InserisciInfortunio extends JDialog {
 					else
 						JOptionPane.showMessageDialog(null, "Inserimento Fallito");
 					
+				}
+			});
+			
+			//----BOTTONE MODIFICA
+			buttonModifica.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//Prendere la matricola 
+					MatricolaFIN = iscrittoDAOP.getAtleticb().getElementAt(comboMatricola.getSelectedIndex()).getMatricolaFIN();
+					data = Date.valueOf(txtData.getText());
+					GiorniSosta = (Integer)spinnerGiorni.getValue();   //   Integer.parseInt(txtSosta.getText());
+					System.out.println(Integer.toString(GiorniSosta) );
+					gravita = comboGravita.getSelectedIndex()+1;
+					System.out.println(gravita) ;
+					//DEVO PASSARE IL VALORE MATRICOLAFIN
+					Infortunio i = new Infortunio(info.getIdInfortunio(), data, GiorniSosta, gravita, MatricolaFIN);
+					
+					if (iDAOP.modifica(i))
+						JOptionPane.showMessageDialog(null, "Modifica Riuscita");
+					else
+						JOptionPane.showMessageDialog(null, "Modifica Fallita");
 				}
 			});
 			

@@ -9,12 +9,14 @@ import it.unirc.bd.dao.beans.InfortunioDAOP;
 import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
-import it.unirc.bd.gui.infortunio.VisualizzaInfortunio;
+
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
@@ -45,7 +47,7 @@ public class RicercaInfortunio extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RicercaInfortunio() {
+	public RicercaInfortunio() throws SQLException{
 		setBounds(100, 100, 415, 244);
 		getContentPane().setLayout(null);
 		
@@ -83,13 +85,34 @@ public class RicercaInfortunio extends JDialog {
 		JButton btnCerca = new JButton("Cerca");
 		btnCerca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Vector<String[]> risultato=null;
 				if (radioAtleta.isSelected()) {
-					MatricolaFin=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta.getSelectedIndex()).getMatricolaFIN();
-				//	infortunioDAOP.getIscrittoId(MatricolaFin);
-					//Vector<String[]>risultato=infortunioDAOP.getIscrittoId(MatricolaFin);
-				//	VisualizzaInfortunio vis =new VisualizzaInfortunio(risultato);
-				//	vis.setVisible(true);			
+					MatricolaFin=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta.getSelectedIndex()).getMatricolaFIN();		 				
+					risultato=infortunioDAOP.getIscrittoId(MatricolaFin);
 				}
+				if (radioGravita.isSelected()) {
+					Gravita=comboGravita.getSelectedIndex()+1;
+					risultato=infortunioDAOP.getGravita(Gravita);
+				}
+				if (radioTutti.isSelected()) {
+					risultato=infortunioDAOP.getTutti();
+				}
+				if (radioCategoria.isSelected()) {
+					Categoria=(String)comboCategoria.getSelectedItem();
+					System.out.println(Categoria);
+					risultato=infortunioDAOP.getCategoria(Categoria);
+				}
+						VisualizzaInfo vis =new VisualizzaInfo(risultato);
+
+						vis.setVisible(true);	
+					
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				//	vis.setVisible(true);			
+				
 					
 			}
 		});

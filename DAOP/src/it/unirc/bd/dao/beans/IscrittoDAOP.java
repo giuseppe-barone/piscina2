@@ -38,7 +38,7 @@ public class IscrittoDAOP {
 			ResultSet rs = ps.executeQuery();
 			Iscritto res=null;
 			while(rs.next()){
-				list.add(recordToIscritto(rs));
+				list.add(recordToIscritto(rs)); 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace(); 
