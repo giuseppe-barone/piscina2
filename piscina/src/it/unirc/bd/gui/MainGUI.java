@@ -171,7 +171,7 @@ public class MainGUI {
 		JMenuItem mntmNuovoDipendente = new JMenuItem("Nuovo Dipendente");
 		mntmNuovoDipendente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InserisciDipendente inserisci = new InserisciDipendente();
+				InserisciDipendente inserisci = new InserisciDipendente(false,null);
 				inserisci.setVisible(true);
 			}
 		});
