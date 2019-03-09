@@ -184,7 +184,7 @@ public class MainGUI {
 		mntmVisualizzaDipendentei.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//VisualizzaDipendente visualizza = new VisualizzaDipendente();
-			//	visualizza.setVisible(true);
+          // visualizza.setVisible(true);
 			}
 		});
 		mnDipendenti.add(mntmVisualizzaDipendentei);
