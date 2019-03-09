@@ -113,43 +113,43 @@ public class RicercaEvento extends JDialog {
 
 		JButton btnRicerca = new JButton("Ricerca");
 
-		btnRicerca.setBounds(161, 196, 97, 25);
+		btnRicerca.setBounds(147, 196, 97, 25);
 		contentPanel.add(btnRicerca);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(248, 19, -235, 78);
 		contentPanel.add(panel);
 
-		JRadioButton rbTipo = new JRadioButton("rbTipo");
+		JRadioButton rbTipo = new JRadioButton("Tipo");
 
 		rbTipo.setBounds(228, 10, 127, 25);
 		contentPanel.add(rbTipo);
 		gruppo.add(rbTipo);
 
-		JRadioButton rbData = new JRadioButton("rbData");
+		JRadioButton rbData = new JRadioButton("Data");
 
 		rbData.setBounds(228, 40, 127, 25);
 		contentPanel.add(rbData);
 		gruppo.add(rbData);
 
 
-		JRadioButton rbLivello = new JRadioButton("rbLivello");
+		JRadioButton rbLivello = new JRadioButton("Livello");
 
 		rbLivello.setBounds(228, 71, 127, 25);
 		contentPanel.add(rbLivello);
 		gruppo.add(rbLivello);
 
 
-		JRadioButton rbRA = new JRadioButton("rbRA");
+		JRadioButton rbRA = new JRadioButton("Atleta");
 
 		rbRA.setBounds(147, 103, 127, 25);
 		contentPanel.add(rbRA);
 		gruppo.add(rbRA);
 
 
-		JRadioButton rbTutti = new JRadioButton("rbTutti");
+		JRadioButton rbTutti = new JRadioButton("Tutti");
 
-		rbTutti.setBounds(161, 166, 127, 25);
+		rbTutti.setBounds(147, 162, 127, 25);
 		contentPanel.add(rbTutti);
 		gruppo.add(rbTutti);
 

@@ -89,7 +89,7 @@ public class PartecipazioneEvento extends JDialog {
 		contentPanel.add(lblNewLabel);
 
 		txtPosizione = new JTextField();
-		txtPosizione.setBounds(92, 67, 73, 22);
+		txtPosizione.setBounds(101, 67, 66, 22);
 		contentPanel.add(txtPosizione);
 		txtPosizione.setColumns(10);
 
