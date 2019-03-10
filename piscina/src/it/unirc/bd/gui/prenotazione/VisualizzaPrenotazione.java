@@ -27,7 +27,7 @@ public class VisualizzaPrenotazione extends JDialog {
 			public void run() {
 
 				try {
-					VisualizzaPrenotazione dialog = new VisualizzaPrenotazione();
+					VisualizzaPrenotazione dialog = new VisualizzaPrenotazione(null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -36,7 +36,7 @@ public class VisualizzaPrenotazione extends JDialog {
 			}
 		});
 	}
-	public VisualizzaPrenotazione() {
+	public VisualizzaPrenotazione(Vector<Prenotazione> list) {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		setModal(true);
@@ -45,7 +45,7 @@ public class VisualizzaPrenotazione extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
-		load();
+		load(list);
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
@@ -53,7 +53,7 @@ public class VisualizzaPrenotazione extends JDialog {
 		panel.add(pane);
 		setContentPane(panel);
 	}
-	private void load() {
+	private void load(Vector<Prenotazione> list) {
 		DefaultTableModel model = new DefaultTableModel();
 		Object[] columnsName = new Object[7];
 		columnsName[0] = "Id";
@@ -64,8 +64,8 @@ public class VisualizzaPrenotazione extends JDialog {
 		columnsName[5] = "Ora";
 		columnsName[6] = "IdDipendente";
 		model.setColumnIdentifiers(columnsName);
-		Vector<Prenotazione> list;
-		list=pDAOP.getAll();
+		//Vector<Prenotazione> list;
+		//list=pDAOP.getAll();
 		System.out.println(list);
 		Object rowData[] = new Object[7]; 
 		for (int a=0;a<list.size();a++) {
