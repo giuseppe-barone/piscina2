@@ -3,6 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="DAOP/src"/>
 	<classpathentry kind="src" path="piscina/src"/>
+	<classpathentry kind="src" path="libChart"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="hamcrest-core-1.3.jar"/>
 	<classpathentry kind="output" path="DAOP/bin"/>
