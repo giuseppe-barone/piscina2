@@ -6,7 +6,16 @@
 	<classpathentry kind="src" path="libChart"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="hamcrest-core-1.3.jar"/>
-	<classpathentry kind="lib" path="libChart/jcommon-1.0.23.jar"/>
-	<classpathentry kind="lib" path="libChart/jfreesvg-2.0.jar"/>
+	<classpathentry kind="lib" path=".gitattributes"/>
+	<classpathentry kind="lib" path=".project"/>
+	<classpathentry kind="lib" path="jfreechart-1.0.19-experimental.jar"/>
+	<classpathentry kind="lib" path="jfreechart-1.0.19-swt.jar"/>
+	<classpathentry kind="lib" path="jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="orsoncharts-1.4-eval-nofx.jar"/>
+	<classpathentry kind="lib" path="orsonpdf-1.6-eval.jar"/>
+	<classpathentry kind="lib" path="servlet.jar"/>
+	<classpathentry kind="lib" path="swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="junit-4.11.jar"/>
+	<classpathentry kind="lib" path="jcommon-1.0.17.jar"/>
 	<classpathentry kind="output" path="DAOP/bin"/>
 </classpath>
