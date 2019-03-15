@@ -27,7 +27,7 @@ public class quattroTorta {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -38,19 +38,28 @@ public class quattroTorta {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
 	 */
-	public quattroTorta() {
-		initialize();
+	public quattroTorta(CategoryDataset dataset) {
+		//initialize(dataset);
+		frame = new JFrame();
+		frame.setBounds(100, 100, 756, 423);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		final JFreeChart chart = createChart(dataset);
+        final ChartPanel chartPanel = new ChartPanel(chart, true, true, true, false, true);
+        chartPanel.setPreferredSize(new java.awt.Dimension(600, 380));
+        frame.getContentPane().add(chartPanel);
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(CategoryDataset dataset) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 756, 423);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +73,11 @@ public class quattroTorta {
 		// panel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true)); 
 		 panel.setBounds(1, 1, 10, 10);  
 		 frame.getContentPane().add(panel);   */
-		final CategoryDataset dataset = createDataset();
+		
+		
+		
+		
+		//final CategoryDataset dataset = createDataset(); LA COMMENTO PERCHè LO VOGLIO PASSARE IO IL DATASET
         final JFreeChart chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart, true, true, true, false, true);
         chartPanel.setPreferredSize(new java.awt.Dimension(600, 380));
@@ -77,7 +90,7 @@ public class quattroTorta {
 		
 	}
 	
-	  private CategoryDataset createDataset() {
+	 // private CategoryDataset createDataset() {
 	       /* final double[][] data = new double[][] {
 	            {3.0, 4.0, 3.0, 5.0},
 	            {5.0, 7.0, 6.0, 8.0},
@@ -89,10 +102,13 @@ public class quattroTorta {
 	            "Emanuele",
 	            data
 	        );*/
-		   int ciccio=1;
-		   int pippo=2;
-		   int paolo=3;
-		   int pluto=4;
+	
+	
+	
+	
+	
+	
+		   /* PARTE BUONA
 		  
 		  final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	        dataset.addValue(0, "Ciccio", "Primo");
@@ -121,10 +137,10 @@ public class quattroTorta {
 	      
 		  
 		  
-		  
+		 
 		  
 	        return dataset;
-	    }
+	    }*/
 	
 	
 	  private JFreeChart createChart(final CategoryDataset dataset) {

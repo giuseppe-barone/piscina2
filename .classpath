@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="swtgraphics2d.jar"/>
 	<classpathentry kind="lib" path="junit-4.11.jar"/>
 	<classpathentry kind="lib" path="jcommon-1.0.17.jar"/>
+	<classpathentry kind="lib" path="mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="output" path="DAOP/bin"/>
 </classpath>

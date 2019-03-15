@@ -21,7 +21,7 @@ import it.unirc.bd.gui.evento.PartecipazioneEvento;
 import it.unirc.bd.gui.evento.RicercaEvento;
 import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
-
+import it.unirc.bd.gui.infortunio.RicercaInfortunio;
 import it.unirc.bd.gui.iscritto.InserisciIscritto;
 import it.unirc.bd.gui.iscritto.RicercaIscritti;
 import it.unirc.bd.gui.iscritto.RicercaIscritto;
@@ -32,6 +32,7 @@ import it.unirc.bd.gui.prenotazione.VisualizzaPrenotazione;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class MainGUI {
@@ -151,9 +152,6 @@ public class MainGUI {
 		});
 		mnInfortunii.add(mntmInserisciInfortunio);
 
-		JMenu mnRicercaInfortunio = new JMenu("Ricerca Infortunio");
-		mnInfortunii.add(mnRicercaInfortunio);
-
 
 		JMenuItem mntmVisualizzaInfortunio = new JMenuItem("Visualizza Infortunio");
 		mntmVisualizzaInfortunio.addActionListener(new ActionListener() {
@@ -162,6 +160,15 @@ public class MainGUI {
 			//	visualizza.setVisible(true);
 			}
 		});
+		
+		JMenuItem mntmRicercaInfortunio = new JMenuItem("Ricerca Infortunio");
+		mntmRicercaInfortunio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+			}
+		});
+		mnInfortunii.add(mntmRicercaInfortunio);
 		mnInfortunii.add(mntmVisualizzaInfortunio);
 
 		
