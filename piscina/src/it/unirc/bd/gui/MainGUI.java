@@ -279,7 +279,7 @@ public class MainGUI {
 		JMenuItem mntmVisualizzaPrenotazioni = new JMenuItem("Visualizza Prenotazioni");
 		mntmVisualizzaPrenotazioni.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VisualizzaPrenotazione visualizza = new VisualizzaPrenotazione();
+				VisualizzaPrenotazione visualizza = new VisualizzaPrenotazione(null);
 				visualizza.setVisible(true);
 			}
 		});
