@@ -18,6 +18,9 @@ public class statisticheDAOP {
 		String query = "SELECT COUNT(\"Gravita\")as Numero, Gravita from infortunio where infortunio.MatricolaFin=? group by Gravita;";
 		int ID =i.getMatricolaFIN();
 		PreparedStatement ps;
+		int lieve=0;
+		int medio=0;
+		int grave=0;
 
 		conn=DBManager.startConnection();
 		try {
@@ -26,26 +29,26 @@ public class statisticheDAOP {
 			ResultSet rs = ps.executeQuery();
 			int contatore=0;
 			while(rs.next()){
-				int lieve=0;
-				int medio=0;
-				int grave=0;
+
 				if(rs.getString("Gravita").equals("1"))
 					lieve=rs.getInt("Numero");
 				if (rs.getString("Gravita").equals("2"))
 					medio=rs.getInt("Numero");
 				if (rs.getString("Gravita").equals("3"))
-					medio=rs.getInt("Grave");
-				dataset.addValue(lieve, i.getNome()+" "+i.getCognome(), "Lieve");
-		        dataset.addValue(medio, i.getNome()+" "+i.getCognome(), "Medio");
-		        dataset.addValue(grave, i.getNome()+" "+i.getCognome(), "Grave");
-				System.out.println("DATASET AGGIUNTA");
+					grave=rs.getInt("Numero");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		DBManager.closeConnection();
 
-
+		System.out.println("Lieve: "+Integer.toString(lieve));
+		System.out.println("Medio: "+Integer.toString(medio));
+		System.out.println("Grave: "+Integer.toString(grave));
+		dataset.addValue(lieve, i.getNome()+" "+i.getCognome(), "Lieve");
+        dataset.addValue(medio, i.getNome()+" "+i.getCognome(), "Medio");
+        dataset.addValue(grave, i.getNome()+" "+i.getCognome(), "Grave");
+		System.out.println("DATASET AGGIUNTA");
 		return dataset;
 	} 
 

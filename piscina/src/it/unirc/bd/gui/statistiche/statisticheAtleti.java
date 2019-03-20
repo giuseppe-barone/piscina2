@@ -76,67 +76,77 @@ public class statisticheAtleti extends JDialog {
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Assoluti", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(12, 13, 537, 99);
+		panel_2.setBounds(12, 13, 537, 119);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 
 		JRadioButton radioAllenatori = new JRadioButton("Infortuni associati ad allenatori");
-		radioAllenatori.setBounds(8, 26, 205, 25);
+		radioAllenatori.setBounds(8, 39, 205, 25);
 		panel_2.add(radioAllenatori);
 		gruppo.add(radioAllenatori);
 
-		JCheckBox chckbxAnno = new JCheckBox("Anno");
-		chckbxAnno.setEnabled(false);
-		chckbxAnno.setBounds(217, 26, 57, 25);
-		panel_2.add(chckbxAnno);
+		JCheckBox chckbxAnno1 = new JCheckBox("Anno");
+		chckbxAnno1.setEnabled(false);
+		chckbxAnno1.setBounds(217, 39, 57, 25);
+		panel_2.add(chckbxAnno1);
 
-		JYearChooser yearChooser = new JYearChooser();
-		yearChooser.getSpinner().setEnabled(false);
-		yearChooser.setBounds(274, 29, 51, 22);
-		panel_2.add(yearChooser);
+		
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setEnabled(false);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Qualsiasi", "Lieve", "Media", "Elevata"}));
-		comboBox.setBounds(337, 27, 78, 22);
+		comboBox.setBounds(357, 42, 78, 22);
 		panel_2.add(comboBox);
 
 		JRadioButton radioCorsi = new JRadioButton("Infortuni associati a corsi");
-		radioCorsi.setBounds(8, 56, 205, 25);
+		radioCorsi.setBounds(8, 69, 205, 25);
 		panel_2.add(radioCorsi);
 		gruppo.add(radioCorsi);
 
-		JCheckBox checkBox = new JCheckBox("Anno");
-		checkBox.setEnabled(false);
-		checkBox.setBounds(217, 56, 57, 25);
-		panel_2.add(checkBox);
+		JCheckBox checkAnno2 = new JCheckBox("Anno");
+		checkAnno2.setEnabled(false);
+		checkAnno2.setBounds(217, 69, 57, 25);
+		panel_2.add(checkAnno2);
 
-		JYearChooser yearChooser_1 = new JYearChooser();
-		yearChooser_1.getSpinner().setEnabled(false);
-		yearChooser_1.setBounds(274, 59, 51, 22);
-		panel_2.add(yearChooser_1);
+		
 
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setEnabled(false);
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Qualsiasi", "Lieve", "Media", "Elevata"}));
-		comboBox_1.setBounds(337, 57, 78, 22);
+		comboBox_1.setBounds(357, 70, 78, 22);
 		panel_2.add(comboBox_1);
 
 		JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setEnabled(false);
 		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Qualsiasi", "Esordienti", "Ragazzi", "Cadetti", "Seniores"}));
-		comboBox_2.setBounds(427, 27, 78, 22);
+		comboBox_2.setBounds(447, 42, 78, 22);
 		panel_2.add(comboBox_2);
 
 		JComboBox comboBox_3 = new JComboBox();
 		comboBox_3.setEnabled(false);
 		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Qualsiasi", "Esordienti", "Ragazzi", "Cadetti", "Seniores"}));
-		comboBox_3.setBounds(427, 57, 78, 22);
+		comboBox_3.setBounds(447, 72, 78, 22);
 		panel_2.add(comboBox_3);
+		
+		JYearChooser yearChooser = new JYearChooser();
+		yearChooser.setBounds(282, 42, 51, 22);
+		panel_2.add(yearChooser);
+		
+		JYearChooser yearChooser_1 = new JYearChooser();
+		yearChooser_1.setBounds(282, 72, 51, 22);
+		panel_2.add(yearChooser_1);
+		
+		JLabel lblNewLabel = new JLabel("Gravit\u00E0");
+		lblNewLabel.setBounds(372, 13, 56, 16);
+		panel_2.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Categoria");
+		lblNewLabel_1.setBounds(457, 13, 56, 16);
+		panel_2.add(lblNewLabel_1);
 
 		JPanel panelConfronti = new JPanel();
 		panelConfronti.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Atleti", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panelConfronti.setBounds(55, 125, 406, 193);
+		panelConfronti.setBounds(55, 135, 406, 193);
 		panel.add(panelConfronti);
 		panelConfronti.setLayout(null);
 
@@ -179,7 +189,7 @@ public class statisticheAtleti extends JDialog {
 		comboAtleta3.setBounds(63, 116, 314, 22);
 		panelConfronti.add(comboAtleta3);
 
-		JCheckBox checkAtC = new JCheckBox("3\u00B0");
+		JCheckBox checkAtC = new JCheckBox();
 		checkAtC.setEnabled(false);
 		checkAtC.setBounds(8, 115, 41, 25);
 		panelConfronti.add(checkAtC);
@@ -196,12 +206,12 @@ public class statisticheAtleti extends JDialog {
 		panelConfronti.add(yearChooser_2);
 
 		JRadioButton radioConfronti = new JRadioButton("");
-		radioConfronti.setBounds(22, 121, 25, 25);
+		radioConfronti.setBounds(22, 135, 25, 25);
 		panel.add(radioConfronti);
 		gruppo.add(radioConfronti);
 
 		JButton btnNewButton = new JButton("Avvia");
-		btnNewButton.setBounds(209, 320, 97, 25);
+		btnNewButton.setBounds(211, 331, 97, 25);
 		panel.add(btnNewButton);
 
 
@@ -347,7 +357,6 @@ public class statisticheAtleti extends JDialog {
 		});
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("pollo");
 				System.out.println("pollo");
 				if (radioConfronti.isSelected()){
 					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
