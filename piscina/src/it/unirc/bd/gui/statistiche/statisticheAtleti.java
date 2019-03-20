@@ -348,6 +348,7 @@ public class statisticheAtleti extends JDialog {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("pollo");
+				System.out.println("pollo");
 				if (radioConfronti.isSelected()){
 					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 					Iscritto AtletaA;
