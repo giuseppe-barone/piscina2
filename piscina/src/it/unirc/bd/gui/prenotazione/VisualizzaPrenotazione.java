@@ -22,20 +22,7 @@ public class VisualizzaPrenotazione extends JDialog {
 	private JTable table;
 	PrenotazioneDAOP pDAOP = new PrenotazioneDAOP();
 	
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-
-			try {
-					VisualizzaPrenotazione dialog = new VisualizzaPrenotazione(null);
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+	
 	public VisualizzaPrenotazione(Vector<Prenotazione> list) {
 		setResizable(false);
 		setTitle("Visualizza Prenotazioni");

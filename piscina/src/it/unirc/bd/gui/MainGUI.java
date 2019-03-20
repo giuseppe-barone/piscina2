@@ -276,14 +276,6 @@ public class MainGUI {
 		JMenuItem mntmCercaeliminaPrenotazione = new JMenuItem("Cerca/Elimina Prenotazione");
 		mnPrenotazioni.add(mntmCercaeliminaPrenotazione);
 		
-		JMenuItem mntmVisualizzaPrenotazioni = new JMenuItem("Visualizza Prenotazioni");
-		mntmVisualizzaPrenotazioni.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VisualizzaPrenotazione visualizza = new VisualizzaPrenotazione(null);
-				visualizza.setVisible(true);
-			}
-		});
-		mnPrenotazioni.add(mntmVisualizzaPrenotazioni);
 
 		JMenu mnStatistiche = new JMenu("Statistiche");
 		menuBar.add(mnStatistiche);
