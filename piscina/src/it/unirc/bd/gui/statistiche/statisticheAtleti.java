@@ -346,8 +346,7 @@ public class statisticheAtleti extends JDialog {
 				if (radioAllenatori.isSelected()) {
 					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 					dataset=StatisticheDAOP.getInfortuniAllenatori(dataset);
-					barraVerticale vis =new barraVerticale(dataset);
-					
+					barraVerticale vis =new barraVerticale(dataset);	
 					vis.setVisible(true);
 				}
 					

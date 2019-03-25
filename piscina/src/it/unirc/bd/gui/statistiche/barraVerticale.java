@@ -156,7 +156,7 @@ public class barraVerticale extends JDialog {
 	 *
 	 * @param args  ignored.
 	 */
-	public static void main(final String[] args) {
+	/*public static void main(final String[] args) {
 
 		final barraVerticale demo = new barraVerticale();
 		demo.pack();
@@ -165,5 +165,5 @@ public class barraVerticale extends JDialog {
 
 
 
-	}
+	}*/
 }

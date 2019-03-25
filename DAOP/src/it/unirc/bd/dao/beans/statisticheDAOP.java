@@ -86,8 +86,9 @@ public class statisticheDAOP {
 		String query = "SELECT COUNT(\"Gravita\")as Numero, Gravita from infortunio where MatricolaFin IN (SELECT MatricolaFin FROM iscritto where iscritto.idIscritto IN (SELECT frequenta.idIscritto from frequenta where frequenta.idCorso=(SELECT idCorso FROM piscina.corso where Allenatore1=?))) group by Gravita;";
 		PreparedStatement ps;
 		Vector<Dipendente> vettore = getAllenatorePrima();
-		conn=DBManager.startConnection();
 		for (Dipendente d: vettore){
+		System.out.println(d.getNome()+" "+d.getCognome());
+		conn=DBManager.startConnection();	
 		int lieve=0;
 		int medio=0;
 		int grave=0;
