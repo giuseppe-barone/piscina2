@@ -123,5 +123,29 @@ public class CorsoDAOP {
 		DBManager.closeConnection();
 		return list;
 	}
+	
+	/*
+	 public Vector<Dipendente> getAllAllenatore1(){
+		String query = "SELECT * FROM dipendente where TipologiaDipendente = 2";
+		Vector<Dipendente> list = new Vector<Dipendente>();
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Dipendente res=null;
+			while(rs.next()){
+				list.add(recordToDipendente(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;
+	}
+	 */
+	
+	
+	
 
 }
