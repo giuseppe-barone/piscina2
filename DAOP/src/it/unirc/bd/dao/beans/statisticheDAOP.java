@@ -83,7 +83,7 @@ public class statisticheDAOP {
 	
 	 
 	public DefaultCategoryDataset getInfortuniAllenatori(DefaultCategoryDataset dataset ) {
-		String query = "SELECT COUNT(\"Gravita\")as Numero, Gravita from infortunio where MatricolaFin IN (SELECT MatricolaFin FROM iscritto where iscritto.idIscritto IN (SELECT frequenta.idIscritto from frequenta where frequenta.idCorso=(SELECT idCorso FROM piscina.corso where Allenatore1=?))) group by Gravita;";
+		String query = "SELECT COUNT(\"Gravita\")as Numero, Gravita from infortunio where MatricolaFin IN (SELECT MatricolaFin FROM iscritto where iscritto.idIscritto IN (SELECT frequenta.idIscritto from frequenta where frequenta.idCorso IN (SELECT idCorso FROM piscina.corso where Allenatore1=?))) group by Gravita;";
 		PreparedStatement ps;
 		Vector<Dipendente> vettore = getAllenatorePrima();
 		for (Dipendente d: vettore){
@@ -97,7 +97,6 @@ public class statisticheDAOP {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, ID);
 			ResultSet rs = ps.executeQuery();
-			int contatore=0;
 			while(rs.next()){
 
 				if(rs.getString("Gravita").equals("1"))
@@ -115,10 +114,16 @@ public class statisticheDAOP {
 		System.out.println("Lieve: "+Integer.toString(lieve));
 		System.out.println("Medio: "+Integer.toString(medio));
 		System.out.println("Grave: "+Integer.toString(grave));
-		dataset.addValue(lieve, d.getNome()+" "+d.getCognome(), "Lieve");
-        dataset.addValue(medio, d.getNome()+" "+d.getCognome(), "Medio");
-        dataset.addValue(grave, d.getNome()+" "+d.getCognome(), "Grave");
-		System.out.println("DATASET AGGIUNTA");
+		if (lieve!=0 || medio!=0 || grave!=0) {
+			dataset.addValue(lieve, "Lieve", d.getNome()+" "+d.getCognome());
+	        dataset.addValue(medio, "Medio" , d.getNome()+" "+d.getCognome());
+	        dataset.addValue(grave, "Grave" , d.getNome()+" "+d.getCognome());
+			System.out.println("DATASET AGGIUNTA");
+		}
+		else
+			System.out.println("DATASET NON AGGIUNTA");
+		
+
 		}
 		return dataset;
 	} 
