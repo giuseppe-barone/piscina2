@@ -85,18 +85,9 @@ public class statisticheAtleti extends JDialog {
 		panel_2.add(radioAllenatori);
 		gruppo.add(radioAllenatori);
 
-		JCheckBox chckbxAnno1 = new JCheckBox("Anno");
-		chckbxAnno1.setEnabled(false);
-		chckbxAnno1.setBounds(217, 39, 57, 25);
-		panel_2.add(chckbxAnno1);
-
-		
-
-		JComboBox comboBox = new JComboBox();
-		comboBox.setEnabled(false);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Qualsiasi", "Lieve", "Media", "Elevata"}));
-		comboBox.setBounds(357, 42, 78, 22);
-		panel_2.add(comboBox);
+		JCheckBox checkAnno1 = new JCheckBox("Anno");
+		checkAnno1.setBounds(217, 39, 57, 25);
+		panel_2.add(checkAnno1);
 
 		JRadioButton radioCorsi = new JRadioButton("Infortuni associati a corsi");
 		radioCorsi.setBounds(8, 69, 205, 25);
@@ -104,17 +95,8 @@ public class statisticheAtleti extends JDialog {
 		gruppo.add(radioCorsi);
 
 		JCheckBox checkAnno2 = new JCheckBox("Anno");
-		checkAnno2.setEnabled(false);
 		checkAnno2.setBounds(217, 69, 57, 25);
 		panel_2.add(checkAnno2);
-
-		
-
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setEnabled(false);
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Qualsiasi", "Lieve", "Media", "Elevata"}));
-		comboBox_1.setBounds(357, 70, 78, 22);
-		panel_2.add(comboBox_1);
 		
 		JYearChooser yearChooser = new JYearChooser();
 		yearChooser.setBounds(282, 42, 51, 22);
@@ -124,9 +106,9 @@ public class statisticheAtleti extends JDialog {
 		yearChooser_1.setBounds(282, 72, 51, 22);
 		panel_2.add(yearChooser_1);
 		
-		JLabel lblNewLabel = new JLabel("Gravit\u00E0");
-		lblNewLabel.setBounds(372, 13, 56, 16);
-		panel_2.add(lblNewLabel);
+		JLabel lblAnno = new JLabel("Anno");
+		lblAnno.setBounds(282, 13, 37, 16);
+		panel_2.add(lblAnno);
 
 		JPanel panelConfronti = new JPanel();
 		panelConfronti.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Atleti", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -344,8 +326,13 @@ public class statisticheAtleti extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("pollo");
 				if (radioAllenatori.isSelected()) {
+					Integer anno;
+					if (checkAnno1.isSelected())
+						anno=yearChooser.getValue();
+					else
+						anno=null;
 					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-					dataset=StatisticheDAOP.getInfortuniAllenatori(dataset);
+					dataset=StatisticheDAOP.getInfortuniAllenatori(dataset, anno);
 					barraVerticale vis =new barraVerticale(dataset);	
 					vis.setVisible(true);
 				}
