@@ -14,6 +14,7 @@ import javax.swing.event.CaretListener;
 
 import it.unirc.bd.dao.beans.Evento;
 import it.unirc.bd.dao.beans.EventoDAOP;
+import it.unirc.bd.dao.beans.Iscritto;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -147,6 +148,10 @@ public class InserisciEvento extends JDialog {
 					btnINSERISCI.setEnabled(true);
 					System.out.println("Sblocca DATA");
 				}
+				if(controlloBottone()==false)//|| txtMatricolaFin.getText().equals(""))
+					btnModifica.setEnabled(false);
+				else
+					btnModifica.setEnabled(true);
 			}
 		});
 		txtTIPO.addCaretListener(new CaretListener() {
@@ -161,6 +166,12 @@ public class InserisciEvento extends JDialog {
 					btnINSERISCI.setEnabled(true);
 					System.out.println("Sblocca TIPO");
 				}
+				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
+				if(controlloBottone()==false)//|| txtMatricolaFin.getText().equals(""))
+					btnModifica.setEnabled(false);
+				else
+					btnModifica.setEnabled(true);
+
 			}
 		});
 
@@ -172,6 +183,34 @@ public class InserisciEvento extends JDialog {
 			btnModifica.setVisible(false);
 			btnINSERISCI.setVisible(true);
 		}
+		
+		if (Modifica==true) {
+			btnModifica.setVisible(true);
+			btnINSERISCI.setVisible(false);
+		}
+		else{
+			btnModifica.setVisible(false);
+			btnINSERISCI.setVisible(true);
+		}
+		
+		//MECCANISMO DI MODIFICA
+		if (Modifica) {
+			txtDATA.setText(evento.getData().toString());
+			txtTIPO.setText(evento.getTipo());
+			livello = (String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());
+		}
+		
+		btnModifica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				tipo = txtTIPO.getText();
+				livello=(String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());	//CASTING
+				data = Date.valueOf(txtDATA.getText());
+				
+				Evento e = new Evento(evento.getIdEvento(),data, livello, tipo);
+				eDAOP.ModificaEvento(e);
+			}
+		});
+		
 		
 		
 		
@@ -200,6 +239,7 @@ public class InserisciEvento extends JDialog {
 		return eDAOP.ControlloDinamicoEvento(Integer.parseInt(txtIDEVENTO.getText()));
 	}
 */
+	
 
 
 	public void CalcoloEta() {

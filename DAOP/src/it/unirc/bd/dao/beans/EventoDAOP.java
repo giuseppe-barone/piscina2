@@ -187,6 +187,27 @@ public class EventoDAOP {
 				return risultato;
 
 			}
+			
+			//--------------------MODIFICA EVENTO-----------------
+			public boolean ModificaEvento(Evento e){
+				String query = "UPDATE evento SET Data=?, Livello=?, Tipo=? WHERE idEvento=?";
+				boolean esito=false;
+				conn=DBManager.startConnection();
+				try {
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setInt(4, e.getIdEvento());
+				ps.setDate(1, e.getData());
+				ps.setString(2, e.getLivello());
+				ps.setString(3, e.getTipo());
+				int tmp=ps.executeUpdate();
+				if (tmp==1)
+				esito=true;
+				} catch (SQLException e1) {
+				e1.printStackTrace();
+				}
+				DBManager.closeConnection();
+				return esito;
+				}
 		
 			
 			
