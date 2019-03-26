@@ -29,7 +29,7 @@ public class VisualizzaInfo extends JDialog {
 	public VisualizzaInfo(Vector<String[]> risultato) throws SQLException {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
-		setModal(true);
+		
 		setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);

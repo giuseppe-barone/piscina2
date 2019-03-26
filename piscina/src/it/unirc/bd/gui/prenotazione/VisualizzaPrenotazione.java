@@ -26,7 +26,7 @@ public class VisualizzaPrenotazione extends JDialog {
 	public VisualizzaPrenotazione(Vector<Prenotazione> list) {
 		setResizable(false);
 		setTitle("Visualizza Prenotazioni");
-		setModal(true);
+		
 		setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);

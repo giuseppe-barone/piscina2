@@ -235,7 +235,7 @@ public class MainGUI {
 		JMenuItem mntmOrganizzaEvento = new JMenuItem("Organizza Evento");
 		mntmOrganizzaEvento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InserisciEvento inserisci = new InserisciEvento();
+				InserisciEvento inserisci = new InserisciEvento(false, null);
 				inserisci.setVisible(true);
 			}
 		});

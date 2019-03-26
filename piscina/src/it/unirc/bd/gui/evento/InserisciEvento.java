@@ -28,8 +28,6 @@ import javax.swing.JComboBox;
 
 public class InserisciEvento extends JDialog {
 	EventoDAOP eDAOP = new EventoDAOP();
-
-	private JTextField txtIDEVENTO;
 	private JTextField txtDATA;
 	private JTextField txtTIPO;
 	//VARIABILI DA PASSARE ALLA QUERY
@@ -42,7 +40,7 @@ public class InserisciEvento extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			InserisciEvento dialog = new InserisciEvento();
+			InserisciEvento dialog = new InserisciEvento(false, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -52,53 +50,43 @@ public class InserisciEvento extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param evento 
+	 * @param b 
 	 */
-	public InserisciEvento() {
-		setBounds(100, 100, 407, 312);
+	public InserisciEvento(boolean Modifica, Evento evento) {
+		setBounds(100, 100, 416, 235);
 		getContentPane().setLayout(null);
 
-		txtIDEVENTO = new JTextField();
-		txtIDEVENTO.setBounds(82, 28, 116, 22);
-		getContentPane().add(txtIDEVENTO);
-		txtIDEVENTO.setColumns(10);
 
+		
 		txtDATA = new JTextField();
 		
-		txtDATA.setBounds(82, 85, 116, 22);
+		txtDATA.setBounds(82, 33, 116, 22);
 		getContentPane().add(txtDATA);
 		txtDATA.setColumns(10);
 
 		txtTIPO = new JTextField();
 		
-		txtTIPO.setBounds(261, 85, 116, 22);
+		txtTIPO.setBounds(261, 33, 116, 22);
 		getContentPane().add(txtTIPO);
 		txtTIPO.setColumns(10);
 
-		JLabel lblIDEVENTO = new JLabel("Id evento");
-		lblIDEVENTO.setBounds(14, 31, 56, 16);
-		getContentPane().add(lblIDEVENTO);
-
 		JLabel lblData = new JLabel("Data");
-		lblData.setBounds(14, 88, 56, 16);
+		lblData.setBounds(14, 36, 56, 16);
 		getContentPane().add(lblData);
 
 		JLabel lblTIPO = new JLabel("Tipo");
-		lblTIPO.setBounds(210, 88, 56, 16);
+		lblTIPO.setBounds(210, 36, 56, 16);
 		getContentPane().add(lblTIPO);
 
 		JLabel lblLivello = new JLabel("Livello");
-		lblLivello.setBounds(14, 147, 56, 16);
+		lblLivello.setBounds(14, 95, 56, 16);
 		getContentPane().add(lblLivello);
 
 		JComboBox cbLIVELLO = new JComboBox();
-		cbLIVELLO.setBounds(82, 144, 113, 22);
+		cbLIVELLO.setBounds(82, 92, 113, 22);
 		cbLIVELLO.setModel(new DefaultComboBoxModel(new String[] {"PROVINCIALE", "REGIONALE", "NAZIONALE"}));
 		getContentPane().add(cbLIVELLO);
-
-		JLabel lblAvviso = new JLabel("avviso");
-		lblAvviso.setBounds(228, 34, 56, 16);
-		lblAvviso.setForeground(Color.RED);
-		getContentPane().add(lblAvviso);
 
 		JButton btnINSERISCI = new JButton("Inserisci");
 
@@ -111,7 +99,7 @@ public class InserisciEvento extends JDialog {
 
 		btnINSERISCI.addActionListener(new ActionListener() { //INSERIMENTO EVENTO
 			public void actionPerformed(ActionEvent arg0) {
-				idEvento = Integer.parseInt(txtIDEVENTO.getText()); //CAST DA STRING A INT
+				//idEvento = Integer.parseInt(txtIDEVENTO.getText()); //CAST DA STRING A INT
 				data = data.valueOf(txtDATA.getText());
 				livello = (String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());
 				tipo = txtTIPO.getText();
@@ -130,7 +118,7 @@ public class InserisciEvento extends JDialog {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
 					txtDATA.setText("");
-					txtIDEVENTO.setText("");
+					//txtIDEVENTO.setText("");
 					txtTIPO.setText("");
 				}
 				else
@@ -138,29 +126,15 @@ public class InserisciEvento extends JDialog {
 
 				}
 		});
-		btnINSERISCI.setBounds(133, 195, 97, 25);
+		btnINSERISCI.setBounds(133, 143, 97, 25);
 		getContentPane().add(btnINSERISCI);
-
-
-
-
-
-		//---LISTENER----PER L'ATTIVAZIONE DEL BOTTONE PER IL CONTROLLO DEGLI ID-----
-		txtIDEVENTO.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI AVVISI ID DUPLICATO---
-				lblAvviso.setText(ControlloAvvisoEvento());
-				//---CONTROLLI DI ABILITAZIONE BOTTONE---
-				if(controlloBottone()==false) {
-					btnINSERISCI.setEnabled(false);
-					System.out.println("blocca ID");
-				}
-				else {
-					btnINSERISCI.setEnabled(true);
-					System.out.println("Sblocca ID");
-				}
-			}
-		});
+		
+		JButton btnModifica = new JButton("Modifica");
+		btnModifica.setEnabled(false);
+		btnModifica.setVisible(false);
+		btnModifica.setBounds(261, 143, 97, 25);
+		getContentPane().add(btnModifica);
+		
 		txtDATA.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent arg0) {
 				//---CONTROLLI DI ABILITAZIONE BOTTONE---
@@ -190,14 +164,26 @@ public class InserisciEvento extends JDialog {
 			}
 		});
 
+		if (Modifica==true) {
+			btnModifica.setVisible(true);
+			btnINSERISCI.setVisible(false);
+		}
+		else{
+			btnModifica.setVisible(false);
+			btnINSERISCI.setVisible(true);
+		}
+		
+		
+		
+
 
 
 	}
 	//CONTROLLO PER AVVISO ID DUPLICATO O ESISTENTE
-	public String ControlloAvvisoEvento() {
-		String risultato="";
-		String IDE = txtIDEVENTO.getText();
-		if(IDE.equals("")) {
+//public String ControlloAvvisoEvento() {
+		//String risultato="";
+		//String IDE = txtIDEVENTO.getText();
+		/*if(IDE.equals("")) {
 			System.out.println("NON C'E NESSUN VALORE");
 			return risultato;
 		}
@@ -205,15 +191,15 @@ public class InserisciEvento extends JDialog {
 		if(!IDE.equals("")&&eDAOP.ControlloDinamicoEvento(ID)) {
 			System.out.println("ID ESISTENTE");
 			risultato="ID esistente";
-		}
+		}*/
 
-		return risultato;
-	}
+		//return risultato;
 	
-	public boolean controlloIDIscritto() {
+	
+	/*public boolean controlloIDIscritto() {
 		return eDAOP.ControlloDinamicoEvento(Integer.parseInt(txtIDEVENTO.getText()));
 	}
-
+*/
 
 
 	public void CalcoloEta() {
@@ -238,22 +224,18 @@ public class InserisciEvento extends JDialog {
 	public boolean controlloBottone() {
 		boolean risultato=true ;
 		//---------CONTROLLI COMPILAZIONE CAMPI EVENTO----------
-		if (txtIDEVENTO.getText().equals("") || txtTIPO.getText().equals("") || txtDATA.getText().equals("")) {
+		if (txtTIPO.getText().equals("") || txtDATA.getText().equals("")) {
 			risultato=false;
 			System.out.println("CAMPI CORSO INDISPENSABILI NON COMPILATI ");
 		}
 		//----CONTROLLO PRECEDENTE ESISTENZA ID EVENTO----
-		else if (eDAOP.ControlloDinamicoEvento(Integer.parseInt(txtIDEVENTO.getText()))) {
+	/*	else if (eDAOP.ControlloDinamicoEvento(Integer.parseInt(txtIDEVENTO.getText()))) {
 			risultato=false;
 			System.out.println("ID EVENTO GIA ESISTENTE");
-		}
+		}*/
 		System.out.println("____________________________________________________________________________");
 
 		return risultato;
 
 	}
-
-
-
-
 }

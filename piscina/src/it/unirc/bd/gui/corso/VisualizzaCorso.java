@@ -38,8 +38,7 @@ public class VisualizzaCorso extends JDialog {
 	public VisualizzaCorso() {
 		setResizable(false);
 		setTitle("Visualizza Corsi");
-		setModal(true);
-		setBounds(100, 100, 543, 414);
+				setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);

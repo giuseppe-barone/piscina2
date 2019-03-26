@@ -37,7 +37,7 @@ public class VisualizzaIscritto extends JDialog{
 	public VisualizzaIscritto(Vector<Iscritto> vettore) {
 		setResizable(false);
 		setTitle("Visualizza Iscritti");
-		setModal(true);
+		
 		setBounds(100, 100, 585, 453);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);

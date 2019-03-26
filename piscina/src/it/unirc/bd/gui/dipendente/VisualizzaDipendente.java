@@ -43,7 +43,7 @@ public class VisualizzaDipendente extends JDialog {
 	public VisualizzaDipendente(Vector<Dipendente> vector) {
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
-		setModal(true);
+		
 		setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);

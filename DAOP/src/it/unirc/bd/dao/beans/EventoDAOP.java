@@ -323,6 +323,31 @@ public class EventoDAOP {
 		DBManager.closeConnection();
 		return list;
 	}
+	//-----------------RICERCA PER ID -------------------
+			public Evento getEventoId(Integer ID) {
+				String query = "SELECT * FROM evento WHERE idEvento = ?";
+				Evento res = null;
+				PreparedStatement ps;
+				conn=DBManager.startConnection();
+				try {
+					ps = conn.prepareStatement(query);
+					ps.setInt(1, ID);
+					ResultSet rs = ps.executeQuery();
+					if(rs.next()){
+						res=new Evento();
+						res.setIdEvento(rs.getInt("idEvento"));
+						res.setData(rs.getDate("Data"));
+						res.setLivello(rs.getString("Livello"));
+						res.setTipo(rs.getString("Tipo"));
+
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DBManager.closeConnection();
+				System.out.println(res.toString());
+				return res;
+			} 
 
 
 }
