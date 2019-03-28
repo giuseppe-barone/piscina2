@@ -13,6 +13,7 @@ import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -26,6 +27,8 @@ public class RicercaInfortunio extends JDialog {
 	private Integer MatricolaFin;
 	private String Categoria;
 	private int Gravita;
+	
+	ButtonGroup gruppo = new ButtonGroup();
 	
 	/**
 	 * Launch the application.
@@ -54,14 +57,17 @@ public class RicercaInfortunio extends JDialog {
 		JRadioButton radioAtleta = new JRadioButton("Atleta");
 		radioAtleta.setBounds(8, 28, 83, 25);
 		getContentPane().add(radioAtleta);
+		gruppo.add(radioAtleta);
 		
 		JRadioButton radioGravita = new JRadioButton("Gravit\u00E0");
 		radioGravita.setBounds(8, 58, 69, 25);
 		getContentPane().add(radioGravita);
+		gruppo.add(radioGravita);
 		
 		JRadioButton radioCategoria = new JRadioButton("Categoria");
 		radioCategoria.setBounds(8, 88, 83, 25);
 		getContentPane().add(radioCategoria);
+		gruppo.add(radioCategoria);
 		
 		JComboBox<Iscritto> comboAtleta = new JComboBox<Iscritto>();
 		comboAtleta.setModel(iscrittoDAOP.getAtleticb());
@@ -81,6 +87,7 @@ public class RicercaInfortunio extends JDialog {
 		JRadioButton radioTutti = new JRadioButton("Tutti");
 		radioTutti.setBounds(8, 118, 127, 25);
 		getContentPane().add(radioTutti);
+		gruppo.add(radioTutti);
 		
 		JButton btnCerca = new JButton("Cerca");
 		btnCerca.addActionListener(new ActionListener() {
