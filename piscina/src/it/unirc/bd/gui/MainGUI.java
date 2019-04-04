@@ -1,7 +1,10 @@
+
 package it.unirc.bd.gui;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -29,13 +32,17 @@ import it.unirc.bd.gui.iscritto.VisualizzaAtleti;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 import it.unirc.bd.gui.prenotazione.InserisciPrenotazione;
 import it.unirc.bd.gui.prenotazione.VisualizzaPrenotazione;
+import javafx.scene.image.Image;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class MainGUI {
+	String path = "/GitHub_piscina/image/reggina.png";
+	java.awt.Image img = Toolkit.getDefaultToolkit().createImage(path);
 	 IscrittoDAOP iDAOP=new IscrittoDAOP();
 	
 	private JFrame frmHome;
@@ -70,7 +77,7 @@ public class MainGUI {
 		frmHome = new JFrame();
 		frmHome.setTitle("Home");
 		frmHome.setResizable(false);
-		frmHome.setBounds(100, 100, 554, 285);
+		frmHome.setBounds(100, 100, 554, 341);
 		frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -286,12 +293,12 @@ public class MainGUI {
 		frmHome.getContentPane().add(lblProssimeEventiIn);
 
 		JLabel lblInfermieria = new JLabel("Infermeria:");
-		lblInfermieria.setBounds(12, 113, 68, 16);
+		lblInfermieria.setBounds(12, 178, 68, 16);
 		frmHome.getContentPane().add(lblInfermieria);
 
 		JPanel panelEvento1 = new JPanel();
-		panelEvento1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelEvento1.setBounds(12, 42, 163, 60);
+		panelEvento1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		frmHome.getContentPane().add(panelEvento1);
 		panelEvento1.setLayout(null);
 
@@ -308,9 +315,9 @@ public class MainGUI {
 		panelEvento1.add(lblLivelloEvento1);
 
 		JPanel panelEvento2 = new JPanel();
+		panelEvento2.setBounds(187, 42, 163, 60);
 		panelEvento2.setLayout(null);
 		panelEvento2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelEvento2.setBounds(187, 42, 163, 60);
 		frmHome.getContentPane().add(panelEvento2);
 
 		JLabel lblTipoEvento2 = new JLabel("Tipo");
@@ -326,9 +333,9 @@ public class MainGUI {
 		panelEvento2.add(lblLivelloEvento2);
 
 		JPanel panel = new JPanel();
+		panel.setBounds(362, 42, 163, 60);
 		panel.setLayout(null);
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panel.setBounds(362, 42, 163, 60);
 		frmHome.getContentPane().add(panel);
 
 		JLabel lblTipoEvento3 = new JLabel("Tipo");
@@ -344,9 +351,9 @@ public class MainGUI {
 		panel.add(lblLivelloEvento3);
 
 		JPanel panelInfortunio1 = new JPanel();
+		panelInfortunio1.setBounds(12, 207, 163, 60);
 		panelInfortunio1.setLayout(null);
 		panelInfortunio1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfortunio1.setBounds(12, 142, 163, 60);
 		frmHome.getContentPane().add(panelInfortunio1);
 
 		JLabel lblnome1 = new JLabel("Nome");
@@ -366,9 +373,9 @@ public class MainGUI {
 		panelInfortunio1.add(lblGiorni1);
 
 		JPanel panelInfortunio2 = new JPanel();
+		panelInfortunio2.setBounds(187, 207, 163, 60);
 		panelInfortunio2.setLayout(null);
 		panelInfortunio2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfortunio2.setBounds(187, 142, 163, 60);
 		frmHome.getContentPane().add(panelInfortunio2);
 
 		JLabel lblnome2 = new JLabel("Nome");
@@ -388,9 +395,9 @@ public class MainGUI {
 		panelInfortunio2.add(lblGiorni2);
 
 		JPanel panelInfortunio3 = new JPanel();
+		panelInfortunio3.setBounds(362, 207, 163, 60);
 		panelInfortunio3.setLayout(null);
 		panelInfortunio3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfortunio3.setBounds(362, 142, 163, 60);
 		frmHome.getContentPane().add(panelInfortunio3);
 
 		JLabel lblnome3 = new JLabel("Nome");
@@ -408,5 +415,14 @@ public class MainGUI {
 		JLabel lblGiorni3 = new JLabel("??");
 		lblGiorni3.setBounds(98, 36, 56, 16);
 		panelInfortunio3.add(lblGiorni3);
+		
+		JPanel panel_1 = new JPanel();
+		ImageIcon icon = new ImageIcon("path"); 
+		JLabel label = new JLabel(icon);
+		panel_1.setBounds(212, 115, 99, 78);
+		panel_1.add(label);
+		panel_1.validate();
+		frmHome.getContentPane().add(panel_1);
+		
 	}
 }
