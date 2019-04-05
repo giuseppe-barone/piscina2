@@ -77,8 +77,6 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.setLayout(null);
 
 		JButton btnModifica = new JButton("Modifica");
-
-		btnModifica.setEnabled(false);
 		btnModifica.setVisible(false);
 
 		btnModifica.setBounds(286, 129, 97, 25);
@@ -235,10 +233,12 @@ public class InserisciIscritto extends JDialog {
 		if (Modifica==true) {
 			btnModifica.setVisible(true);
 			btnInserisci.setVisible(false);
+			btnModifica.setEnabled(true);
 		}
 		else{
 			btnModifica.setVisible(false);
 			btnInserisci.setVisible(true);
+			btnModifica.setEnabled(false);
 		}
 
 		//MECCANISMO DI MODIFICA
@@ -258,6 +258,11 @@ public class InserisciIscritto extends JDialog {
 				cognome = txtCognome.getText();
 				sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//CASTING
 				cellulare = txtCellulare.getText();
+				
+				
+				
+				if (controlloCampiOperazione(nome,cognome, campoData.getDate())==0){
+				
 				java.util.Date utilDate = campoData.getDate();
 				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 				dataNascita=sqlDate;
@@ -266,7 +271,11 @@ public class InserisciIscritto extends JDialog {
 				else
 					matricolaFIN=Integer.valueOf(txtMatricolaFin.getText());
 				Iscritto i = new Iscritto(iscritto.getIdIscritto(),nome, cognome, sesso, cellulare,  dataNascita,matricolaFIN);
-				iDAOP.ModificaIscritto(i);
+				if (iDAOP.ModificaIscritto(i)) 
+					JOptionPane.showMessageDialog(null, "MODIFICA RIUSCITA");
+				else
+					JOptionPane.showMessageDialog(null, "MODIFICA NON RIUSCITA");				
+				}
 			}
 		});
 
