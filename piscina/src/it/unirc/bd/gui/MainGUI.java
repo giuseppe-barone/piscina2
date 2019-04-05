@@ -39,9 +39,10 @@ import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
 
 public class MainGUI {
-	String path = "/GitHub_piscina/image/reggina.png";
+	String path = "C:\\Users\\emanuele\\Desktop\reggina.png";
 	java.awt.Image img = Toolkit.getDefaultToolkit().createImage(path);
 	 IscrittoDAOP iDAOP=new IscrittoDAOP();
 	
