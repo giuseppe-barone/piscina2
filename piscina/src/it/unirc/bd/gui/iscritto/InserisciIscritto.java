@@ -34,7 +34,6 @@ public class InserisciIscritto extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNome;
 	private JTextField txtCognome;
-	private JTextField txtData;
 	private JTextField txtCellulare;
 	private JTextField txtMatricolaFin;
 	//-----VARIABILI ISCRITTO DA PASSARE ALLA QUERY------
@@ -76,15 +75,15 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JButton btnModifica = new JButton("Modifica");
-		
+
 		btnModifica.setEnabled(false);
 		btnModifica.setVisible(false);
-		
+
 		btnModifica.setBounds(286, 129, 97, 25);
 		contentPanel.add(btnModifica);
-		
+
 
 		JLabel lblNOME = new JLabel("Nome:");
 		lblNOME.setBounds(12, 16, 56, 16);
@@ -100,19 +99,13 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.add(txtCognome);
 		txtCognome.setColumns(10);
 
-		txtData = new JTextField();
-		txtData.setText("yy-mm-dd");
-		txtData.setBounds(108, 50, 116, 22);
-		contentPanel.add(txtData);
-		txtData.setColumns(10);
-
 		txtCellulare = new JTextField();
 		txtCellulare.setBounds(307, 50, 116, 22);
 		contentPanel.add(txtCellulare);
 		txtCellulare.setColumns(10);
 
 		txtMatricolaFin = new JTextField();
-		txtMatricolaFin.addCaretListener(new CaretListener() {
+		/*txtMatricolaFin.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent arg0) {
 				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
 				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
@@ -120,7 +113,7 @@ public class InserisciIscritto extends JDialog {
 				else
 					btnModifica.setEnabled(true);
 			}
-		});
+		});*/
 		txtMatricolaFin.setToolTipText("Lasciare vuoto se non \u00E8 un'atleta");
 		txtMatricolaFin.setBounds(108, 87, 116, 22);
 		contentPanel.add(txtMatricolaFin);
@@ -153,8 +146,7 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.add(lblMatricolaFin);
 
 		JButton btnInserisci = new JButton("Inserisci");
-		btnInserisci.setEnabled(false);
-		txtNome.addCaretListener(new CaretListener() {
+		/*txtNome.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
 				if(controlloBottone()==false)
@@ -167,8 +159,8 @@ public class InserisciIscritto extends JDialog {
 				else
 					btnModifica.setEnabled(true);
 			}
-		});
-		txtCognome.addCaretListener(new CaretListener() {
+		});*/
+		/*txtCognome.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
 				if(controlloBottone()==false)
@@ -181,38 +173,34 @@ public class InserisciIscritto extends JDialog {
 				else
 					btnModifica.setEnabled(true);
 			}
-		});
-		txtData.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
-				if(controlloBottone()==false)
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
-				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
-					btnModifica.setEnabled(false);
-				else
-					btnModifica.setEnabled(true);
-			}
-		});
+		});*/
 
+		JDateChooser campoData = new JDateChooser();
+		campoData.setBounds(108, 47, 116, 22);
+		contentPanel.add(campoData);
 
 
 		btnInserisci.addActionListener(new ActionListener() { //INSERIMENTO ISCRITTO
-			public void actionPerformed(ActionEvent arg0) {
-
+			public void actionPerformed(ActionEvent arg0) { 
 				nome = txtNome.getText();
 				cognome = txtCognome.getText();
 				sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//CASTING
 				cellulare = txtCellulare.getText();
-				dataNascita = Date.valueOf(txtData.getText());
+
+				
+				if (controlloCampiOperazione(nome,cognome, campoData.getDate())==0){
+				
+				
+				java.util.Date utilDate = campoData.getDate();
+				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+				dataNascita=sqlDate;
+				//dataNascita = Date.valueOf(txtData.getText());	QUESTA CODICE PRENDE LA DATA DAL TEXTBOX
 				System.out.println("acquisisco: IDISCRITTO,NOME, COGNOME, SESSO, CELLULARE, DATADINASCITA");
 				//----CONTROLLO PER LA PRESENZA DELLA MATRICOLA FIN
-				if(txtMatricolaFin.getText().equals("")||txtMatricolaFin.getText().equals(null))
+				if(txtMatricolaFin.getText().equals("")||txtMatricolaFin.getText().equals(null)) 
 					matricolaFIN=null;
-				
-				else
+
+				else 
 					matricolaFIN = Integer.parseInt(txtMatricolaFin.getText());
 				//System.out.println(Integer.toString(matricolaFIN));
 				Iscritto i = new Iscritto(idIscritto, nome, cognome, sesso, cellulare, dataNascita, matricolaFIN);
@@ -220,7 +208,6 @@ public class InserisciIscritto extends JDialog {
 				if (iDAOP.salvaIscritto(i)) {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
-					txtData.setText("");
 
 					txtNome.setText("");
 					txtCognome.setText("");
@@ -229,15 +216,21 @@ public class InserisciIscritto extends JDialog {
 				}
 				else
 					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
-
+				}
+				
+				
+				
+				
 			}
 		});
 
 		btnInserisci.setBounds(177, 129, 97, 25);
 		contentPanel.add(btnInserisci);
+
+
 		btnInserisci.setVisible(false);
-		
-		
+
+
 
 		if (Modifica==true) {
 			btnModifica.setVisible(true);
@@ -247,25 +240,27 @@ public class InserisciIscritto extends JDialog {
 			btnModifica.setVisible(false);
 			btnInserisci.setVisible(true);
 		}
-		
+
 		//MECCANISMO DI MODIFICA
 		if (Modifica) {
 			txtNome.setText(iscritto.getNome());
 			txtCognome.setText(iscritto.getCognome());
-			txtData.setText(iscritto.getDataNascita().toString());
+			campoData.setDate(iscritto.getDataNascita());
 			txtCellulare.setText(iscritto.getCellulare());
 			txtMatricolaFin.setText(iscritto.getMatricolaFIN().toString());
 		}
-		
+
 		//LISTNER MODIFICA
-		
+
 		btnModifica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				nome = txtNome.getText();
 				cognome = txtCognome.getText();
 				sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//CASTING
 				cellulare = txtCellulare.getText();
-				dataNascita = Date.valueOf(txtData.getText());
+				java.util.Date utilDate = campoData.getDate();
+				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+				dataNascita=sqlDate;
 				if (txtMatricolaFin.getText().equals(null))
 					matricolaFIN=null;
 				else
@@ -274,15 +269,15 @@ public class InserisciIscritto extends JDialog {
 				iDAOP.ModificaIscritto(i);
 			}
 		});
-		
+
 
 
 	}
-	
+
 	public boolean controlloBottone() {
 		boolean risultato=true;
 		//---CONTROLLI COMPILAZIONE CORSO---
-		if(txtNome.getText().equals("")|| txtCognome.getText().equals("")|| txtData.getText().equals("") ) {
+		if(txtNome.getText().equals("")|| txtCognome.getText().equals("") ) {
 			risultato=false;
 			System.out.println("CAMPI ISCRITTO NON COMPILATI O ID ESISTENTE");
 		}
@@ -290,17 +285,45 @@ public class InserisciIscritto extends JDialog {
 			System.out.println("CAMPI ISCRITTO COMPILATI");
 		return risultato;
 	}
-	
-	
+
+	/*
 	public void CalcoloEta() {	//CODICE NON UTILIZATO IN QUESTO SCRIPT, è STATO SOLO SALVATO QUI MA UTILIZZATO IN UN AL'TRO SCRIPT
 		LocalDate corrente=LocalDate.now();
-		Date nascita=dataNascita.valueOf(txtData.getText());
+		Date nascita=dataNascita;
 		LocalDate LNascita=nascita.toLocalDate();
 		System.out.println(LNascita.toString());
 
 		System.out.println(corrente.toString());
 		if ((corrente != null) && (dataNascita != null)) {
-           System.out.println(Period.between(LNascita, corrente).getYears());
-        }
+			System.out.println(Period.between(LNascita, corrente).getYears());
+		}
+	}*/
+
+
+
+
+
+
+	//METODO PER IL CONTROLLO DEI CAMPI BISOGNA PASSARE NELLA FIRMA I CAMPI CHE SI VOGLIONO CONTROLLARE (SI POSSONO AGGIUNGERE ANCHE I CAMPI NON OBBLIGATORI SE SI VOGLIONO INSERIE NEL MESSAGGIO DI RIEPILOGO)
+	public int controlloCampiOperazione(String nome, String cognome, java.util.Date data) {	//QUESTO METODO RITORNA 0 SE è CONSENTITO PROCEDERE CON LA QUERY ALTRIMENTI NON DA IL CONSENSO A MANDARE LA QUERY
+		int result ;
+		if (nome.equals("") || cognome.equals("") || data.equals(null)) {	//SE NON SONO STATI COMPILATI TORNA UN VALORE
+			result=1;
+			JOptionPane.showMessageDialog(null, "NON SONO STATI COMPILATI TUTTI I CAMPI OBBLIGATORI \n Data di nascita \n Nome \n Cognome");
+		}
+		else {	 //TUTTI I CAMPI SONO STATI COMPILATI, MESSAGGIO DI RIEPILOGO E CONFERMA
+			java.sql.Date sqlDate = new java.sql.Date(data.getTime());
+			dataNascita=sqlDate;
+		    result= JOptionPane.showConfirmDialog (null, "I dati obbligatori da te inseriti sono:\n Nome: "+nome+";\n Cognome: "+cognome+";\n Data di nascita: "+dataNascita.toString(),"RIEPILOGO",JOptionPane.YES_NO_OPTION);
+		}
+		System.out.println("il valore della selezione è: "+Integer.toString(result));
+		return result;
 	}
+
+
+
+
+
+
+
 }
