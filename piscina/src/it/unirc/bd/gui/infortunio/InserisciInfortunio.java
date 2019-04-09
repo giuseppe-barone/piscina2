@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
+import com.toedter.calendar.JDateChooser;
 
 public class InserisciInfortunio extends JDialog {
 	InfortunioDAOP iDAOP = new InfortunioDAOP();
@@ -42,7 +43,7 @@ public class InserisciInfortunio extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			InserisciInfortunio dialog = new InserisciInfortunio(null,null);
+			InserisciInfortunio dialog = new InserisciInfortunio(false,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -63,7 +64,7 @@ public class InserisciInfortunio extends JDialog {
 		}
 		{
 			txtData = new JTextField();
-			txtData.setBounds(102, 36, 116, 22);
+			txtData.setBounds(211, 36, 116, 22);
 			getContentPane().add(txtData);
 			txtData.setColumns(10);
 		}
@@ -80,7 +81,7 @@ public class InserisciInfortunio extends JDialog {
 
 		
 			JButton buttonInserisci = new JButton("Inserisci");
-			buttonInserisci.setEnabled(false);
+			buttonInserisci.setEnabled(true);
 			buttonInserisci.setBounds(102, 131, 97, 25);
 			getContentPane().add(buttonInserisci);
 			
@@ -104,9 +105,13 @@ public class InserisciInfortunio extends JDialog {
 			getContentPane().add(comboGravita);
 			
 			JButton buttonModifica = new JButton("Modifica");
-			
+			buttonModifica.setEnabled(true);
 			buttonModifica.setBounds(211, 131, 97, 25);
 			getContentPane().add(buttonModifica);
+			
+			JDateChooser campoData = new JDateChooser();
+			campoData.setBounds(102, 36, 98, 22);
+			getContentPane().add(campoData);
 			
 			//FINESTRA IN MODALITà MODIFICA
 			if (modifica) {
@@ -126,11 +131,15 @@ public class InserisciInfortunio extends JDialog {
 					break;
 				}
 				
-			}	
+			}
+			else {
+				buttonInserisci.setVisible(true);
+				buttonModifica.setVisible(false);
+			}
 			
 			//-------------------LISTNER-----------------
 			
-			txtData.addCaretListener(new CaretListener() {
+			/*txtData.addCaretListener(new CaretListener() {
 				public void caretUpdate(CaretEvent e) {
 					if(controlloBottone()==false) {
 						buttonInserisci.setEnabled(false);
@@ -141,26 +150,31 @@ public class InserisciInfortunio extends JDialog {
 						buttonModifica.setEnabled(true);
 					}
 				}
-			});
+			});*/
 			
 			
 			buttonInserisci.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//Prendere la matricola 
 					MatricolaFIN = iscrittoDAOP.getAtleticb().getElementAt(comboMatricola.getSelectedIndex()).getMatricolaFIN();
-					data = Date.valueOf(txtData.getText());
+				//	data = Date.valueOf(txtData.getText());
+					java.util.Date utilDate = campoData.getDate();
+					java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+					data=sqlDate;
 					GiorniSosta = (Integer)spinnerGiorni.getValue();   //   Integer.parseInt(txtSosta.getText());
 					System.out.println(Integer.toString(GiorniSosta) );
 					gravita = comboGravita.getSelectedIndex()+1;
 					System.out.println(gravita) ;
-					//DEVO PASSARE IL VALORE MATRICOLAFIN
+					System.out.println("la data è: "+data.toString());
+					if (controlloCampiOperazione(comboMatricola.getSelectedItem().toString(), GiorniSosta, data)==0) {
+						//DEVO PASSARE IL VALORE MATRICOLAFIN
 					Infortunio i = new Infortunio(null, data, GiorniSosta, gravita, MatricolaFIN);
 					
 					if (iDAOP.salva(i))
 						JOptionPane.showMessageDialog(null, "Inserimento Riuscito");
 					else
 						JOptionPane.showMessageDialog(null, "Inserimento Fallito");
-					
+					}
 				}
 			});
 			
@@ -169,11 +183,15 @@ public class InserisciInfortunio extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					//Prendere la matricola 
 					MatricolaFIN = iscrittoDAOP.getAtleticb().getElementAt(comboMatricola.getSelectedIndex()).getMatricolaFIN();
-					data = Date.valueOf(txtData.getText());
+				//	data = Date.valueOf(txtData.getText());
+					java.util.Date utilDate = campoData.getDate();
+					java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+					data=sqlDate;
 					GiorniSosta = (Integer)spinnerGiorni.getValue();   //   Integer.parseInt(txtSosta.getText());
 					System.out.println(Integer.toString(GiorniSosta) );
 					gravita = comboGravita.getSelectedIndex()+1;
 					System.out.println(gravita) ;
+					if (controlloCampiOperazione(comboMatricola.getSelectedItem().toString(), GiorniSosta, data)==0) {					
 					//DEVO PASSARE IL VALORE MATRICOLAFIN
 					Infortunio i = new Infortunio(info.getIdInfortunio(), data, GiorniSosta, gravita, MatricolaFIN);
 					
@@ -182,11 +200,29 @@ public class InserisciInfortunio extends JDialog {
 					else
 						JOptionPane.showMessageDialog(null, "Modifica Fallita");
 				}
+				}
 			});
 			
 			
 			
 	}
+	
+	//METODO PER IL CONTROLLO DEI CAMPI BISOGNA PASSARE NELLA FIRMA I CAMPI CHE SI VOGLIONO CONTROLLARE (SI POSSONO AGGIUNGERE ANCHE I CAMPI NON OBBLIGATORI SE SI VOGLIONO INSERIE NEL MESSAGGIO DI RIEPILOGO)
+			public int controlloCampiOperazione(String nome, int GiorniSosta, java.util.Date data) {	//QUESTO METODO RITORNA 0 SE è CONSENTITO PROCEDERE CON LA QUERY ALTRIMENTI NON DA IL CONSENSO A MANDARE LA QUERY
+				int result ;
+				if (GiorniSosta==0 || data.equals(null)) {	//SE NON SONO STATI COMPILATI TORNA UN VALORE
+					result=1;
+					JOptionPane.showMessageDialog(null, "NON SONO STATI COMPILATI TUTTI I CAMPI OBBLIGATORI \n Data dell'infortunio \n Giorni di sosta");
+				}
+				else {	 //TUTTI I CAMPI SONO STATI COMPILATI, MESSAGGIO DI RIEPILOGO E CONFERMA
+					java.sql.Date sqlDate = new java.sql.Date(data.getTime());
+				    result= JOptionPane.showConfirmDialog (null, "I dati obbligatori da te inseriti sono:\n Nome: "+nome+";\n Giorni di sosta: "+Integer.toString(GiorniSosta)+";\n Data dell'infortunio: "+sqlDate.toString(),"RIEPILOGO",JOptionPane.YES_NO_OPTION);
+				}
+				System.out.println("il valore della selezione è: "+Integer.toString(result));
+				return result;
+			}
+	
+	
 	//CONTROLLO  PER L'ATTIVAZIONE DEL BOTTONE
 	public boolean controlloBottone() {
 		boolean risultato=true;

@@ -1,4 +1,4 @@
- package it.unirc.bd.gui.dipendente;
+package it.unirc.bd.gui.dipendente;
 
 import java.awt.EventQueue;
 
@@ -135,7 +135,7 @@ public class InserisciDipendente extends JDialog {
 
 		JButton btnInserisci = new JButton("Inserisci");
 
-		btnInserisci.setEnabled(false);
+		btnInserisci.setEnabled(true);
 		btnInserisci.setBounds(142, 172, 97, 25);
 		getContentPane().add(btnInserisci);
 
@@ -143,30 +143,12 @@ public class InserisciDipendente extends JDialog {
 		lblAvvisoD.setForeground(Color.RED);
 		lblAvvisoD.setBounds(142, 27, 209, 16);
 		getContentPane().add(lblAvvisoD);
-		textNome.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//----CONTROLLI DI ABILITAZIONE BOTTONE----
-				if (controllobottone()==false )
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-			}
-		});
-		textCognome.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//----CONTROLLI DI ABILITAZIONE BOTTONE----
-				if (controllobottone()==false )
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-			}
-		});
-
-
-		//------AQUISIZIONE VALORI DELLA VARIABILI DAI COMPONENTI E PASSAGGIO ALLE QUERY TRAMITE BOTTONE ----------------
-		btnInserisci.addActionListener(new ActionListener() {
+		
+		JButton btnModifica = new JButton("Modifica");
+		btnModifica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				InserimentoSuccesso InsSuc= new InserimentoSuccesso();
+				
+				
 				//AQUISIZIONE VALORI DIPENDENTE
 				Cellulare=textCellulare.getText();
 				Nome=textNome.getText();
@@ -174,28 +156,116 @@ public class InserisciDipendente extends JDialog {
 				Sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//ATTENZIONE AL CASTING
 				Tipologia=cbTipoDipendente.getSelectedIndex();
 				System.out.println(Cellulare+" "+Nome+" "+Cognome+" "+Sesso+" "+Tipologia);
-				Dipendente dip=new Dipendente();
-				dip.setCellulare(Cellulare);
-				dip.setNome(Nome);
-				dip.setCognome(Cognome);
-				dip.setSesso(Sesso);
-				dip.setTipologiaDipendente(Tipologia); 
+
+
+				if (controlloCampiOperazione(Nome, Cognome, Tipologia)==0) {
+					Dipendente dip=new Dipendente();
+					dip.setCellulare(Cellulare);
+					dip.setNome(Nome);
+					dip.setIdDipendente(dipendente.getIdDipendente());
+					dip.setCognome(Cognome);
+					dip.setSesso(Sesso);
+					dip.setTipologiaDipendente(Tipologia); 
+
+					//Dipendente d = new Dipendente( IdDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	
+					if(dDAOP.ModificaIscritto(dip))	//INSERIMENTO TUPLA
+						JOptionPane.showMessageDialog(null, "MODIFICA RIUSCITA");
+					else
+						JOptionPane.showMessageDialog(null, "MODIFICA NON RIUSCITA");
 				
-				//Dipendente d = new Dipendente( IdDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	
-				dDAOP.salvaDipendente(dip);	//INSERIMENTO TUPLA
-				
-			
 				
 				
+				}
+
 				
+			}
+		});
+		btnModifica.setEnabled(true);
+		btnModifica.setBounds(254, 172, 97, 25);
+		getContentPane().add(btnModifica);
+		
+		//ABILITAZIONE BOTTONE MODIFICA O INSERISCI
+		if (modifica) {
+			btnInserisci.setVisible(false);
+			btnModifica.setVisible(true);
+			textNome.setText(dipendente.getNome());
+			textCognome.setText(dipendente.getCognome());
+			textCellulare.setText(dipendente.getCellulare());
+		}
+		else {
+			btnInserisci.setVisible(true);
+			btnModifica.setVisible(false);
+		}
+		
+		
+		
+		
+		/*textNome.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				//----CONTROLLI DI ABILITAZIONE BOTTONE----
+				if (controllobottone()==false )
+					btnInserisci.setEnabled(false);
+				else
+					btnInserisci.setEnabled(true);
+			}
+		});*/
+		/*textCognome.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				//----CONTROLLI DI ABILITAZIONE BOTTONE----
+				if (controllobottone()==false )
+					btnInserisci.setEnabled(false);
+				else
+					btnInserisci.setEnabled(true);
+			}
+		});*/
+
+
+		//------AQUISIZIONE VALORI DELLA VARIABILI DAI COMPONENTI E PASSAGGIO ALLE QUERY TRAMITE BOTTONE ----------------
+		btnInserisci.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//AQUISIZIONE VALORI DIPENDENTE
+				Cellulare=textCellulare.getText();
+				Nome=textNome.getText();
+				Cognome=textCognome.getText();
+				Sesso=(String) cbSesso.getModel().getElementAt(cbSesso.getSelectedIndex());	//ATTENZIONE AL CASTING
+				Tipologia=cbTipoDipendente.getSelectedIndex();
+				System.out.println(Cellulare+" "+Nome+" "+Cognome+" "+Sesso+" "+Tipologia);
+
+
+				if (controlloCampiOperazione(Nome, Cognome, Tipologia)==0) {
+					Dipendente dip=new Dipendente();
+					dip.setCellulare(Cellulare);
+					dip.setNome(Nome);
+					dip.setCognome(Cognome);
+					dip.setSesso(Sesso);
+					dip.setTipologiaDipendente(Tipologia); 
+
+					//Dipendente d = new Dipendente( IdDipendente, Nome, Cognome, Cellulare, Sesso, Tipologia);	
+					if(dDAOP.salvaDipendente(dip))	//INSERIMENTO TUPLA
+						JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
+					else
+						JOptionPane.showMessageDialog(null, "INSERIMENTO NON RIUSCITO");
+				
+				
+				
+				}
+
+
+
+
 			}
 		});
 	}
 
-	
-	
+
+
+
+
+
+
+
 	//----CONTROLLO PER L'ABILITAZIONE DEL BOTTONE----
-	public boolean controllobottone() {
+	/*	public boolean controllobottone() {
 		boolean risultato=true ;
 		//---------CONTROLLI LATO DIPENDENTE----------
 		if (textNome.getText().equals("") || textCognome.getText().equals("")) {
@@ -207,6 +277,33 @@ public class InserisciDipendente extends JDialog {
 		return risultato;
 
 	}
+	 */
 
 
+
+	public String convertTipo(int tipo) {
+		String result;
+		if (tipo==0)
+			result="Segretario";
+		else if (tipo==1)
+			result="Tecnico";
+		else
+			result="Allenatore";
+		return result;
+	}
+
+
+	//METODO PER IL CONTROLLO DEI CAMPI BISOGNA PASSARE NELLA FIRMA I CAMPI CHE SI VOGLIONO CONTROLLARE (SI POSSONO AGGIUNGERE ANCHE I CAMPI NON OBBLIGATORI SE SI VOGLIONO INSERIE NEL MESSAGGIO DI RIEPILOGO)
+	public int controlloCampiOperazione(String nome, String cognome, int tipo) {	//QUESTO METODO RITORNA 0 SE è CONSENTITO PROCEDERE CON LA QUERY ALTRIMENTI NON DA IL CONSENSO A MANDARE LA QUERY
+		int result ;
+		if (nome.equals("") || cognome.equals("")) {	//SE NON SONO STATI COMPILATI TORNA UN VALORE
+			result=1;
+			JOptionPane.showMessageDialog(null, "NON SONO STATI COMPILATI TUTTI I CAMPI OBBLIGATORI \n Nome \n Cognome");
+		}
+		else {	 //TUTTI I CAMPI SONO STATI COMPILATI, MESSAGGIO DI RIEPILOGO E CONFERMA
+			result= JOptionPane.showConfirmDialog (null, "I dati fondamentali da te inseriti sono:\n Nome: "+nome+";\n Cognome: "+cognome+";\n Tipologia: "+convertTipo(tipo),"RIEPILOGO",JOptionPane.YES_NO_OPTION);
+		}
+		System.out.println("il valore della selezione è: "+Integer.toString(result));
+		return result;
+	}
 }

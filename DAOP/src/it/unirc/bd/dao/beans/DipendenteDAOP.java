@@ -88,6 +88,31 @@ public class DipendenteDAOP {
 	}
 	
 	
+	 //--------------------MODIFICA DIPENDENTE-----------------
+	public boolean ModificaIscritto(Dipendente d){
+		String query = "UPDATE Dipendente SET Nome=?, Cognome=?, Sesso=? , Cellulare=? , TipologiaDipendente=?  WHERE idDipendente=?";
+		boolean esito=false;
+		conn=DBManager.startConnection();
+		try {
+		PreparedStatement ps = conn.prepareStatement(query);
+		ps.setInt(6, d.getIdDipendente());
+		ps.setString(1, d.getNome());
+		ps.setString(2, d.getCognome());
+		ps.setString(3, d.getSesso());
+		ps.setString(4, d.getCellulare());
+		ps.setInt(5, d.getTipologiaDipendente());
+		
+		int tmp=ps.executeUpdate();
+		if (tmp==1)
+		esito=true;
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return esito;
+		}
+	
+	
 	
 	
 	

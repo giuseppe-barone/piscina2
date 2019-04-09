@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.ComboBoxModel;
@@ -42,7 +43,6 @@ public class InserisciCorso extends JDialog {
 	
 	
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textIdCorso;
 	private JTextField textTipo;
 
 	/**
@@ -62,98 +62,64 @@ public class InserisciCorso extends JDialog {
 	 * Create the dialog.
 	 */
 	public InserisciCorso() {
-		setBounds(100, 100, 491, 250);
+		setBounds(100, 100, 491, 221);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblIdcorso = new JLabel("IdCorso:");
-		lblIdcorso.setBounds(12, 13, 49, 16);
-		contentPanel.add(lblIdcorso);
-		
-		textIdCorso = new JTextField();
-		textIdCorso.setBounds(73, 10, 49, 22);
-		contentPanel.add(textIdCorso);
-		textIdCorso.setColumns(10);
-		
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(12, 42, 38, 16);
+		lblNome.setBounds(12, 16, 38, 16);
 		contentPanel.add(lblNome);
 		
 		textTipo = new JTextField();
-		textTipo.setBounds(73, 39, 116, 22);
+		textTipo.setBounds(73, 13, 116, 22);
 		contentPanel.add(textTipo);
 		textTipo.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Giorni:");
-		lblNewLabel.setBounds(134, 71, 38, 16);
+		lblNewLabel.setBounds(134, 45, 38, 16);
 		contentPanel.add(lblNewLabel);
 		
 		JLabel lblOra = new JLabel("Ora:");
-		lblOra.setBounds(12, 71, 26, 16);
+		lblOra.setBounds(12, 45, 26, 16);
 		contentPanel.add(lblOra);
 		
 		JComboBox cbOra = new JComboBox();
 		cbOra.setModel(new DefaultComboBoxModel(new String[] {"9", "10", "11", "14", "15", "16", "17", "18", "19"}));
-		cbOra.setBounds(73, 68, 49, 22);
+		cbOra.setBounds(73, 42, 49, 22);
 		contentPanel.add(cbOra);
 		
 		JLabel lblIdallenatore = new JLabel("IdAllenatore1:");
-		lblIdallenatore.setBounds(12, 100, 81, 16);
+		lblIdallenatore.setBounds(12, 74, 81, 16);
 		contentPanel.add(lblIdallenatore);
 		
 		JLabel lblIdallenatore_1 = new JLabel("IdAllenatore2:");
-		lblIdallenatore_1.setBounds(12, 132, 81, 16);
+		lblIdallenatore_1.setBounds(12, 106, 81, 16);
 		contentPanel.add(lblIdallenatore_1);
 		
 		JButton btnInserisci = new JButton("Inserisci");
-		btnInserisci.setBounds(12, 161, 97, 25);
+		btnInserisci.setBounds(12, 135, 97, 25);
 		contentPanel.add(btnInserisci);
 		
 		JComboBox cbGiorni = new JComboBox();
 		cbGiorni.setModel(new DefaultComboBoxModel(new String[] {"LUN-MERC-VEN", "MAR-GIO-SAB"}));
-		cbGiorni.setBounds(179, 68, 114, 22);
+		cbGiorni.setBounds(179, 42, 114, 22);
 		contentPanel.add(cbGiorni);
-		
-		JLabel lblAvvisoAll1 = new JLabel("X");
-		lblAvvisoAll1.setForeground(Color.RED);
-		lblAvvisoAll1.setBounds(403, 100, 159, 16);
-		contentPanel.add(lblAvvisoAll1);
-		
-		JLabel lblAvvisoAll2 = new JLabel("X");
-		lblAvvisoAll2.setForeground(Color.RED);
-		lblAvvisoAll2.setBounds(403, 132, 159, 16);
-		contentPanel.add(lblAvvisoAll2);
-		
-		JLabel lblAvvisoIdCorso = new JLabel("New label");
-		lblAvvisoIdCorso.setBounds(134, 13, 258, 16);
-		
-		contentPanel.add(lblAvvisoIdCorso);
 		
 		JComboBox<Dipendente> cbA1 = new JComboBox<Dipendente>();
 		cbA1.setModel(dDAOP.getAllenatorecb());
-		cbA1.setBounds(105, 100, 168, 22);
+		cbA1.setBounds(105, 74, 356, 22);
 		contentPanel.add(cbA1);
 		
 		JComboBox<Dipendente> cbA2 = new JComboBox<Dipendente>();
 		cbA2.setModel(dDAOP.getAllenatorecb());
-		cbA2.setBounds(105, 129, 168, 22);
+		cbA2.setBounds(105, 103, 356, 22);
 		contentPanel.add(cbA2);
 	
 	
 		//----LISTNER CONTROLLI DINAMICI----
-		textIdCorso.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent arg0) {
-				//CONTROLLO DUPLICAZIONE ID CORSO
-				lblAvvisoIdCorso.setText(ControlloAvvisoCorso());
-				//CONTROLLO ABILITAZIONE BOTTONE
-			/*	if (controllobottone())
-					btnInserisci.setEnabled(true);
-				else
-					btnInserisci.setEnabled(false);*/
-			}
-		});
+		
 		textTipo.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent arg0) {
 				//CONTROLLO ABILITAZIONE BOTTONE
@@ -180,8 +146,20 @@ public class InserisciCorso extends JDialog {
 				dipendente =getAllenatore(dDAOP.getAllenatorecb(), cbA2.getSelectedIndex());
 				Allenatore2=dipendente.getIdDipendente();
 				System.out.println(Integer.toString(Allenatore1) + " " + " " + Integer.toString(Allenatore2));
+				
+				
+			
+				if (textTipo.getText().equals("") ) 
+					JOptionPane.showMessageDialog(null, "MANCA IL NOME DEL CORSO");
+				else if (cDAOP.ControlloPresenzaAllenatore(Allenatore1))
+					JOptionPane.showMessageDialog(null, "L'ALLENATORE IN PRIMA è IMPEGNATO \n IN UN ALTRO CORSO!");
+				else {
 				Corso c =new Corso(null, Giorni,Ora,Tipo,Allenatore1,Allenatore2);
-				cDAOP.salvaCorso(c);
+					if (cDAOP.salvaCorso(c))
+						JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
+					else
+						JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
+				}
 				
 			}
 		});
@@ -192,7 +170,7 @@ public class InserisciCorso extends JDialog {
 	}
 	
 	//----CONTROLLO PER AVVISO DI ID DUPLICATO CORSO----
-		public String ControlloAvvisoCorso() {
+	/*	public String ControlloAvvisoCorso() {
 			String risultato="";
 			String IDC = textIdCorso.getText();
 			//-----------QUESTO IF è LA SOLUZIONE A QUEI PROBLEMI STRING=""---------------------------!!!!!!!!!!!!!!
@@ -203,7 +181,7 @@ public class InserisciCorso extends JDialog {
 				risultato="ID esistente o non valido!";
 			return risultato;
 			
-		}
+		}*/
 		
 		
 		//Prelevo allenatore tramite l'indice della combobox RESTITUISCO L'OGETTO SCELTO
@@ -216,7 +194,9 @@ public class InserisciCorso extends JDialog {
 			risultato=vettoreDipendenti.get(indice);
 			return risultato;
 		}
-
+		
+		
+		
 		
 		
 	

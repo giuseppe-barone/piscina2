@@ -60,8 +60,7 @@ public void setTipologiaDipendente(int tipologiaDipendente) {
 }
 @Override
 public String toString() {
-	return "Dipendente [IdDipendente=" + IdDipendente + ", Nome=" + Nome + ", Cognome=" + Cognome + ", Cellulare="
-			+ Cellulare + ", Sesso=" + Sesso + ", TipologiaDipendente=" + TipologiaDipendente + "]";
+	return "IdDip: " + IdDipendente + " Nome: " + Nome + " Cognome: " + Cognome ;
 }
 
 

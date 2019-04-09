@@ -154,7 +154,7 @@ public class MainGUI {
 		JMenuItem mntmInserisciInfortunio = new JMenuItem("Inserisci Infortunio");
 		mntmInserisciInfortunio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InserisciInfortunio inserisci =  new InserisciInfortunio(null, null);
+				InserisciInfortunio inserisci =  new InserisciInfortunio(false, null);
 				inserisci.setVisible(true);
 			}
 		});

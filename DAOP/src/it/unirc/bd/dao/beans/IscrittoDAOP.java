@@ -434,6 +434,7 @@ public class IscrittoDAOP {
 		else
 			query = "INSERT INTO `piscina`.`iscritto` ( `Nome`, `Cognome`, `Sesso`,`Cellulare`, `DataDiNascita`) VALUES (?,?,?,?,?);";
 		boolean esito=false;
+		System.out.println(i.getDataNascita().toString());
 		conn=DBManager.startConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);

@@ -56,12 +56,12 @@ public class RicercaDipendente extends JDialog {
 	 */
 	public RicercaDipendente() {
 		setTitle("Ricerca");
-		setBounds(100, 100, 427, 343);
+		setBounds(100, 100, 427, 300);
 		getContentPane().setLayout(null);
 
 		JPanel PannelloGeneralita = new JPanel();
 		PannelloGeneralita.setBorder(new TitledBorder(null, "Generalit\u00E0", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		PannelloGeneralita.setBounds(117, 41, 275, 123);
+		PannelloGeneralita.setBounds(117, 13, 275, 123);
 		getContentPane().add(PannelloGeneralita);
 		PannelloGeneralita.setLayout(null);
 
@@ -111,28 +111,28 @@ public class RicercaDipendente extends JDialog {
 		PannelloGeneralita.add(cbSesso);
 
 		JRadioButton rdbtnGeneralit = new JRadioButton("Generalit\u00E0");
-		rdbtnGeneralit.setBounds(8, 37, 127, 25);
+		rdbtnGeneralit.setBounds(8, 9, 97, 25);
 		getContentPane().add(rdbtnGeneralit);
 		TipoRicerca.add(rdbtnGeneralit);
 
 		JRadioButton rdbtnTipo = new JRadioButton("Tipologia Dipendente");
-		rdbtnTipo.setBounds(8, 176, 149, 25);
+		rdbtnTipo.setBounds(8, 148, 149, 25);
 		getContentPane().add(rdbtnTipo);
 		TipoRicerca.add(rdbtnTipo);
 
 		JComboBox cbTipo = new JComboBox();
-		cbTipo.setBounds(161, 177, 120, 22);
+		cbTipo.setBounds(161, 149, 120, 22);
 		cbTipo.setModel(new DefaultComboBoxModel(new String[] {"Segretario", "Tecnico", "Allenatore"}));
 		getContentPane().add(cbTipo);
 		cbTipo.setEnabled(false);
 
 		JRadioButton rdbtnTutti = new JRadioButton("Tutti");
-		rdbtnTutti.setBounds(8, 221, 69, 25);
+		rdbtnTutti.setBounds(8, 193, 69, 25);
 		getContentPane().add(rdbtnTutti);
 		TipoRicerca.add(rdbtnTutti);
 
 		JButton btnRicerca = new JButton("Ricerca");
-		btnRicerca.setBounds(144, 247, 97, 25);
+		btnRicerca.setBounds(144, 219, 97, 25);
 		getContentPane().add(btnRicerca);
 
 		Component[] generalita = PannelloGeneralita.getComponents(); 

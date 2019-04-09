@@ -42,7 +42,7 @@ public class CorsoDAOP {
 
 
 	//-----------------CONTROLLO DINAMICO ID CORSO -------------------RITORNA VERO SE ESISTE O NON è UN VALORE ACCETTABILE FALSO ALTRIMENTI
-	public boolean ControlloDinamicoIdCorso(Integer ID) {
+	/*public boolean ControlloDinamicoIdCorso(Integer ID) {
 		boolean risultato =false;
 		//----INSERIRE UN CONTROLLO CHE MI PERMETTA DI VEDERE SE L'OGETTO PASSATO è VUOTO E RESTITUISCA SUBITO UN VALORE
 		//INSERISCO QUESTO CONTROLLO PRIMA DEL RESTO DEL CONDICE PERCHè SENNO PARTIREBBE UNA QUERY CON DEI VALORI INCOMPATIBILI
@@ -67,20 +67,19 @@ public class CorsoDAOP {
 		}
 		DBManager.closeConnection();
 		return risultato;
-	}
+	}*/
 
 
 
 	//-----------------CONTROLLO PRESENZA ALLENATORE -------------------RITORNA TRUE SE ESISTE ALMENO UN CORSO CHE è TENUTO (ALLENATORE1 O ALLENATORE2) DALL'ALLENATORE PASSATO AL METODO 
 	public boolean ControlloPresenzaAllenatore(Integer ID) {
 		boolean risultato =false;
-		String query = "SELECT * FROM corso WHERE Allenatore1 = ? OR Allenatore2= ?;";
+		String query = "SELECT * FROM corso WHERE Allenatore1 = ? ;";
 		PreparedStatement ps;
 		conn=DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, ID.intValue());
-			ps.setInt(2, ID.intValue());
 			ResultSet rs = ps.executeQuery();
 			if(rs.next())
 				risultato=true;	//ESISTE UNA TUPLA CON QUELL'ID
