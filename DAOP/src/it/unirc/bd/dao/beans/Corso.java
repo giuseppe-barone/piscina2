@@ -58,7 +58,7 @@ public void setAllenatore2(Integer allenatore2) {
 }
 @Override
 public String toString() {
-	return "Corso [IdCorso=" + IdCorso + ", Giorni=" + Giorni + ", Ora=" + Ora + ", Tipo=" + Tipo + ", Allenatore1="
-			+ Allenatore1 + ", Allenatore2=" + Allenatore2 + "]";
+	
+	return "IdCorso: " +  IdCorso + " Tipo: " + Tipo +  " Ora: " + Ora   ;
 }
 }

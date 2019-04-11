@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import com.toedter.calendar.JDateChooser;
 
 public class InserisciEvento extends JDialog {
 	EventoDAOP eDAOP = new EventoDAOP();
@@ -59,15 +60,15 @@ public class InserisciEvento extends JDialog {
 		getContentPane().setLayout(null);
 
 
-		
+
 		txtDATA = new JTextField();
-		
+
 		txtDATA.setBounds(82, 33, 116, 22);
 		getContentPane().add(txtDATA);
 		txtDATA.setColumns(10);
 
 		txtTIPO = new JTextField();
-		
+
 		txtTIPO.setBounds(261, 33, 116, 22);
 		getContentPane().add(txtTIPO);
 		txtTIPO.setColumns(10);
@@ -99,127 +100,97 @@ public class InserisciEvento extends JDialog {
 
 
 		btnINSERISCI.addActionListener(new ActionListener() { //INSERIMENTO EVENTO
-			public void actionPerformed(ActionEvent arg0) {
-				//idEvento = Integer.parseInt(txtIDEVENTO.getText()); //CAST DA STRING A INT
-				data = data.valueOf(txtDATA.getText());
+			btnINSERISCI.setBounds(133, 143, 97, 25);
+			getContentPane().add(btnINSERISCI);
+
+			JButton btnModifica = new JButton("Modifica");
+			btnModifica.setEnabled(false);
+			btnModifica.setVisible(false);
+			btnModifica.setBounds(261, 143, 97, 25);
+			getContentPane().add(btnModifica);
+
+			JDateChooser campoData = new JDateChooser();
+			campoData.setBounds(82, 57, 98, 22);
+			getContentPane().add(campoData);
+
+			txtDATA.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent arg0) {
+					//---CONTROLLI DI ABILITAZIONE BOTTONE---
+					//---CONTROLLI DI ABILITAZIONE BOTTONE---
+					if(controlloBottone()==false) {
+						btnINSERISCI.setEnabled(false);
+						System.out.println("blocca DATA");
+					}
+					else {
+						btnINSERISCI.setEnabled(true);
+						System.out.println("Sblocca DATA");
+					}
+					if(controlloBottone()==false)//|| txtMatricolaFin.getText().equals(""))
+						btnModifica.setEnabled(false);
+					else
+						btnModifica.setEnabled(true);
+				}
+			});
+			txtTIPO.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent e) {
+					//---CONTROLLI DI ABILITAZIONE BOTTONE---
+					//---CONTROLLI DI ABILITAZIONE BOTTONE---
+					if(controlloBottone()==false) {
+						btnINSERISCI.setEnabled(false);
+						System.out.println("blocca TIPO");
+					}
+					else {
+						btnINSERISCI.setEnabled(true);
+						System.out.println("Sblocca TIPO");
+					}
+					//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
+					if(controlloBottone()==false)//|| txtMatricolaFin.getText().equals(""))
+						btnModifica.setEnabled(false);
+					else
+						btnModifica.setEnabled(true);
+
+				}
+			});
+
+			if (Modifica==true) {
+				btnModifica.setVisible(true);
+				btnINSERISCI.setVisible(false);
+			}
+			else{
+				btnModifica.setVisible(false);
+				btnINSERISCI.setVisible(true);
+			}
+
+			if (Modifica==true) {
+				btnModifica.setVisible(true);
+				btnINSERISCI.setVisible(false);
+			}
+			else{
+				btnModifica.setVisible(false);
+				btnINSERISCI.setVisible(true);
+			}
+
+			//MECCANISMO DI MODIFICA
+			if (Modifica) {
+				txtDATA.setText(evento.getData().toString());
+				txtTIPO.setText(evento.getTipo());
 				livello = (String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());
-				tipo = txtTIPO.getText();
-				Evento e = new Evento(idEvento, data, livello, tipo);
-				//--------------CODICE PER IL CALCOLO DELL'ETA DA INSERIRE A PARTE PER PEPPE----------------
-				/*LocalDate corrente=LocalDate.now();
-				Date nascita=data.valueOf(txtDATA.getText());
-				LocalDate LNascita=nascita.toLocalDate();
-				System.out.println(LNascita.toString());
-
-				System.out.println(corrente.toString());
-				if ((corrente != null) && (data != null)) {
-		           System.out.println(Period.between(LNascita, corrente).getYears());
-		        }*/
-				if (eDAOP.salvaEvento(e)) {
-					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
-					//---------------------------------------PARTE PER AZZERARE----------------------------------------------------
-					txtDATA.setText("");
-					//txtIDEVENTO.setText("");
-					txtTIPO.setText("");
-				}
-				else
-					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
-
-				}
-		});
-		btnINSERISCI.setBounds(133, 143, 97, 25);
-		getContentPane().add(btnINSERISCI);
-		
-		JButton btnModifica = new JButton("Modifica");
-		btnModifica.setEnabled(false);
-		btnModifica.setVisible(false);
-		btnModifica.setBounds(261, 143, 97, 25);
-		getContentPane().add(btnModifica);
-		
-		txtDATA.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent arg0) {
-				//---CONTROLLI DI ABILITAZIONE BOTTONE---
-				//---CONTROLLI DI ABILITAZIONE BOTTONE---
-				if(controlloBottone()==false) {
-					btnINSERISCI.setEnabled(false);
-					System.out.println("blocca DATA");
-				}
-				else {
-					btnINSERISCI.setEnabled(true);
-					System.out.println("Sblocca DATA");
-				}
-				if(controlloBottone()==false)//|| txtMatricolaFin.getText().equals(""))
-					btnModifica.setEnabled(false);
-				else
-					btnModifica.setEnabled(true);
 			}
-		});
-		txtTIPO.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI DI ABILITAZIONE BOTTONE---
-				//---CONTROLLI DI ABILITAZIONE BOTTONE---
-				if(controlloBottone()==false) {
-					btnINSERISCI.setEnabled(false);
-					System.out.println("blocca TIPO");
+
+			btnModifica.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					tipo = txtTIPO.getText();
+					livello=(String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());	//CASTING
+					data = Date.valueOf(txtDATA.getText());
+
+					Evento e = new Evento(evento.getIdEvento(),data, livello, tipo);
+					eDAOP.ModificaEvento(e);
 				}
-				else {
-					btnINSERISCI.setEnabled(true);
-					System.out.println("Sblocca TIPO");
-				}
-				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
-				if(controlloBottone()==false)//|| txtMatricolaFin.getText().equals(""))
-					btnModifica.setEnabled(false);
-				else
-					btnModifica.setEnabled(true);
-
-			}
-		});
-
-		if (Modifica==true) {
-			btnModifica.setVisible(true);
-			btnINSERISCI.setVisible(false);
-		}
-		else{
-			btnModifica.setVisible(false);
-			btnINSERISCI.setVisible(true);
-		}
-		
-		if (Modifica==true) {
-			btnModifica.setVisible(true);
-			btnINSERISCI.setVisible(false);
-		}
-		else{
-			btnModifica.setVisible(false);
-			btnINSERISCI.setVisible(true);
-		}
-		
-		//MECCANISMO DI MODIFICA
-		if (Modifica) {
-			txtDATA.setText(evento.getData().toString());
-			txtTIPO.setText(evento.getTipo());
-			livello = (String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());
-		}
-		
-		btnModifica.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				tipo = txtTIPO.getText();
-				livello=(String) cbLIVELLO.getModel().getElementAt(cbLIVELLO.getSelectedIndex());	//CASTING
-				data = Date.valueOf(txtDATA.getText());
-				
-				Evento e = new Evento(evento.getIdEvento(),data, livello, tipo);
-				eDAOP.ModificaEvento(e);
-			}
-		});
-		
-		
-		
-		
-
-
+			});
 
 	}
-	//CONTROLLO PER AVVISO ID DUPLICATO O ESISTENTE
-//public String ControlloAvvisoEvento() {
+		//CONTROLLO PER AVVISO ID DUPLICATO O ESISTENTE
+		//public String ControlloAvvisoEvento() {
 		//String risultato="";
 		//String IDE = txtIDEVENTO.getText();
 		/*if(IDE.equals("")) {
@@ -233,49 +204,55 @@ public class InserisciEvento extends JDialog {
 		}*/
 
 		//return risultato;
-	
-	
-	/*public boolean controlloIDIscritto() {
+
+
+		/*public boolean controlloIDIscritto() {
 		return eDAOP.ControlloDinamicoEvento(Integer.parseInt(txtIDEVENTO.getText()));
 	}
-*/
-	
+		 */
 
 
-	public void CalcoloEta() {
-		LocalDate corrente=LocalDate.now();
-		Date nascita=data.valueOf(txtDATA.getText());
-		LocalDate LNascita=nascita.toLocalDate();
-		System.out.println(LNascita.toString());
 
-		System.out.println(corrente.toString());
-		if ((corrente != null) && (data != null)) {
-           System.out.println(Period.between(LNascita, corrente).getYears());
-        }
-	}
+		
 
 
 
 
 
 
-	//----CONTROLLO PER L'ABILITAZIONE DEL BOTTONE----RITORNA FALSO SE IL BOTTONE NON SI DEVE ATTIVARE
-	//----PROVO A TOGLIERE TUTTI GLI ELSE IF E LI SOSTITUISCO CON DEGL'IF SEMPLICI
-	public boolean controlloBottone() {
-		boolean risultato=true ;
-		//---------CONTROLLI COMPILAZIONE CAMPI EVENTO----------
-		if (txtTIPO.getText().equals("") || txtDATA.getText().equals("")) {
-			risultato=false;
-			System.out.println("CAMPI CORSO INDISPENSABILI NON COMPILATI ");
-		}
-		//----CONTROLLO PRECEDENTE ESISTENZA ID EVENTO----
-	/*	else if (eDAOP.ControlloDinamicoEvento(Integer.parseInt(txtIDEVENTO.getText()))) {
+		//----CONTROLLO PER L'ABILITAZIONE DEL BOTTONE----RITORNA FALSO SE IL BOTTONE NON SI DEVE ATTIVARE
+		//----PROVO A TOGLIERE TUTTI GLI ELSE IF E LI SOSTITUISCO CON DEGL'IF SEMPLICI
+		public boolean controlloBottone() {
+			boolean risultato=true ;
+			//---------CONTROLLI COMPILAZIONE CAMPI EVENTO----------
+			if (txtTIPO.getText().equals("") || txtDATA.getText().equals("")) {
+				risultato=false;
+				System.out.println("CAMPI CORSO INDISPENSABILI NON COMPILATI ");
+			}
+			//----CONTROLLO PRECEDENTE ESISTENZA ID EVENTO----
+			/*	else if (eDAOP.ControlloDinamicoEvento(Integer.parseInt(txtIDEVENTO.getText()))) {
 			risultato=false;
 			System.out.println("ID EVENTO GIA ESISTENTE");
 		}*/
-		System.out.println("____________________________________________________________________________");
+			System.out.println("____________________________________________________________________________");
 
-		return risultato;
+			return risultato;
 
+		}
+
+	}
+}
+
+
+
+public void CalcoloEta() {
+	LocalDate corrente=LocalDate.now();
+	Date nascita=data.valueOf(txtDATA.getText());
+	LocalDate LNascita=nascita.toLocalDate();
+	System.out.println(LNascita.toString());
+
+	System.out.println(corrente.toString());
+	if ((corrente != null) && (data != null)) {
+		System.out.println(Period.between(LNascita, corrente).getYears());
 	}
 }

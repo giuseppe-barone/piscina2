@@ -547,6 +547,40 @@ public class IscrittoDAOP {
 	
 	
 	
+	//----RESTITUZIONE DI TUTTI GLI ISCRITTI----PER LA COMBOBOX----PROVA CON OGETTO ISCRITTO----
+		public DefaultComboBoxModel<Iscritto> getIscritticb(){
+			DefaultComboBoxModel<Iscritto> risultato = new DefaultComboBoxModel<Iscritto>();
+			String query = "SELECT * FROM piscina.iscritto;";
+			Iscritto res = new Iscritto();
+			PreparedStatement ps;
+			conn=DBManager.startConnection();
+			try {
+				ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					res=new Iscritto();
+					res.setIdIscritto(rs.getInt("idIscritto"));
+					res.setNome( rs.getString("Nome") );
+					res.setCognome( rs.getString("Cognome") );
+					res.setSesso( rs.getString("Sesso") );
+					res.setCellulare( rs.getString("Cellulare") );
+					res.setDataNascita( rs.getDate("DataDiNascita"));
+					res.setMatricolaFIN(rs.getInt("MatricolaFin"));
+
+					risultato.addElement(res);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return risultato;
+
+		}	
+	
+	
+	
+	
+	
 	
 	
 	public Vector<Iscritto> getTuttiAtleti() {
