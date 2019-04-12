@@ -224,6 +224,91 @@ public class CorsoDAOP {
 	
 	
 	
+	public Vector<Corso> getVectorCorsoFromGiorni(int giorni) {
+		Vector<Corso> list = new Vector<Corso>();
+		String stringa="SELECT * FROM piscina.corso WHERE Giorni=?";
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(stringa);
+			ps.setInt(1, giorni );
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(recordToCorso(rs));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;		
+	}
+	
+	public Vector<Corso> getVectorCorsoFromOra(int ora) {
+		Vector<Corso> list = new Vector<Corso>();
+		String stringa="SELECT * FROM piscina.corso WHERE Ora=?";
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(stringa);
+			ps.setInt(1, ora );
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(recordToCorso(rs));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;		
+	}
+	
+	public Vector<Corso> getVectorCorsoFromTipo(String tipo) {
+		Vector<Corso> list = new Vector<Corso>();
+		String stringa="SELECT * FROM piscina.corso WHERE Tipo=?";
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(stringa);
+			ps.setString(1, tipo );
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(recordToCorso(rs));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;		
+	}
+	
+	public Vector<Corso> getVectorCorsoFromAllenatore1(int ID) {
+		Vector<Corso> list = new Vector<Corso>();
+		String stringa="SELECT * FROM piscina.corso WHERE Allenatore1=?";
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(stringa);
+			ps.setInt(1, ID );
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(recordToCorso(rs));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return list;		
+	}
+	
+	
+	
+	
+	
+	
 	//ricerca di tutte le iscrizioni
 	public Vector<String[]> getAllIscrizioni(){
 		String query = "SELECT * FROM frequenta";

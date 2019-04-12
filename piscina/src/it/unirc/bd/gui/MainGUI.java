@@ -231,8 +231,8 @@ public class MainGUI {
 		JMenuItem mntmVisualizzaCorso = new JMenuItem("Visualizza Corso");
 		mntmVisualizzaCorso.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VisualizzaCorso visualizza = new VisualizzaCorso(null);
-				visualizza.setVisible(true);
+				/*VisualizzaCorso visualizza = new VisualizzaCorso(null);
+				visualizza.setVisible(true);*/
 			}
 		});
 		mnCorsi.add(mntmVisualizzaCorso);

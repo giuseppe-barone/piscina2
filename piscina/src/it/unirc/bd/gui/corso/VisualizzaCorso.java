@@ -22,10 +22,10 @@ public class VisualizzaCorso extends JDialog {
 	CorsoDAOP cDAOP = new CorsoDAOP();
 
 	private JTable table;
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				
+
 				try {
 					VisualizzaCorso dialog = new VisualizzaCorso(null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -35,16 +35,19 @@ public class VisualizzaCorso extends JDialog {
 				}
 			}
 		});
-	}
-	public VisualizzaCorso(Vector<String[]> vettore) {
+	}*/
+	public VisualizzaCorso(boolean corso,Vector<String[]> vettoreIscrizioni, Vector<Corso> vettoreCorsi) {
 		setResizable(false);
-		setTitle("Visualizza Corsi");
-				setBounds(100, 100, 543, 414);
+		setTitle("Visualizza Corsi/Iscrizioni");
+		setBounds(100, 100, 543, 414);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
-		load(vettore);
+		if (corso)
+			visCorso(vettoreCorsi);
+		else
+			load(vettoreIscrizioni);
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
@@ -52,9 +55,37 @@ public class VisualizzaCorso extends JDialog {
 		panel.add(pane);
 		setContentPane(panel);
 	}
-	
-	
-	
+
+	//METODO PER LA VISUALIZZAZIONE DI CORSO
+	private void visCorso(Vector<Corso> vettore) {
+		DefaultTableModel model = new DefaultTableModel();
+		Object[] columnsName = new Object[6];
+		columnsName[0] = "Id Corso";
+		columnsName[1] = "Giorni";
+		columnsName[2] = "Ora";
+		columnsName[3] = "Tipo";
+		columnsName[4] = "Allenatore1";
+		columnsName[5] = "Allenatore2";
+		model.setColumnIdentifiers(columnsName);
+
+
+
+		Object rowData[] = new Object[6]; 
+		for (Corso c: vettore) {
+			rowData[0] = Integer.toString(c.getIdCorso());
+			rowData[1] = Integer.toString(c.getGiorni());
+			rowData[2] = Integer.toString(c.getOra());
+			rowData[3] = c.getTipo();
+			rowData[4] = Integer.toString(c.getAllenatore1());
+			rowData[5] = Integer.toString(c.getAllenatore2());
+			model.addRow(rowData);
+		}
+		table.setModel(model);
+	}
+
+
+
+	//METODO PER LA VISUALIZZAZIONE DI ISCRIZIONE
 	private void load(Vector<String[]> vettore) {
 		DefaultTableModel model = new DefaultTableModel();
 		Object[] columnsName = new Object[7];
@@ -66,9 +97,9 @@ public class VisualizzaCorso extends JDialog {
 		columnsName[5] = "Tipo";
 		columnsName[6] = "Ora";
 		model.setColumnIdentifiers(columnsName);
-	
-		
-		
+
+
+
 		Object rowData[] = new Object[7]; 
 		for (int a=0;a<vettore.size();a++) {
 			rowData[0] = vettore.elementAt(a)[0];
@@ -82,5 +113,5 @@ public class VisualizzaCorso extends JDialog {
 		}
 		table.setModel(model);
 	}
-	
+
 }

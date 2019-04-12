@@ -112,19 +112,19 @@ public class RicercaIscrizione extends JDialog {
 		btnCerca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (radioTutti.isSelected()) {
-					VisualizzaCorso vis =new VisualizzaCorso(cDAOP.getAllIscrizioni());
+					VisualizzaCorso vis =new VisualizzaCorso(false,cDAOP.getAllIscrizioni(),null);
 					vis.setVisible(true);
 					//cDAOP.getAllIscrizioni();
 				}
 				else if (radioCorso.isSelected()) {
 					idCorso=cDAOP.getCorsoCb().getElementAt(comboCorso.getSelectedIndex()).getIdCorso();
-					VisualizzaCorso vis =new VisualizzaCorso(cDAOP.getIscrizioniFromIdCorso(idCorso));
+					VisualizzaCorso vis =new VisualizzaCorso(false,cDAOP.getIscrizioniFromIdCorso(idCorso),null);
 					vis.setVisible(true);
 					//cDAOP.getIscrizioniFromIdCorso(idCorso);
 				}
 				else if (radioIscritto.isSelected()) {
 					idIscritto=iDAOP.getIscritticb().getElementAt(comboIscritto.getSelectedIndex()).getIdIscritto();
-					VisualizzaCorso vis =new VisualizzaCorso(cDAOP.getIscrizioniFromIdIscritto(idIscritto));
+					VisualizzaCorso vis =new VisualizzaCorso(false,cDAOP.getIscrizioniFromIdIscritto(idIscritto),null);
 					vis.setVisible(true);
 					//cDAOP.getIscrizioniFromIdIscritto(idIscritto);
 				}
