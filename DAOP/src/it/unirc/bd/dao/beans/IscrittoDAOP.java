@@ -133,6 +133,35 @@ public class IscrittoDAOP {
 		System.out.println(res.toString());
 		return res;
 	} 
+	
+	
+	public Iscritto getAtleta(int MatricolaFin) {
+		String query = "SELECT * FROM iscritto WHERE MatricolaFin = ?";
+		Iscritto res = null;
+		PreparedStatement ps;
+		conn=DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, MatricolaFin);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				res=new Iscritto();
+				res.setIdIscritto(rs.getInt("idIscritto"));
+				res.setNome( rs.getString("Nome") );
+				res.setCognome(rs.getString("Cognome"));
+				res.setSesso( rs.getString("Sesso") );
+				res.setCellulare( rs.getString("Cellulare") );
+				res.setDataNascita(rs.getDate("DataDiNascita"));
+				res.setMatricolaFIN( rs.getInt("MatricolaFin") );
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		System.out.println(res.toString());
+		return res;
+	} 
 
 	
 	//-----------------RICERCA PER SESSO -------------------

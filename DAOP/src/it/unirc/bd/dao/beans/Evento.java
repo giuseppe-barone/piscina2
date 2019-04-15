@@ -7,12 +7,12 @@ public class Evento {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	private int idEvento;
+	private Integer idEvento;
 	private Date data;
 	private String livello;
 	private String tipo;
 	
-	public Evento(int idEvento, Date data, String livello, String tipo) {
+	public Evento(Integer idEvento, Date data, String livello, String tipo) {
 		super();
 		this.idEvento = idEvento;
 		this.data = data;
@@ -21,7 +21,7 @@ public class Evento {
 	}
 	@Override
 	public String toString() {
-		return idEvento+"   "+data+"  "+livello+"  "+tipo;
+		return 	tipo +" | "+livello+" | "+data.toString();
 	}
 	@Override
 	public int hashCode() {

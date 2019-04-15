@@ -15,6 +15,9 @@ import it.unirc.bd.dao.beans.IscrittoDAOP;
 import javax.swing.border.TitledBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import javax.swing.JMenuItem;
 
 public class VisualizzaIscritto extends JDialog{
 	IscrittoDAOP iDAOP = new IscrittoDAOP();
@@ -62,6 +65,9 @@ public class VisualizzaIscritto extends JDialog{
 		pane.setBounds(24, 24, 525, 366);
 		panel.add(pane);
 		setContentPane(panel);
+
+
+
 	}
 	private void load(Vector<Iscritto> vettore) {
 		DefaultTableModel model = new DefaultTableModel();
@@ -92,6 +98,23 @@ public class VisualizzaIscritto extends JDialog{
 			model.addRow(rowData);
 		}
 		table.setModel(model);
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }
 
