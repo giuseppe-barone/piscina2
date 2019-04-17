@@ -11,6 +11,8 @@ import it.unirc.bd.dao.beans.Evento;
 import it.unirc.bd.dao.beans.EventoDAOP;
 import it.unirc.bd.dao.beans.Iscritto;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
+import it.unirc.bd.dao.beans.Partecipazione;
+import it.unirc.bd.dao.beans.PartecipazioneDAOP;
 
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
@@ -21,6 +23,7 @@ import java.awt.event.ActionEvent;
 public class PartecipazioneEvento extends JDialog {
 	IscrittoDAOP iDAOP= new IscrittoDAOP();
 	EventoDAOP eDAOP= new EventoDAOP();
+	PartecipazioneDAOP pDAOP= new PartecipazioneDAOP();
 	private int MatricolaFin;
 	private int idEvento;
 	private int posizione;
@@ -107,9 +110,14 @@ public class PartecipazioneEvento extends JDialog {
 				posizione=comboPosizione.getSelectedIndex();
 				categoria=i.CalcoloCategoria(i);
 				Date dataOdierna=new Date(2019,014,16);
+				Partecipazione p =new Partecipazione();
+				p.setCategoria(categoria);
+				p.setIdEvento(idEvento);
+				p.setMatricolaFin(MatricolaFin);
+				p.setPosizione(posizione);
 				if (e.getData().before(dataOdierna)   && posizione!=0)
 					JOptionPane.showMessageDialog(null, "STAI TENTANDO DI INSERIRE UNA POSIZIONE\nNON VALIDA PRIMA CHE L'EVENTO SI SIA SVOLTO!");
-				else if (eDAOP.salvaPartecipazione(idEvento, MatricolaFin, posizione, categoria))
+				else if (pDAOP.salvaPartecipazione(p))
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 				else
 					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
