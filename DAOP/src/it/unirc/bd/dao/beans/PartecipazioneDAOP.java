@@ -39,7 +39,7 @@ public class PartecipazioneDAOP {
 	}
 
 	//ASSEMBLAGGIO DELLE INFORMAZIONI UTILE ALLA VISUALIZZAZIONE
-		public Vector<String[]> assembler(Vector<Partecipazione> v) throws SQLException {
+		public Vector<String[]> assembler(Vector<Partecipazione> v) {
 			Vector<String[]> lista=new Vector<String[]>();
 			for(Partecipazione p:v) {
 				Iscritto i =new Iscritto();
@@ -76,7 +76,9 @@ public class PartecipazioneDAOP {
 			return lista;
 		}
 	
-	
+		
+		
+		
 		//ricerca partecipazioni tutti 
 		//CERCA TUTTE LE PARTECIAPZIONI
 		public Vector<Partecipazione> getTuttePartecipazioni() throws SQLException {
@@ -102,5 +104,13 @@ public class PartecipazioneDAOP {
 			DBManager.closeConnection();	
 			return lista;
 		}
-
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }

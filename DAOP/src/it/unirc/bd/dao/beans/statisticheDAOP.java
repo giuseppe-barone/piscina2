@@ -40,13 +40,6 @@ public class statisticheDAOP {
 		return risultato;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	public DefaultCategoryDataset getInfortuniCorso(DefaultCategoryDataset dataset , Integer anno) {
 		String query;
 		String Anno="";
@@ -79,7 +72,6 @@ public class statisticheDAOP {
 			e.printStackTrace();
 		}
 		DBManager.closeConnection();
-
 		System.out.println("Lieve: "+Integer.toString(lieve));
 		System.out.println("Medio: "+Integer.toString(medio));
 		System.out.println("Grave: "+Integer.toString(grave));
@@ -97,17 +89,6 @@ public class statisticheDAOP {
 		return dataset;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	public DefaultCategoryDataset getTuttiInfortunioAtleta(DefaultCategoryDataset dataset, Iscritto i) {
 		String query = "SELECT COUNT(\"Gravita\")as Numero, Gravita from infortunio where infortunio.MatricolaFin=? group by Gravita;";
 		int ID =i.getMatricolaFIN();
@@ -145,55 +126,6 @@ public class statisticheDAOP {
 		System.out.println("DATASET AGGIUNTA");
 		return dataset;
 	} 
-
-
-	
-	 
-	/*public DefaultCategoryDataset getInfortuniAllenatori(DefaultCategoryDataset dataset , int anno) {
-		String query = "SELECT COUNT(\"Gravita\")as Numero, Gravita from infortunio where idInfortunio IS NOT NULL AND YEAR(Data) ="+ ? +" AND MatricolaFin IN (SELECT MatricolaFin FROM iscritto where iscritto.idIscritto IN (SELECT frequenta.idIscritto from frequenta where frequenta.idCorso IN(SELECT idCorso FROM piscina.corso where Allenatore1= "+?+ " ))) group by Gravita;";
-		PreparedStatement ps;
-		Vector<Dipendente> vettore = getAllenatorePrima();
-		for (Dipendente d: vettore){
-		System.out.println(d.getNome()+" "+d.getCognome());
-		conn=DBManager.startConnection();	
-		int lieve=0;
-		int medio=0;
-		int grave=0;
-		int ID =d.getIdDipendente();
-		try {
-			ps = conn.prepareStatement(query);
-			ps.setInt(1, ID);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-
-				if(rs.getString("Gravita").equals("1"))
-					lieve=rs.getInt("Numero");
-				if (rs.getString("Gravita").equals("2"))
-					medio=rs.getInt("Numero");
-				if (rs.getString("Gravita").equals("3"))
-					grave=rs.getInt("Numero");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-
-		System.out.println("Lieve: "+Integer.toString(lieve));
-		System.out.println("Medio: "+Integer.toString(medio));
-		System.out.println("Grave: "+Integer.toString(grave));
-		if (lieve!=0 || medio!=0 || grave!=0) {
-			dataset.addValue(lieve, "Lieve", d.getNome()+" "+d.getCognome());
-	        dataset.addValue(medio, "Medio" , d.getNome()+" "+d.getCognome());
-	        dataset.addValue(grave, "Grave" , d.getNome()+" "+d.getCognome());
-			System.out.println("DATASET AGGIUNTA");
-		}
-		else
-			System.out.println("DATASET NON AGGIUNTA");
-		
-
-		}
-		return dataset;
-	} */
 	 
 	public DefaultCategoryDataset getInfortuniAllenatori(DefaultCategoryDataset dataset , Integer anno) {
 		String query;
@@ -244,5 +176,62 @@ public class statisticheDAOP {
 		}
 		return dataset;
 	}
+	
+	
+	
+	/*
+	
+	//PARTE RELATIVA ALLE GARE
+	public DefaultCategoryDataset getVittorieCorsi(DefaultCategoryDataset dataset , Integer anno) {
+		String query;
+		String Anno="";
+		if (anno!=null) {
+			Anno="AND YEAR(Data) ="+ Integer.toString(anno);
+		}
+		PreparedStatement ps;
+		Vector<Corso> vettore = cDAOP.getAll();
+		for (Corso c: vettore){
+		System.out.println(c.getTipo());
+		conn=DBManager.startConnection();	
+		int lieve=0;
+		int medio=0;
+		int grave=0;
+		int ID =c.getIdCorso();
+		query = "SELECT COUNT(\"Gravita\")as Numero, Gravita from infortunio where idInfortunio IS NOT NULL "+Anno+" AND MatricolaFin IN (SELECT MatricolaFin FROM iscritto where iscritto.idIscritto IN (SELECT frequenta.idIscritto from frequenta where frequenta.idCorso="+Integer.toString(ID)+")) group by Gravita;";
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+
+				if(rs.getString("Gravita").equals("1"))
+					lieve=rs.getInt("Numero");
+				if (rs.getString("Gravita").equals("2"))
+					medio=rs.getInt("Numero");
+				if (rs.getString("Gravita").equals("3"))
+					grave=rs.getInt("Numero");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		System.out.println("Lieve: "+Integer.toString(lieve));
+		System.out.println("Medio: "+Integer.toString(medio));
+		System.out.println("Grave: "+Integer.toString(grave));
+		if (lieve!=0 || medio!=0 || grave!=0) {
+			dataset.addValue(lieve, "Lieve",c.getTipo());
+	        dataset.addValue(medio, "Medio" , c.getTipo());
+	        dataset.addValue(grave, "Grave" , c.getTipo());
+			System.out.println("DATASET AGGIUNTA");
+		}
+		else
+			System.out.println("DATASET NON AGGIUNTA");
+		
+
+		}
+		return dataset;
+	}
+	
+	*/
+	
 	
 }
