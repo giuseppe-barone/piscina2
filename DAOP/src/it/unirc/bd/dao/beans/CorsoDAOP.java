@@ -40,36 +40,30 @@ public class CorsoDAOP {
 		DBManager.closeConnection();
 		return esito;
 	}
-
-
-
-	//-----------------CONTROLLO DINAMICO ID CORSO -------------------RITORNA VERO SE ESISTE O NON è UN VALORE ACCETTABILE FALSO ALTRIMENTI
-	/*public boolean ControlloDinamicoIdCorso(Integer ID) {
-		boolean risultato =false;
-		//----INSERIRE UN CONTROLLO CHE MI PERMETTA DI VEDERE SE L'OGETTO PASSATO è VUOTO E RESTITUISCA SUBITO UN VALORE
-		//INSERISCO QUESTO CONTROLLO PRIMA DEL RESTO DEL CONDICE PERCHè SENNO PARTIREBBE UNA QUERY CON DEI VALORI INCOMPATIBILI
-		//ANZICHE PASSARE AL METODO UN TIPO INT PASSARE AL METODO UN TIPO INTEGER (OGETTO) CHE PUò ESSERE ANCHE NULL
-		if (ID==null || Integer.toString(ID.intValue()).equals("")) {
-			risultato=true;
+	
+	
+	
+	//----ELENCO TIPI SENZA RIDONDANZE----
+		public DefaultComboBoxModel<String> ElencoTipi( ){
+			DefaultComboBoxModel<String> risultato=new DefaultComboBoxModel<String>();
+			String query = "SELECT DISTINCT Tipo FROM piscina.corso order by Tipo ASC;";
+			String res;
+			PreparedStatement ps;
+			conn=DBManager.startConnection();
+			try {
+				ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					res=rs.getString("Tipo");
+					risultato.addElement(res);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
 			return risultato;
-		}						
-		String query = "SELECT * FROM corso WHERE idCorso = ?";
-		PreparedStatement ps;
-		conn=DBManager.startConnection();
-		try {
-			ps = conn.prepareStatement(query);
-			ps.setInt(1, ID.intValue());
-			ResultSet rs = ps.executeQuery();
-			if(rs.next())
-				risultato=true;	//ESISTE UNA TUPLA CON QUELL'ID
-			else
-				risultato=false;//NON ESISTE UNA TUPLA CON QUELL'ID
-		} catch (SQLException e) {
-			e.printStackTrace();
+
 		}
-		DBManager.closeConnection();
-		return risultato;
-	}*/
 
 
 

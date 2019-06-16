@@ -126,12 +126,9 @@ public class EventoDAOP {
 	
 
 	//----ELENCO EVENTI A DISPOSIZIONE (SU SCELTA DOPO LA DATA CORRENTE) ----
-	public DefaultComboBoxModel<Evento> ElencoEventiDisponibili(boolean modifica){//se modifica è true allora si cercano temporalmente tutti gli eventi
+	public DefaultComboBoxModel<Evento> ElencoEventiDisponibili(){
 		DefaultComboBoxModel<Evento> risultato=new DefaultComboBoxModel<Evento>();
-		String condizione="";
-		if (modifica!=true)
-			condizione="WHERE Data>=CURDATE() ";
-		String query = "SELECT * FROM evento "+condizione +";";
+		String query = "SELECT * FROM piscina.evento ORDER BY Data DESC;";
 		Evento res=new Evento();
 		
 		PreparedStatement ps;
@@ -151,6 +148,7 @@ public class EventoDAOP {
 			e.printStackTrace();
 		}
 		DBManager.closeConnection();
+		System.out.println(query);
 		return risultato;
 
 	}

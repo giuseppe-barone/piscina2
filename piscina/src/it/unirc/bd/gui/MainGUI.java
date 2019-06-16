@@ -263,7 +263,7 @@ public class MainGUI {
 		JMenuItem mntmPartecipazioneAdEvento = new JMenuItem("Partecipazione ad Evento");
 		mntmPartecipazioneAdEvento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PartecipazioneEvento partecipa = new PartecipazioneEvento();
+				PartecipazioneEvento partecipa = new PartecipazioneEvento(false);
 				partecipa.setVisible(true);
 			}
 		});

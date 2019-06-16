@@ -7,6 +7,7 @@ import javax.swing.JDialog;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
 
+import it.unirc.bd.dao.beans.CorsoDAOP;
 import it.unirc.bd.dao.beans.Evento;
 import it.unirc.bd.dao.beans.EventoDAOP;
 
@@ -23,6 +24,7 @@ public class InserisciEvento extends JDialog {
 	private String Livello;
 	private Date Data;
 	EventoDAOP eDAOP=new EventoDAOP();
+	CorsoDAOP cDAOP=new CorsoDAOP();
 	
 
 
@@ -57,7 +59,7 @@ public class InserisciEvento extends JDialog {
 		getContentPane().add(comboLivello);
 
 		JComboBox<String> comboTipo = new JComboBox<String>();
-		comboTipo.setModel(eDAOP.ElencoTipi());
+		comboTipo.setModel(cDAOP.ElencoTipi());	 	
 		comboTipo.setBounds(56, 74, 155, 22);
 		getContentPane().add(comboTipo);
 
@@ -98,26 +100,8 @@ public class InserisciEvento extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				Tipo=comboTipo.getItemAt(comboTipo.getSelectedIndex());
 				Livello=comboLivello.getItemAt(comboLivello.getSelectedIndex());
-				//long l=campoData.getDate().getTime();
-				/*
-				//INIZIO TRATTAMENTO DATA
-				java.util.Date dat=campoData.getDate();
-				Data.valueOf(""+(dat.getYear()+1900)+"-"+dat.getMonth()+"-"+dat.getDay()+"");
-				//Data.setTime(l);				
-				//Data= (Date)campoData.getDate();
-				java.util.Date utilDate = campoData.getDate();
-				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-				Data=sqlDate;
-				System.out.println(Data.toString());
-				//FINE TRATTAMENTO DATA
-				*/
 				java.util.Date utilDate=campoData.getDate();
-			//	long l1 = utilDate.getTime();
 				Data=new Date(utilDate.getTime());
-			//	Data=Date.valueOf(textData.getText()) ;
-			//	long l2 =Data.getTime();
-			//	long l3=l2-l1;
-			//	System.out.println("la prima data è: "+l1+"\n la seconda data è: "+l2+"\n la differenza è: "+l3);
 				System.out.println(Data.toString());
 				System.out.println(Tipo+"\n"+Livello);
 				Evento evento=new Evento(null,Data,Livello,Tipo);

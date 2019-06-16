@@ -63,13 +63,13 @@ public class statisticheAtleti extends JDialog {
 	 */
 	public statisticheAtleti() {
 		ButtonGroup gruppoInfortuni = new ButtonGroup();		
-		setBounds(100, 100, 565, 398);
+		setBounds(100, 100, 499, 427);
 		getContentPane().setLayout(null);
 
 		ButtonGroup gruppoEventi = new ButtonGroup();
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 478, 358);
+		tabbedPane.setBounds(0, 0, 478, 367);
 		getContentPane().add(tabbedPane);
 
 		//PARTE RELATIVA ALLA SCHEDA EVENTI
@@ -81,93 +81,97 @@ public class statisticheAtleti extends JDialog {
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
 		panel_3.setBorder(new TitledBorder(null, "Assoluti", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_3.setBounds(12, 13, 537, 99);
+		panel_3.setBounds(12, 13, 449, 99);
 		panel_1.add(panel_3);
 
-		JRadioButton rdbtnVittorieAssociatiAd = new JRadioButton("Vittorie associati ad allenatori");
-		rdbtnVittorieAssociatiAd.setBounds(8, 26, 205, 25);
-		panel_3.add(rdbtnVittorieAssociatiAd);
-		gruppoEventi.add(rdbtnVittorieAssociatiAd);
+		JRadioButton radioPosizioneAllenatori = new JRadioButton("Posizioni associati ad allenatori");
+		radioPosizioneAllenatori.setBounds(8, 26, 205, 25);
+		panel_3.add(radioPosizioneAllenatori);
+		gruppoEventi.add(radioPosizioneAllenatori);
 
-		JCheckBox checkBox_5 = new JCheckBox("Anno");
-		checkBox_5.setEnabled(false);
-		checkBox_5.setBounds(217, 26, 57, 25);
-		panel_3.add(checkBox_5);
+		JCheckBox checkAnno5 = new JCheckBox("Anno");
+		checkAnno5.setEnabled(false);
+		checkAnno5.setBounds(217, 26, 57, 25);
+		panel_3.add(checkAnno5);
 
-		JYearChooser yearChooser_3 = new JYearChooser();
-		yearChooser_3.getSpinner().setEnabled(false);
-		yearChooser_3.setBounds(274, 29, 51, 22);
-		panel_3.add(yearChooser_3);
+		JYearChooser yearChooser2 = new JYearChooser();
+		yearChooser2.getSpinner().setEnabled(false);
+		yearChooser2.setBounds(334, 13, 51, 22);
+		panel_3.add(yearChooser2);
 
-		JRadioButton rdbtnVittorieAssociatiA = new JRadioButton("Vittorie associati a corsi");
-		rdbtnVittorieAssociatiA.setBounds(8, 56, 205, 25);
-		panel_3.add(rdbtnVittorieAssociatiA);
-		gruppoEventi.add(rdbtnVittorieAssociatiA);
+		JRadioButton radioPosizioneCorsi = new JRadioButton("Posizioni associati a corsi");
+		radioPosizioneCorsi.setBounds(8, 56, 205, 25);
+		panel_3.add(radioPosizioneCorsi);
+		gruppoEventi.add(radioPosizioneCorsi);
 
-		JCheckBox checkBox_6 = new JCheckBox("Anno");
-		checkBox_6.setEnabled(false);
-		checkBox_6.setBounds(217, 56, 57, 25);
-		panel_3.add(checkBox_6);
-
-		JYearChooser yearChooser_4 = new JYearChooser();
-		yearChooser_4.getSpinner().setEnabled(false);
-		yearChooser_4.setBounds(274, 59, 51, 22);
-		panel_3.add(yearChooser_4);
+		JCheckBox checkAnno6 = new JCheckBox("Anno");
+		checkAnno6.setEnabled(false);
+		checkAnno6.setBounds(217, 56, 57, 25);
+		panel_3.add(checkAnno6);
+		
+		JLabel lblAnno_1 = new JLabel("Anno");
+		lblAnno_1.setBounds(281, 13, 41, 16);
+		panel_3.add(lblAnno_1);
 
 		JPanel panel_4 = new JPanel();
 		panel_4.setLayout(null);
 		panel_4.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Atleti", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_4.setBounds(37, 128, 406, 193);
+		panel_4.setBounds(33, 142, 406, 154);
 		panel_1.add(panel_4);
 
-		JComboBox<Iscritto> comboBox_8 = new JComboBox<Iscritto>();
-		comboBox_8.setModel(iscrittoDAOP.getAtleticb());
-		comboBox_8.setEnabled(false);
-		comboBox_8.setBounds(63, 56, 314, 22);
-		panel_4.add(comboBox_8);
+		JComboBox<Iscritto> comboAtleta5 = new JComboBox<Iscritto>();
+		comboAtleta5.setModel(iscrittoDAOP.getAtleticb());
+		comboAtleta5.setEnabled(false);
+		comboAtleta5.setBounds(63, 25, 314, 22);
+		panel_4.add(comboAtleta5);
 
-		JCheckBox checkBox_7 = new JCheckBox("1\u00B0");
-		checkBox_7.setEnabled(false);
-		checkBox_7.setBounds(8, 55, 41, 25);
-		panel_4.add(checkBox_7);
+		JCheckBox checkAtE = new JCheckBox("1\u00B0");
+		checkAtE.setEnabled(false);
+		checkAtE.setBounds(8, 24, 41, 25);
+		panel_4.add(checkAtE);
 
-		JCheckBox checkBox_8 = new JCheckBox("2\u00B0");
-		checkBox_8.setEnabled(false);
-		checkBox_8.setBounds(8, 85, 41, 25);
-		panel_4.add(checkBox_8);
+		JCheckBox checkAtF = new JCheckBox("2\u00B0");
+		checkAtF.setEnabled(false);
+		checkAtF.setBounds(8, 54, 41, 25);
+		panel_4.add(checkAtF);
 
-		JComboBox<Iscritto> comboBox_9 = new JComboBox<Iscritto>();
-		comboBox_9.setModel(iscrittoDAOP.getAtleticb());
-		comboBox_9.setEnabled(false);
-		comboBox_9.setBounds(63, 86, 314, 22);
-		panel_4.add(comboBox_9);
+		JComboBox<Iscritto> comboAtleta6 = new JComboBox<Iscritto>();
+		comboAtleta6.setModel(iscrittoDAOP.getAtleticb());
+		comboAtleta6.setEnabled(false);
+		comboAtleta6.setBounds(63, 55, 314, 22);
+		panel_4.add(comboAtleta6);
 
-		JCheckBox checkBox_9 = new JCheckBox("4\u00B0");
-		checkBox_9.setEnabled(false);
-		checkBox_9.setBounds(8, 145, 41, 25);
-		panel_4.add(checkBox_9);
+		JCheckBox checkAtH = new JCheckBox("4\u00B0");
+		checkAtH.setEnabled(false);
+		checkAtH.setBounds(8, 114, 41, 25);
+		panel_4.add(checkAtH);
 
-		JComboBox<Iscritto> comboBox_10 = new JComboBox<Iscritto>();
-		comboBox_10.setModel(iscrittoDAOP.getAtleticb());
-		comboBox_10.setEnabled(false);
-		comboBox_10.setBounds(63, 146, 314, 22);
-		panel_4.add(comboBox_10);
+		JComboBox<Iscritto> comboAtleta8 = new JComboBox<Iscritto>();
+		comboAtleta8.setModel(iscrittoDAOP.getAtleticb());
+		comboAtleta8.setEnabled(false);
+		comboAtleta8.setBounds(63, 115, 314, 22);
+		panel_4.add(comboAtleta8);
 
-		JComboBox<Iscritto> comboBox_11 = new JComboBox<Iscritto>();
-		comboBox_11.setModel(iscrittoDAOP.getAtleticb());
-		comboBox_11.setEnabled(false);
-		comboBox_11.setBounds(63, 116, 314, 22);
-		panel_4.add(comboBox_11);
+		JComboBox<Iscritto> comboAtleta7 = new JComboBox<Iscritto>();
+		comboAtleta7.setModel(iscrittoDAOP.getAtleticb());
+		comboAtleta7.setEnabled(false);
+		comboAtleta7.setBounds(63, 85, 314, 22);
+		panel_4.add(comboAtleta7);
 
-		JCheckBox checkBox_10 = new JCheckBox("3\u00B0");
-		checkBox_10.setEnabled(false);
-		checkBox_10.setBounds(8, 115, 41, 25);
-		panel_4.add(checkBox_10);
+		JCheckBox checkAtG = new JCheckBox("3\u00B0");
+		checkAtG.setEnabled(false);
+		checkAtG.setBounds(8, 84, 41, 25);
+		panel_4.add(checkAtG);
 
-		JRadioButton radioButton = new JRadioButton("");
-		radioButton.setBounds(12, 121, 25, 25);
-		panel_1.add(radioButton);
-		gruppoEventi.add(radioButton);
+		JRadioButton radioConfrontiPosizioni = new JRadioButton("");
+		radioConfrontiPosizioni.setBounds(8, 135, 25, 25);
+		panel_1.add(radioConfrontiPosizioni);
+		gruppoEventi.add(radioConfrontiPosizioni);
+		
+		JButton btnNewButton_1 = new JButton("Avvia");
+	
+		btnNewButton_1.setBounds(185, 305, 97, 25);
+		panel_1.add(btnNewButton_1);
 
 		JPanel panel = new JPanel();
 		tabbedPane.addTab("Infortunii", null, panel, null);
@@ -202,13 +206,8 @@ public class statisticheAtleti extends JDialog {
 
 		JYearChooser yearChooser = new JYearChooser();
 		yearChooser.getSpinner().setEnabled(false);
-		yearChooser.setBounds(282, 42, 51, 22);
+		yearChooser.setBounds(331, 13, 51, 22);
 		panel_2.add(yearChooser);
-
-		JYearChooser yearChooser1 = new JYearChooser();
-		yearChooser1.getSpinner().setEnabled(false);
-		yearChooser1.setBounds(282, 72, 51, 22);
-		panel_2.add(yearChooser1);
 
 		JLabel lblAnno = new JLabel("Anno");
 		lblAnno.setBounds(282, 13, 37, 16);
@@ -280,10 +279,10 @@ public class statisticheAtleti extends JDialog {
 			public void stateChanged(ChangeEvent e) {
 				if (radioCorsi.isSelected()) {
 					checkAnno2.setEnabled(true);
-					yearChooser1.setEnabled(true);
+					yearChooser.setEnabled(true);
 				} else {
 					checkAnno2.setEnabled(false);
-					yearChooser1.setEnabled(false);
+					yearChooser.setEnabled(false);
 
 				}
 			}
@@ -316,35 +315,35 @@ public class statisticheAtleti extends JDialog {
 		});
 		
 		//-----LISTENER RADIOBUTTON EVENTI
-		rdbtnVittorieAssociatiAd.addChangeListener(new ChangeListener() {
+		radioPosizioneAllenatori.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				if(rdbtnVittorieAssociatiAd.isSelected()) {
-					checkBox_5.setEnabled(true);
-					yearChooser_3.setEnabled(true);
+				if(radioPosizioneAllenatori.isSelected()) {
+					checkAnno5.setEnabled(true);
+					yearChooser2.setEnabled(true);
 				}
 				else {
-					checkBox_5.setEnabled(false);
-					yearChooser_3.setEnabled(false);
+					checkAnno5.setEnabled(false);
+					yearChooser2.setEnabled(false);
 				}
 			}
 		});
 		
-		rdbtnVittorieAssociatiA.addChangeListener(new ChangeListener() {
+		radioPosizioneCorsi.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				if(rdbtnVittorieAssociatiA.isSelected()) {
-					checkBox_6.setEnabled(true);
-					yearChooser_4.setEnabled(true);
+				if(radioPosizioneCorsi.isSelected()) {
+					checkAnno6.setEnabled(true);
+					yearChooser2.setEnabled(true);
 				}
 				else {
-					checkBox_6.setEnabled(false);
-					yearChooser_4.setEnabled(false);
+					checkAnno6.setEnabled(false);
+					yearChooser2.setEnabled(false);
 				}
 			}
 		});
 		
-		radioButton.addChangeListener(new ChangeListener() {
+		radioConfrontiPosizioni.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				if(radioButton.isSelected()) {
+				if(radioConfrontiPosizioni.isSelected()) {
 					panel_4.setEnabled(true);
 					Component[] components=  panel_4.getComponents();
 					for (Component c: components)
@@ -411,6 +410,68 @@ public class statisticheAtleti extends JDialog {
 				}
 			}
 		});
+		
+	//PARTE RELATIVA ALLE GARE
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(radioPosizioneCorsi.isSelected()) {
+					Integer anno;
+					if (checkAnno6.isSelected())
+						anno=yearChooser2.getValue();
+					else
+						anno=null;
+					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+					dataset=StatisticheDAOP.getPosizioneCorsi(dataset, anno);
+					barraVerticale vis =new barraVerticale(dataset);	
+					vis.setVisible(true);
+				}
+				
+				if(radioPosizioneAllenatori.isSelected()) {
+					Integer anno;
+					if (checkAnno5.isSelected())
+						anno=yearChooser2.getValue();
+					else
+						anno=null;
+					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+					dataset=StatisticheDAOP.getPosizioneAllenatori(dataset, anno);
+					barraVerticale vis =new barraVerticale(dataset);	
+					vis.setVisible(true);
+				}
+				
+				
+				if (radioConfrontiPosizioni.isSelected()){
+					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+					Iscritto AtletaE;
+					Iscritto AtletaF;
+					Iscritto AtletaG;
+					Iscritto AtletaH;
+					if (checkAtE.isSelected()) {
+						AtletaE=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta5.getSelectedIndex());
+						dataset=StatisticheDAOP.getTuttePosizioniAtleta(dataset, AtletaE);
+					}
+					if (checkAtF.isSelected()) {
+						AtletaF=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta6.getSelectedIndex());
+						dataset=StatisticheDAOP.getTuttePosizioniAtleta(dataset, AtletaF);
+					}
+					if (checkAtG.isSelected()) {
+						AtletaG=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta7.getSelectedIndex());
+						dataset=StatisticheDAOP.getTuttePosizioniAtleta(dataset, AtletaG);
+					}
+					if (checkAtH.isSelected()) {
+						AtletaH=iscrittoDAOP.getAtleticb().getElementAt(comboAtleta8.getSelectedIndex());
+						dataset=StatisticheDAOP.getTuttePosizioniAtleta(dataset, AtletaH);
+					}
+					quattroTorte vis =new quattroTorte(dataset);
+					vis.setVisible(true);
+
+				}
+				
+				
+				
+				
+			}
+		});
+		
 
 	}
 }
