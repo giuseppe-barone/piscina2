@@ -81,7 +81,7 @@ public class PartecipazioneDAOP {
 		
 		//ricerca partecipazioni tutti 
 		//CERCA TUTTE LE PARTECIAPZIONI
-		public Vector<Partecipazione> getTuttePartecipazioni() throws SQLException {
+		public Vector<Partecipazione> getTuttePartecipazioni() {
 			String query = "SELECT * FROM partecipazione;";
 			PreparedStatement ps;
 			Vector<Partecipazione> lista=new Vector<Partecipazione>();

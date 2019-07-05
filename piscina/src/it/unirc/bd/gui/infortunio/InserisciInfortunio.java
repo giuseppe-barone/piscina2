@@ -1,6 +1,5 @@
 package it.unirc.bd.gui.infortunio;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;

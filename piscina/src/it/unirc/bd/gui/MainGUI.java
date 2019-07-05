@@ -16,8 +16,10 @@ import javax.swing.border.LineBorder;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
 import it.unirc.bd.gui.corso.InserisciCorso;
 import it.unirc.bd.gui.corso.IscrizioneCorso;
+import it.unirc.bd.gui.corso.RicercaCorso;
 import it.unirc.bd.gui.corso.VisualizzaCorso;
 import it.unirc.bd.gui.dipendente.InserisciDipendente;
+import it.unirc.bd.gui.dipendente.RicercaDipendente;
 import it.unirc.bd.gui.dipendente.VisualizzaDipendente;
 import it.unirc.bd.gui.evento.InserisciEvento;
 import it.unirc.bd.gui.evento.PartecipazioneEvento;
@@ -32,6 +34,7 @@ import it.unirc.bd.gui.iscritto.VisualizzaAtleti;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 import it.unirc.bd.gui.prenotazione.InserisciPrenotazione;
 import it.unirc.bd.gui.prenotazione.VisualizzaPrenotazione;
+import it.unirc.bd.gui.statistiche.statisticheAtleti;
 import javafx.scene.image.Image;
 
 import java.awt.Color;
@@ -126,9 +129,6 @@ public class MainGUI {
 		JMenu mnAtleta = new JMenu("Atleta");
 		mnIscrittiatleti.add(mnAtleta);
 
-		JMenuItem mntmCreaAtleta = new JMenuItem("Nuovo Atleta");
-		mnAtleta.add(mntmCreaAtleta);
-
 		JMenuItem mntmCercaAtleta = new JMenuItem("Cerca Atleta");
 		mntmCercaAtleta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -172,6 +172,15 @@ public class MainGUI {
 		JMenuItem mntmRicercaInfortunio = new JMenuItem("Ricerca Infortunio");
 		mntmRicercaInfortunio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					RicercaInfortunio ricercainfo = new RicercaInfortunio();
+					ricercainfo.setVisible(true);
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				
 				
 			}
@@ -193,16 +202,13 @@ public class MainGUI {
 		mnDipendenti.add(mntmNuovoDipendente);
 
 		JMenuItem mntmRicercaDipendente = new JMenuItem("Ricerca Dipendente");
-		mnDipendenti.add(mntmRicercaDipendente);
-		
-		JMenuItem mntmVisualizzaDipendentei = new JMenuItem("Visualizza Dipendenti");
-		mntmVisualizzaDipendentei.addActionListener(new ActionListener() {
+		mntmRicercaDipendente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//VisualizzaDipendente visualizza = new VisualizzaDipendente();
-          // visualizza.setVisible(true);
+				RicercaDipendente ricerca= new RicercaDipendente();
+				ricerca.setVisible(true);
 			}
 		});
-		mnDipendenti.add(mntmVisualizzaDipendentei);
+		mnDipendenti.add(mntmRicercaDipendente);
 		
 		JMenu mnCorsi = new JMenu("Corsi");
 		menuBar.add(mnCorsi);
@@ -217,6 +223,12 @@ public class MainGUI {
 		mnCorsi.add(mntmNuovoCorso);
 
 		JMenuItem mntmRicercaCorsi = new JMenuItem("Ricerca Corsi");
+		mntmRicercaCorsi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RicercaCorso ricerca= new RicercaCorso();
+				ricerca.setVisible(true);
+			}
+		});
 		mnCorsi.add(mntmRicercaCorsi);
 
 		JMenuItem mntmIscrizioneCorso = new JMenuItem("Iscrizione Corso");
@@ -227,15 +239,6 @@ public class MainGUI {
 			}
 		});
 		mnCorsi.add(mntmIscrizioneCorso);
-
-		JMenuItem mntmVisualizzaCorso = new JMenuItem("Visualizza Corso");
-		mntmVisualizzaCorso.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*VisualizzaCorso visualizza = new VisualizzaCorso(null);
-				visualizza.setVisible(true);*/
-			}
-		});
-		mnCorsi.add(mntmVisualizzaCorso);
 		
 		JMenu mnEventi = new JMenu("Eventi");
 		menuBar.add(mnEventi);
@@ -268,25 +271,15 @@ public class MainGUI {
 			}
 		});
 		mnEventi.add(mntmPartecipazioneAdEvento);
-
-		JMenu mnPrenotazioni = new JMenu("Prenotazioni");
-		menuBar.add(mnPrenotazioni);
-
-		JMenuItem mntmNuovaPrenotazione = new JMenuItem("Nuova Prenotazione");
-		mntmNuovaPrenotazione.addActionListener(new ActionListener() {
+		
+		JMenuItem mntmStatistiche = new JMenuItem("Statistiche");
+		mntmStatistiche.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InserisciPrenotazione inserisci = new InserisciPrenotazione();
-				inserisci.setVisible(true);
+				statisticheAtleti statistiche =new statisticheAtleti();
+				statistiche.setVisible(true);
 			}
 		});
-		mnPrenotazioni.add(mntmNuovaPrenotazione);
-
-		JMenuItem mntmCercaeliminaPrenotazione = new JMenuItem("Cerca/Elimina Prenotazione");
-		mnPrenotazioni.add(mntmCercaeliminaPrenotazione);
-		
-
-		JMenu mnStatistiche = new JMenu("Statistiche");
-		menuBar.add(mnStatistiche);
+		menuBar.add(mntmStatistiche);
 		frmHome.getContentPane().setLayout(null);
 
 		JLabel lblProssimeEventiIn = new JLabel("Prossimi eventi in programma:");
@@ -294,10 +287,11 @@ public class MainGUI {
 		frmHome.getContentPane().add(lblProssimeEventiIn);
 
 		JLabel lblInfermieria = new JLabel("Infermeria:");
-		lblInfermieria.setBounds(12, 178, 68, 16);
+		lblInfermieria.setBounds(12, 115, 68, 16);
 		frmHome.getContentPane().add(lblInfermieria);
 
 		JPanel panelEvento1 = new JPanel();
+		panelEvento1.setBackground(Color.CYAN);
 		panelEvento1.setBounds(12, 42, 163, 60);
 		panelEvento1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		frmHome.getContentPane().add(panelEvento1);
@@ -352,7 +346,7 @@ public class MainGUI {
 		panel.add(lblLivelloEvento3);
 
 		JPanel panelInfortunio1 = new JPanel();
-		panelInfortunio1.setBounds(12, 207, 163, 60);
+		panelInfortunio1.setBounds(12, 144, 163, 60);
 		panelInfortunio1.setLayout(null);
 		panelInfortunio1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		frmHome.getContentPane().add(panelInfortunio1);
@@ -374,7 +368,7 @@ public class MainGUI {
 		panelInfortunio1.add(lblGiorni1);
 
 		JPanel panelInfortunio2 = new JPanel();
-		panelInfortunio2.setBounds(187, 207, 163, 60);
+		panelInfortunio2.setBounds(187, 144, 163, 60);
 		panelInfortunio2.setLayout(null);
 		panelInfortunio2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		frmHome.getContentPane().add(panelInfortunio2);
@@ -396,7 +390,7 @@ public class MainGUI {
 		panelInfortunio2.add(lblGiorni2);
 
 		JPanel panelInfortunio3 = new JPanel();
-		panelInfortunio3.setBounds(362, 207, 163, 60);
+		panelInfortunio3.setBounds(362, 144, 163, 60);
 		panelInfortunio3.setLayout(null);
 		panelInfortunio3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		frmHome.getContentPane().add(panelInfortunio3);
@@ -416,14 +410,7 @@ public class MainGUI {
 		JLabel lblGiorni3 = new JLabel("??");
 		lblGiorni3.setBounds(98, 36, 56, 16);
 		panelInfortunio3.add(lblGiorni3);
-		
-		JPanel panel_1 = new JPanel();
-		ImageIcon icon = new ImageIcon("path"); 
-		JLabel label = new JLabel(icon);
-		panel_1.setBounds(212, 115, 99, 78);
-		panel_1.add(label);
-		panel_1.validate();
-		frmHome.getContentPane().add(panel_1);
+		ImageIcon icon = new ImageIcon("path");
 		
 	}
 }

@@ -436,9 +436,7 @@ public class statisticheAtleti extends JDialog {
 					dataset=StatisticheDAOP.getPosizioneAllenatori(dataset, anno);
 					barraVerticale vis =new barraVerticale(dataset);	
 					vis.setVisible(true);
-				}
-				
-				
+				}				
 				if (radioConfrontiPosizioni.isSelected()){
 					DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 					Iscritto AtletaE;

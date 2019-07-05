@@ -40,7 +40,6 @@ public class RicercaPartecipazione extends JDialog {
 		JButton btnNewButton = new JButton("New button");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 					Vector<String[]> v=pDAOP.assembler(pDAOP.getTuttePartecipazioni());
 					for (String[] s: v)
 						System.out.println(s);
