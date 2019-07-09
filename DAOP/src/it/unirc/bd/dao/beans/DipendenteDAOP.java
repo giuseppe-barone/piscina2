@@ -1,12 +1,12 @@
 package it.unirc.bd.dao.beans;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 
 import it.unirc.bd.dao.utils.DBManager;
@@ -22,7 +22,7 @@ public class DipendenteDAOP {
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, d.getNome() );
-			ps.setString(2, d.getCognome());
+			ps.setString(2, d.getCognome()); 
 			ps.setString(3, d.getCellulare());
 			ps.setString(4, d.getSesso());
 			ps.setInt(5, d.getTipologiaDipendente());
@@ -40,7 +40,6 @@ public class DipendenteDAOP {
 		public DefaultComboBoxModel<Dipendente> getAllenatorecb(){
 			DefaultComboBoxModel<Dipendente> risultato = new DefaultComboBoxModel<Dipendente>();
 			String query = "SELECT * FROM dipendente where TipologiaDipendente = 2;";
-			Dipendente res = new Dipendente();
 			PreparedStatement ps;
 			conn=DBManager.startConnection();
 			try {
@@ -76,7 +75,6 @@ public class DipendenteDAOP {
 		try {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			Dipendente res=null;
 			while(rs.next()){
 				list.add(recordToDipendente(rs));
 			}
@@ -125,7 +123,6 @@ public class DipendenteDAOP {
 		try {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			Dipendente res=null;
 			while(rs.next()){
 				list.add(recordToDipendente(rs));
 			}
@@ -180,7 +177,6 @@ public class DipendenteDAOP {
 	//----RICERCA PER NOME/COGNOME----
 			public Vector<Dipendente> RicercaPerNomeCognome(String nome, String cognome, boolean isNome, boolean isCognome){
 					Vector<Dipendente> risultato=new Vector<Dipendente>();
-					boolean completo=false;
 					String query = "SELECT * FROM dipendente;";
 					if (isNome && isCognome )
 						query="SELECT * FROM dipendente where Nome=? and Cognome=?";
@@ -239,15 +235,15 @@ public class DipendenteDAOP {
 
 				}
 			//------RICERCA PER TIPOLOGIA------
-			public Vector<Dipendente> RicercaPerTipologia(String tipo) {
+			public Vector<Dipendente> RicercaPerTipologia(int tipo) {
 				Vector<Dipendente> risultato= new Vector<Dipendente>();
-				String query = "SELECT * FROM piscina.dipendente;";
+				String query = "SELECT * FROM piscina.dipendente where TipologiaDipendente=?;";
 				Dipendente res;
 				PreparedStatement ps;
 				conn=DBManager.startConnection();
 				try {
 					ps = conn.prepareStatement(query);
-					//ps.setString(1, tipo);
+					ps.setInt(1, tipo);
 					ResultSet rs = ps.executeQuery();
 					while(rs.next()) {
 						res=new Dipendente();
@@ -329,7 +325,14 @@ public class DipendenteDAOP {
 				System.out.println(res.toString());
 				return res;
 			} 
-		
+			
+			
+			public ComboBoxModel<Dipendente> ModelloCombobox(Vector<Dipendente> vettore){
+				DefaultComboBoxModel<Dipendente> cb=new DefaultComboBoxModel<Dipendente>();
+				for (Dipendente d : vettore)
+					cb.addElement(d);
+				return cb;
+			}
 		}
 
 

@@ -95,6 +95,10 @@ public class PartecipazioneEvento extends JDialog {
 		btnInserisci.setVisible(false);
 		
 		JButton btnModifica = new JButton("Modifica");
+		btnModifica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnModifica.setBounds(166, 112, 97, 25);
 		getContentPane().add(btnModifica);
 		btnModifica.setVisible(false);

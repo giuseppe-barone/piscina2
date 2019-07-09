@@ -12,75 +12,21 @@ import it.unirc.bd.dao.utils.DBManager;
 public class PrenotazioneDAOP {
 	private Connection conn = null;
 	
-	/* DA CONTROLLARE
-	 RICERCA TRAMITE ID
-	 public Prenotazione getRicercaId(Prenotazione p) {
-    String query = "SELECT * FROM Prenotazione WHERE idPrenotazione= ?";
-    Prenotazione res = null;
-    PreparedStatement ps;
-    conn = DBManager.startConnection();
-    try {
-      ps = conn.prepareStatement(query);
-      ps.setInt(1, p.getIdPrenotazione());
-      ResultSet rs = ps.executeQuery();
-      if(rs.next()) {
-        res = new Prenotazione();
-        res.setIdDipendente(rs.getInt("idIscritto"));
-        res.setCorsia(rs.getInt("Corsia"));
-        res.setData(rs.getDate("Data"));
-        res.setIdIscritto(rs.getInt("idIscritto"));
-        res.setTipoPiscina(rs.getString("TipoPiscina"));
-        res.setOra(rs.getInt("Ora"));
-        res.setIdDipendente(rs.getInt("idDipendente"));
-      }
-    }catch (SQLException e) {
-      e.printStackTrace();
-    }
-    DBManager.closeConnection();
-    return res;
-}
 	
-	RICERCA TRAMITE MULTI INFORMAZIONI DA VERIFICARE
-	public Prenotazione getMultiRicerca(Prenotazione p){
-		String query = "SELECT * FROM Prenotazione WHERE data=?, ora=?";
-		Prenotazione res = null;
-		PreparedStatement ps;
-		conn = DBManager.startConnection();
-		try {
-      ps = conn.prepareStatement(query);
-      ps.setInt(1, p.getIdPrenotazione());
-      ResultSet rs = ps.executeQuery();
-      if(rs.next()) {
-        res = new Prenotazione();
-        res.setIdDipendente(rs.getInt("idIscritto"));
-        res.setCorsia(rs.getInt("Corsia"));
-        res.setData(rs.getDate("Data"));
-        res.setIdIscritto(rs.getInt("idIscritto"));
-        res.setTipoPiscina(rs.getString("TipoPiscina"));
-        res.setOra(rs.getInt("Ora"));
-        res.setIdDipendente(rs.getInt("idDipendente"));
-      }
-    }catch (SQLException e) {
-      e.printStackTrace();
-    }
-    DBManager.closeConnection();
-    return res;
-}
-	 */
-
 	public boolean salva(Prenotazione p) {
-		String query = "INSERT INTO prenotazione VALUES (?,?,?,?,?,?,?)";
+		String query = "INSERT INTO prenotazione (Corsia,Data,idIscritto,Ora,idDipendente) VALUES (?,?,?,?,?)";
 		boolean esito = false;
+		if (!ControlloDisponibilita(p))
+			return esito;
+		else {
 		conn=DBManager.startConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, p.getIdPrenotazione());
-			ps.setInt(2, p.getCorsia());
-			ps.setDate(3, p.getData());
-			ps.setInt(4, p.getIdIscritto());
-			ps.setString(5, p.getTipoPiscina());
-			ps.setInt(6, p.getOra());
-			ps.setInt(7, p.getIdDipendente());
+			ps.setInt(1, p.getCorsia());
+			ps.setDate(2, p.getData());
+			ps.setInt(3, p.getIdIscritto());
+			ps.setInt(4, p.getOra());
+			ps.setInt(5, p.getIdDipendente());
 			int tmp=ps.executeUpdate();
 			if(tmp==1)
 				esito=true;
@@ -89,27 +35,7 @@ public class PrenotazioneDAOP {
 		}
 		DBManager.closeConnection();
 		return esito;
-	}
-	public boolean ControlloDisponibilitàPiscina(Integer p){
-		boolean risultato = false;
-		String query = "SELECT * FROM corso where Ora=?, Data=?";
-		PreparedStatement ps;
-		conn=DBManager.startConnection();
-		try{
-			ps = conn.prepareStatement(query);
-			ps.setInt(1, p.intValue());
-			ResultSet rs = ps.executeQuery();
-			if(rs.next())
-				risultato = true; //Esiste una tupla con quell'ID di conseguenza
-			//Non si può prenotare
-			else
-				risultato = false; //Si può prenotare
 		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return risultato;
 	}
 	protected Prenotazione recordToPrenotazione(ResultSet rs) throws SQLException {
 		Prenotazione p = new Prenotazione();
@@ -117,7 +43,6 @@ public class PrenotazioneDAOP {
 		p.setCorsia(rs.getInt("Corsia"));
 		p.setData(rs.getDate("data"));
 		p.setIdIscritto(rs.getInt("idIscritto"));
-		p.setTipoPiscina(rs.getString("tipoPiscina"));
 		p.setOra(rs.getInt("ora"));
 		p.setIdDipendente(rs.getInt("idDipendente"));
 		return p;
@@ -131,7 +56,7 @@ public class PrenotazioneDAOP {
 		try {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			Prenotazione res=null;
+			
 			while(rs.next()){
 				list.add(recordToPrenotazione(rs));
 			}
@@ -160,7 +85,6 @@ public class PrenotazioneDAOP {
 					res.setCorsia(rs.getInt("Corsia"));
 					res.setData(rs.getDate("Data"));
 					res.setIdIscritto(rs.getInt("idIscritto"));
-					res.setTipoPiscina(rs.getString("TipoPiscina"));
 					res.setOra(rs.getInt("Ora"));
 					res.setIdDipendente(rs.getInt("idDipendente"));
 					risultato.add(res);
@@ -172,38 +96,8 @@ public class PrenotazioneDAOP {
 			return risultato;
 
 		}
-		//----RICERCA PER TIPO DI PISCINA----
-				public Vector<Prenotazione> RicercaPerTipo(String tipo ){
-					Vector<Prenotazione> risultato=new Vector<Prenotazione>();
-					String query = "SELECT * FROM prenotazione WHERE TipoPiscina=?";
-					Prenotazione res;
-					PreparedStatement ps;
-					conn=DBManager.startConnection();
-					try {
-						ps = conn.prepareStatement(query);
-						ps.setString(1, tipo);
 
-						ResultSet rs = ps.executeQuery();
-						while(rs.next()){
-
-							res=new Prenotazione();
-							res.setIdPrenotazione(rs.getInt("idPrenotazione"));
-							res.setCorsia(rs.getInt("Corsia"));
-							res.setData(rs.getDate("Data"));
-							res.setIdIscritto(rs.getInt("idIscritto"));
-							res.setTipoPiscina(rs.getString("TipoPiscina"));
-							res.setOra(rs.getInt("Ora"));
-							res.setIdDipendente(rs.getInt("idDipendente"));
-							risultato.add(res);
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					DBManager.closeConnection();
-					return risultato;
-
-				}
-				//----RICERCA PER ORARIO----
+		//----RICERCA PER ORARIO----
 				public Vector<Prenotazione> RicercaPerOrario(int ora ){
 					Vector<Prenotazione> risultato=new Vector<Prenotazione>();
 					String query = "SELECT * FROM prenotazione WHERE Ora=?";
@@ -222,7 +116,6 @@ public class PrenotazioneDAOP {
 							res.setCorsia(rs.getInt("Corsia"));
 							res.setData(rs.getDate("Data"));
 							res.setIdIscritto(rs.getInt("idIscritto"));
-							res.setTipoPiscina(rs.getString("TipoPiscina"));
 							res.setOra(rs.getInt("Ora"));
 							res.setIdDipendente(rs.getInt("idDipendente"));
 							risultato.add(res);
@@ -232,6 +125,32 @@ public class PrenotazioneDAOP {
 					}
 					DBManager.closeConnection();
 					return risultato;
+
+				}
+				
+				
+				
+				//CONTROLLO DISPONIBILITà
+				//----CONTROLLO DISPONIBILITà----
+				private boolean ControlloDisponibilita(Prenotazione p ){	//ritorna vero se è disponibile la data e l'orario scelto
+					boolean disponibile=true;
+					String query = "SELECT * FROM prenotazione WHERE Data=? and Ora=?";
+
+					PreparedStatement ps;
+					conn=DBManager.startConnection();
+					try {
+						ps = conn.prepareStatement(query);
+						ps.setDate(1, p.getData());
+						ps.setInt(2, p.getOra());
+						ResultSet rs = ps.executeQuery();
+						if(rs.next()){
+							disponibile=false;
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					DBManager.closeConnection();
+					return disponibile;
 
 				}
 		

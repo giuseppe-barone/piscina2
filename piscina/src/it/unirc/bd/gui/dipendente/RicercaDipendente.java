@@ -32,7 +32,7 @@ public class RicercaDipendente extends JDialog {
 	private String nome="";
 	private String cognome="";
 	private String sesso="";
-	private String tipologia="";
+	private int tipologia;
 	ButtonGroup TipoRicerca = new ButtonGroup();
 	ButtonGroup Sesso = new ButtonGroup();
 	/**
@@ -174,7 +174,7 @@ public class RicercaDipendente extends JDialog {
 				System.out.println(nome+" "+ cognome + " " +sesso+" ");
 				
 				if (rdbtnTipo.isSelected()) {
-					tipologia=(String)cbTipo.getModel().getElementAt(cbTipo.getSelectedIndex());
+					tipologia=cbTipo.getSelectedIndex();
 					VisualizzaDipendente visualizza = new VisualizzaDipendente(dDAOP.RicercaPerTipologia(tipologia));
 					visualizza.setVisible(true);
 				}
