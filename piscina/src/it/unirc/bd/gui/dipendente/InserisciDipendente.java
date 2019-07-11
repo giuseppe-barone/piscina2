@@ -75,6 +75,7 @@ public class InserisciDipendente extends JDialog {
 	 * @param modifica 
 	 */
 	public InserisciDipendente(boolean modifica, Dipendente dipendente) {
+		setModal(true);
 
 		getContentPane().setEnabled(false);
 		setTitle("Inserisci Dipendente");
@@ -133,7 +134,7 @@ public class InserisciDipendente extends JDialog {
 		getContentPane().add(cbTipoDipendente);
 
 		JButton btnInserisci = new JButton("Inserisci");
-
+		btnInserisci.setVisible(false);
 		btnInserisci.setEnabled(true);
 		btnInserisci.setBounds(142, 172, 97, 25);
 		getContentPane().add(btnInserisci);
@@ -144,6 +145,7 @@ public class InserisciDipendente extends JDialog {
 		getContentPane().add(lblAvvisoD);
 		
 		JButton btnModifica = new JButton("Modifica");
+		btnModifica.setVisible(false);
 		btnModifica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -176,7 +178,7 @@ public class InserisciDipendente extends JDialog {
 				
 				}
 
-				
+				dispose();
 			}
 		});
 		btnModifica.setEnabled(true);
@@ -185,17 +187,32 @@ public class InserisciDipendente extends JDialog {
 		
 		//ABILITAZIONE BOTTONE MODIFICA O INSERISCI
 		if (modifica) {
-			btnInserisci.setVisible(false);
 			btnModifica.setVisible(true);
 			textNome.setText(dipendente.getNome());
 			textCognome.setText(dipendente.getCognome());
 			textCellulare.setText(dipendente.getCellulare());
+			cbSesso.setSelectedItem(dipendente.getSesso());
+			String tipo=null;
+			int valore =dipendente.getTipologiaDipendente();
+			System.out.println(valore);
+			switch(dipendente.getTipologiaDipendente()) {
+			case 0:
+			tipo="Segretario";
+			break;
+			case 1:
+				tipo="Tecnico";
+			break;
+			case 2:
+				tipo="Allenatore";
+			break;
+			}
+			cbTipoDipendente.setSelectedItem(tipo);
+			System.out.println(tipo);
 		}
-		else {
+		else 
 			btnInserisci.setVisible(true);
-			btnModifica.setVisible(false);
-		}
-		
+
+
 		
 		
 		
@@ -251,7 +268,7 @@ public class InserisciDipendente extends JDialog {
 
 
 
-
+				dispose();
 			}
 		});
 	}

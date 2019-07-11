@@ -52,6 +52,7 @@ public class RicercaDipendente extends JDialog {
 	 * Create the dialog.
 	 */
 	public RicercaDipendente() {
+		setModal(true);
 		setTitle("Ricerca");
 		setBounds(100, 100, 427, 300);
 		getContentPane().setLayout(null);
@@ -136,7 +137,6 @@ public class RicercaDipendente extends JDialog {
 		JButton btnRicerca = new JButton("Ricerca");
 		btnRicerca.setBounds(144, 219, 97, 25);
 		getContentPane().add(btnRicerca);
-
 		Component[] generalita = PannelloGeneralita.getComponents(); 
 
 		//--------LISTENER

@@ -41,6 +41,7 @@ public class VisualizzaDipendente extends JDialog {
 		});
 	}*/
 	public VisualizzaDipendente(Vector<Dipendente> vector) {
+		setModal(true);
 		setResizable(false);
 		setTitle("Visualizza Dipendenti");
 		
@@ -83,7 +84,21 @@ public class VisualizzaDipendente extends JDialog {
 			rowData[2] = vector.elementAt(a).getCognome();
 			rowData[3] = vector.elementAt(a).getCellulare();
 			rowData[4] = vector.elementAt(a).getSesso();
-			rowData[5] = vector.elementAt(a).getTipologiaDipendente();
+			String tipo=null;
+			
+			
+			switch(vector.elementAt(a).getTipologiaDipendente()) {
+			case 0:
+			tipo="Segretario";
+			break;
+			case 1:
+				tipo="Tecnico";
+			break;
+			case 2:
+				tipo="Allenatore";
+			break;
+			}
+			rowData[5] = tipo;
 			model.addRow(rowData);
 		}
 		table.setModel(model);

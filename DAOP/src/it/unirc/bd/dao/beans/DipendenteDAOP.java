@@ -164,6 +164,7 @@ public class DipendenteDAOP {
 				res.setCognome(rs.getString("Cognome"));
 				res.setCellulare( rs.getString("Cellulare") );
 				res.setSesso( rs.getString("Sesso") );
+				res.setTipologiaDipendente(rs.getInt("TipologiaDipendente"));
 				risultato.add(res);
 
 			}
@@ -291,6 +292,7 @@ public class DipendenteDAOP {
 						res.setCognome(rs.getString("Cognome"));
 						res.setCellulare( rs.getString("Cellulare") );
 						res.setSesso( rs.getString("Sesso") );
+						res.setTipologiaDipendente(rs.getInt("TipologiaDipendente"));
 						risultato.add(res);
 
 					}
@@ -318,12 +320,14 @@ public class DipendenteDAOP {
 						res.setCognome(rs.getString("Cognome"));
 						res.setCellulare( rs.getString("Cellulare") );
 						res.setSesso( rs.getString("Sesso") );
+						res.setTipologiaDipendente(rs.getInt("TipologiaDipendente"));
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 				DBManager.closeConnection();
 				System.out.println(res.toString());
+				System.out.println(res + "l' ID è: "+ res.getTipologiaDipendente());
 				return res;
 			} 
 			
