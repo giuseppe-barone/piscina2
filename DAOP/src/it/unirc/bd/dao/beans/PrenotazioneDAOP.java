@@ -13,6 +13,37 @@ public class PrenotazioneDAOP {
 	private Connection conn = null;
 	
 	
+	
+	
+	
+	//--------------------MODIFICA PRENOTAZIONE-----------------
+		public boolean ModificaPrenotazione(Prenotazione p){
+			String query = "UPDATE prenotazione SET Corsia=?, Data=?, idIscritto=?,Ora=?,idDipendente=? WHERE idPrenotazione=?";
+			boolean esito=false;
+			conn=DBManager.startConnection();
+			try {
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setInt(4, p.getOra());
+				ps.setInt(1, p.getCorsia());
+				ps.setDate(2, p.getData());
+				ps.setInt(3, p.getIdIscritto());
+				ps.setInt(5, p.getIdDipendente());
+				ps.setInt(6, p.getIdPrenotazione());
+				int tmp=ps.executeUpdate();
+				if (tmp==1)
+					esito=true;
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			DBManager.closeConnection(); 
+			return esito;
+		}
+	
+	
+	
+	
+	
+	
 	public boolean salva(Prenotazione p) {
 		String query = "INSERT INTO prenotazione (Corsia,Data,idIscritto,Ora,idDipendente) VALUES (?,?,?,?,?)";
 		boolean esito = false;
@@ -97,6 +128,117 @@ public class PrenotazioneDAOP {
 
 		}
 
+		
+		
+		
+		
+		
+		//----RICERCA PER ID ISCRITTO----
+				public Vector<Prenotazione> RicercaIdIscritto(int id ){
+					Vector<Prenotazione> risultato=new Vector<Prenotazione>();
+					String query = "SELECT * FROM prenotazione WHERE idIscritto=?";
+					Prenotazione res;
+					PreparedStatement ps;
+					conn=DBManager.startConnection();
+					try {
+						ps = conn.prepareStatement(query);
+						ps.setInt(1, id);
+
+						ResultSet rs = ps.executeQuery();
+						while(rs.next()){
+
+							res=new Prenotazione();
+							res.setIdPrenotazione(rs.getInt("idPrenotazione"));
+							res.setCorsia(rs.getInt("Corsia"));
+							res.setData(rs.getDate("Data"));
+							res.setIdIscritto(rs.getInt("idIscritto"));
+							res.setOra(rs.getInt("Ora"));
+							res.setIdDipendente(rs.getInt("idDipendente"));
+							risultato.add(res);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					DBManager.closeConnection();
+					return risultato;
+
+				}
+		
+		
+				
+				
+				//----RICERCA PER ID PRENOTAZIONE----
+				public Prenotazione RicercaIdPrenotazione(int id ){
+					String query = "SELECT * FROM prenotazione WHERE idPrenotazione=?";
+					Prenotazione res=new Prenotazione();
+				
+					PreparedStatement ps;
+					conn=DBManager.startConnection();
+					try {
+						ps = conn.prepareStatement(query);
+						ps.setInt(1, id);
+
+						ResultSet rs = ps.executeQuery();
+						if(rs.next()){
+							res.setIdPrenotazione(rs.getInt("idPrenotazione"));
+							res.setCorsia(rs.getInt("Corsia"));
+							res.setData(rs.getDate("Data"));
+							res.setIdIscritto(rs.getInt("idIscritto"));
+							res.setOra(rs.getInt("Ora"));
+							res.setIdDipendente(rs.getInt("idDipendente"));
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					DBManager.closeConnection();
+					return res;
+
+				}
+		
+		
+		
+				
+				
+				//----RICERCA PER ID DIPENDENTE----
+				public Vector<Prenotazione> RicercaIdDipendente(int id ){
+					Vector<Prenotazione> risultato=new Vector<Prenotazione>();
+					String query = "SELECT * FROM prenotazione WHERE idDipendente=?";
+					Prenotazione res;
+					PreparedStatement ps;
+					conn=DBManager.startConnection();
+					try {
+						ps = conn.prepareStatement(query);
+						ps.setInt(1, id);
+
+						ResultSet rs = ps.executeQuery();
+						while(rs.next()){
+
+							res=new Prenotazione();
+							res.setIdPrenotazione(rs.getInt("idPrenotazione"));
+							res.setCorsia(rs.getInt("Corsia"));
+							res.setData(rs.getDate("Data"));
+							res.setIdIscritto(rs.getInt("idIscritto"));
+							res.setOra(rs.getInt("Ora"));
+							res.setIdDipendente(rs.getInt("idDipendente"));
+							risultato.add(res);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					DBManager.closeConnection();
+					return risultato;
+
+				}
+		
+				
+				
+				
+				
+				
+				
+		
+		
+		
 		//----RICERCA PER ORARIO----
 				public Vector<Prenotazione> RicercaPerOrario(int ora ){
 					Vector<Prenotazione> risultato=new Vector<Prenotazione>();

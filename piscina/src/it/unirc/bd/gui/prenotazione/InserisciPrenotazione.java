@@ -36,8 +36,8 @@ public class InserisciPrenotazione extends JDialog {
 	DipendenteDAOP dDAOP=new DipendenteDAOP();
 	PrenotazioneDAOP pDAOP = new PrenotazioneDAOP();
 	//VARIABILI DA PASSARE ALLA QUERY
-	private int idPrenotazione;
 	private int corsia;
+	Integer  idPrenotazione=null;
 	private int idIscritto;
 	private int ora;
 	private int idDipendente;
@@ -47,7 +47,7 @@ public class InserisciPrenotazione extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			InserisciPrenotazione dialog = new InserisciPrenotazione();
+			InserisciPrenotazione dialog = new InserisciPrenotazione(false,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -58,7 +58,8 @@ public class InserisciPrenotazione extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public InserisciPrenotazione() {
+	public InserisciPrenotazione(boolean modifica, Prenotazione prenotazione) {
+		setModal(true);
 		setTitle("Inserimento Prenotazione");
 		setBounds(100, 100, 522, 263);
 		getContentPane().setLayout(null);
@@ -84,6 +85,7 @@ public class InserisciPrenotazione extends JDialog {
 		getContentPane().add(lblIdDipendente);
 
 		JButton btnInserisci = new JButton("Inserisci");
+		btnInserisci.setVisible(false);
 		btnInserisci.setBounds(139, 174, 97, 25);
 		getContentPane().add(btnInserisci);
 		
@@ -112,6 +114,45 @@ public class InserisciPrenotazione extends JDialog {
 		JDateChooser calendario = new JDateChooser();
 		calendario.setBounds(80, 69, 98, 22);
 		getContentPane().add(calendario);
+		
+		JButton btnModifica = new JButton("Modifica");
+		btnModifica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int idPrenotazione=prenotazione.getIdPrenotazione();
+				corsia = (int) listaCorsie.getValue();
+				Date data =  new java.sql.Date(calendario.getDate().getTime()) ;
+				Iscritto i=(Iscritto)comboIscritto.getModel().getElementAt(comboIscritto.getSelectedIndex());
+				idIscritto = i.getIdIscritto();
+				ora = Integer.valueOf((String) listaOre.getSelectedItem());
+				Dipendente d= (Dipendente) comboDipendente.getModel().getElementAt(comboDipendente.getSelectedIndex());
+				idDipendente= d.getIdDipendente();
+				System.out.println("corsia: "+corsia);
+				System.out.println(data.toString());
+				System.out.println("iscritto "+idIscritto);
+				System.out.println("ora: "+ora);
+				System.out.println("dipendente: "+idDipendente);
+				Prenotazione p = new Prenotazione(idPrenotazione, corsia,data, idIscritto, ora, idDipendente);
+				if (controlloCampiOperazione(corsia, ora, data)==0) {
+				if(pDAOP.ModificaPrenotazione(p)==true)
+					JOptionPane.showMessageDialog(null, "MODIFICA RIUSCITA");
+				else
+					JOptionPane.showMessageDialog(null, "MODIFICA FALLITA");
+				}
+				dispose();
+			}
+		});
+		btnModifica.setBounds(263, 174, 97, 25);
+		btnModifica.setVisible(false);
+		getContentPane().add(btnModifica);
+		if (modifica) {
+			btnModifica.setVisible(true);
+			listaCorsie.setValue(prenotazione.getCorsia());
+			listaOre.setSelectedItem(prenotazione.getOra());
+			calendario.setDate(prenotazione.getData());
+			
+		}
+		else
+			btnInserisci.setVisible(true);
 								
 		
 		
@@ -131,15 +172,19 @@ public class InserisciPrenotazione extends JDialog {
 				System.out.println("iscritto "+idIscritto);
 				System.out.println("ora: "+ora);
 				System.out.println("dipendente: "+idDipendente);
-				Prenotazione p = new Prenotazione(idPrenotazione, corsia,null, idIscritto, ora, idDipendente);
-				p.setData(data); 
+				Prenotazione p = new Prenotazione();
+				p.setCorsia(corsia);
+				p.setData(data);
+				p.setIdIscritto(idIscritto);
+				p.setOra(ora);
+				p.setIdDipendente(idDipendente); 
 				if (controlloCampiOperazione(corsia, ora, data)==0) {
 				if(pDAOP.salva(p)==true)
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 				else
 					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
 				}
-					
+				dispose();	
 			}
 		});
 		

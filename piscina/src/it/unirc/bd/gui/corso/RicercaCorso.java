@@ -59,6 +59,7 @@ public class RicercaCorso extends JDialog {
 	 * Create the dialog.
 	 */
 	public RicercaCorso() {
+		setModal(true);
 		setTitle("Ricerca Corso");
 		setBounds(100, 100, 434, 260);
 		getContentPane().setLayout(new BorderLayout());

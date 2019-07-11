@@ -35,6 +35,7 @@ import it.unirc.bd.gui.iscritto.RicercaIscritto;
 import it.unirc.bd.gui.iscritto.VisualizzaAtleti;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
 import it.unirc.bd.gui.prenotazione.InserisciPrenotazione;
+import it.unirc.bd.gui.prenotazione.RicercaPrenotazioni;
 import it.unirc.bd.gui.prenotazione.VisualizzaPrenotazione;
 import it.unirc.bd.gui.statistiche.statisticheAtleti;
 import javafx.scene.image.Image;
@@ -293,9 +294,21 @@ public class MainGUI {
 		menuBar.add(mnPrenotazioni);
 		
 		JMenuItem mntmNuovaPrenotazione = new JMenuItem("Nuova Prenotazione");
+		mntmNuovaPrenotazione.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				InserisciPrenotazione visualizza=new InserisciPrenotazione(false,null);
+				visualizza.setVisible(true);
+			}
+		});
 		mnPrenotazioni.add(mntmNuovaPrenotazione);
 		
 		JMenuItem mntmRicercaPrenotazioni = new JMenuItem("Ricerca Prenotazioni");
+		mntmRicercaPrenotazioni.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RicercaPrenotazioni ricerca=new RicercaPrenotazioni();
+				ricerca.setVisible(true);
+			}
+		});
 		mnPrenotazioni.add(mntmRicercaPrenotazioni);
 		menuBar.add(mntmStatistiche);
 		frmHome.getContentPane().setLayout(null);

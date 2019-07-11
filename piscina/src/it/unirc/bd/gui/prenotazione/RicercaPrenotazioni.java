@@ -15,6 +15,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unirc.bd.dao.beans.Dipendente;
+import it.unirc.bd.dao.beans.DipendenteDAOP;
+import it.unirc.bd.dao.beans.Iscritto;
+import it.unirc.bd.dao.beans.IscrittoDAOP;
 import it.unirc.bd.dao.beans.Prenotazione;
 import it.unirc.bd.dao.beans.PrenotazioneDAOP;
 import it.unirc.bd.gui.evento.VisualizzaEvento;
@@ -23,11 +27,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
 
 public class RicercaPrenotazioni extends JDialog {
-	private JTextField txtData;
-	private JTextField txtTipo;
-	private JTextField txtOra;
 	ButtonGroup gruppo = new ButtonGroup();
 	
 	//PARAMETRI DA PASSARE ALLA QUERY
@@ -37,6 +40,8 @@ public class RicercaPrenotazioni extends JDialog {
 	
 	//OGGETTI DAO
 	PrenotazioneDAOP pDAOP = new PrenotazioneDAOP();
+	IscrittoDAOP iDAOP=new IscrittoDAOP();
+	DipendenteDAOP dDAOP =new DipendenteDAOP();
 
 	/**
 	 * Launch the application.
@@ -55,77 +60,82 @@ public class RicercaPrenotazioni extends JDialog {
 	 * Create the dialog.
 	 */
 	public RicercaPrenotazioni() {
+		setModal(true);
 		setTitle("Ricerca Prenotazioni");
-		setBounds(100, 100, 374, 265);
+		setBounds(100, 100, 490, 265);
 		getContentPane().setLayout(null);
 		
 		JLabel lblRicercaPer = new JLabel("Ricerca per:");
 		lblRicercaPer.setBounds(26, 13, 76, 28);
 		getContentPane().add(lblRicercaPer);
 		
-		txtData = new JTextField();
-		txtData.setEnabled(false);
-		txtData.setText("yy-mm-dd");
-		txtData.setBounds(171, 50, 116, 22);
-		getContentPane().add(txtData);
-		txtData.setColumns(10);
-		
-		txtTipo = new JTextField();
-		txtTipo.setEnabled(false);
-		txtTipo.setBounds(171, 80, 116, 22);
-		getContentPane().add(txtTipo);
-		txtTipo.setColumns(10);
-		
-		txtOra = new JTextField();
-		txtOra.setEnabled(false);
-		txtOra.setBounds(171, 115, 116, 22);
-		getContentPane().add(txtOra);
-		txtOra.setColumns(10);
-		
 		JButton btnCerca = new JButton("Cerca");
-		btnCerca.setBounds(123, 166, 97, 25);
+		btnCerca.setBounds(134, 180, 97, 25);
 		getContentPane().add(btnCerca);
 		
 		JRadioButton rbData = new JRadioButton("Data");
-		rbData.setBounds(81, 50, 68, 25);
+		rbData.setSelected(true);
+		rbData.setBounds(8, 50, 68, 25);
 		getContentPane().add(rbData);
 		gruppo.add(rbData);
 		
-		JRadioButton rbTipo = new JRadioButton("Tipo");
-		rbTipo.setBounds(81, 81, 68, 25);
-		getContentPane().add(rbTipo);
-		gruppo.add(rbTipo);
+		JRadioButton rbIscritto = new JRadioButton("Iscritto");
+		rbIscritto.setBounds(8, 84, 68, 25);
+		getContentPane().add(rbIscritto);
+		gruppo.add(rbIscritto);
 		
-		JRadioButton rbOra = new JRadioButton("Ora");
-		rbOra.setBounds(81, 114, 68, 25);
-		getContentPane().add(rbOra);
-		gruppo.add(rbOra);
+		JRadioButton rbDipendente = new JRadioButton("Dipendente");
+		rbDipendente.setBounds(8, 114, 94, 25);
+		getContentPane().add(rbDipendente);
+		gruppo.add(rbDipendente);
+		
+		JDateChooser campoData = new JDateChooser();
+		campoData.setBounds(116, 50, 116, 22);
+		getContentPane().add(campoData);
+		
+		JComboBox<Iscritto> comboIscritto = new JComboBox<Iscritto>();
+		comboIscritto.setEnabled(false);
+		comboIscritto.setModel(iDAOP.getIscritticb());
+		comboIscritto.setBounds(116, 80, 344, 22);
+		getContentPane().add(comboIscritto);
+		
+		JComboBox<Dipendente> comboDipendente = new JComboBox<Dipendente>();
+		Vector<Dipendente> vettoredip=dDAOP.RicercaPerTipologia(0);
+		comboDipendente.setModel(dDAOP.ModelloCombobox(vettoredip));
+		comboDipendente.setEnabled(false);
+		comboDipendente.setBounds(115, 115, 345, 22);
+		getContentPane().add(comboDipendente);
+		
+		JRadioButton rbTutti = new JRadioButton("Tutti");
+		rbTutti.setBounds(8, 146, 127, 25);
+		getContentPane().add(rbTutti);
+		gruppo.add(rbTutti);
 		
 		//--------LISTENER
-		rbTipo.addChangeListener(new ChangeListener() {
+		rbIscritto.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if (rbTipo.isSelected())
-					txtTipo.setEnabled(true);
+				if (rbIscritto.isSelected())
+					comboIscritto.setEnabled(true);
 				else
-					txtTipo.setEnabled(false);
+					comboIscritto.setEnabled(false);
 			}
 		});
 		
 		rbData.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (rbData.isSelected())
-					txtData.setEnabled(true);
+					campoData.setEnabled(true);
 				else
-					txtData.setEnabled(false);
+					campoData.setEnabled(false);
 			}
 		});
 		
-		rbOra.addChangeListener(new ChangeListener() {
+		rbDipendente.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if (rbOra.isSelected())
-					txtOra.setEnabled(true);
+				if (rbDipendente.isSelected())
+					comboDipendente.setEnabled(true);
 				else
-					txtOra.setEnabled(false);
+					comboDipendente.setEnabled(false);
 			}
 		});
 		
@@ -134,25 +144,25 @@ public class RicercaPrenotazioni extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				Vector<Prenotazione> vettore =new Vector<Prenotazione>();
 				if(rbData.isSelected()) {
-					data = Date.valueOf(txtData.getText());
+					data=new Date (campoData.getDate().getTime());
 					vettore=pDAOP.RicercaPerData(data);
 				}
-				else
-					data=null;
 				
-				if(rbTipo.isSelected()) {
-					tipo = txtTipo.getText();
-					vettore=pDAOP.RicercaPerTipo(tipo);
+				if(rbIscritto.isSelected()) {
+					Iscritto iscritto=iDAOP.getIscritticb().getElementAt(comboIscritto.getSelectedIndex());
+					int idIscritto=iscritto.getIdIscritto();
+					vettore=pDAOP.RicercaIdIscritto(idIscritto);
 				}
-				else
-					tipo=null;
 				
-				/*if(rbOra.isSelected()) {
-					ora = txtOra.getText();
-					vettore=pDAOP.RicercaPerOrario(ora);
+				
+				if(rbDipendente.isSelected()) {
+					Dipendente dipendente = vettoredip.get(comboDipendente.getSelectedIndex());
+					int id=dipendente.getIdDipendente();
+					vettore=pDAOP.RicercaIdDipendente(id);
 				}
-				else
-					ora=null;*/
+				if (rbTutti.isSelected())
+					vettore=pDAOP.getAll();
+				
 				VisualizzaPrenotazione vis=new VisualizzaPrenotazione(vettore);
 				vis.setVisible(true);
 			}

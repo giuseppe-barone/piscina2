@@ -15,6 +15,10 @@ import javax.swing.table.DefaultTableModel;
 
 import it.unirc.bd.dao.beans.Prenotazione;
 import it.unirc.bd.dao.beans.PrenotazioneDAOP;
+import it.unirc.bd.gui.iscritto.InserisciIscritto;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class VisualizzaPrenotazione extends JDialog {
@@ -24,6 +28,7 @@ public class VisualizzaPrenotazione extends JDialog {
 	
 	
 	public VisualizzaPrenotazione(Vector<Prenotazione> list) {
+		setModal(true);
 		setResizable(false);
 		setTitle("Visualizza Prenotazioni");
 		
@@ -32,6 +37,15 @@ public class VisualizzaPrenotazione extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))); 
+					Integer ID =(Integer)table.getModel().getValueAt(table.getSelectedRow(),0);
+					InserisciPrenotazione modifica = new InserisciPrenotazione(true, pDAOP.RicercaIdPrenotazione(ID));
+					modifica.setVisible(true);	
+			}
+		});
 		load(list);
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -42,27 +56,25 @@ public class VisualizzaPrenotazione extends JDialog {
 	}
 	private void load(Vector<Prenotazione> list) {
 		DefaultTableModel model = new DefaultTableModel();
-		Object[] columnsName = new Object[7];
+		Object[] columnsName = new Object[6];
 		columnsName[0] = "Id";
 		columnsName[1] = "Corsia";
 		columnsName[2] = "Data";
 		columnsName[3] = "IdIscritto";
-		columnsName[4] = "Tipo Piscina";
-		columnsName[5] = "Ora";
-		columnsName[6] = "IdDipendente";
+		columnsName[4] = "Ora";
+		columnsName[5] = "IdDipendente";
 		model.setColumnIdentifiers(columnsName);
 		//Vector<Prenotazione> list;
 		//list=pDAOP.getAll();
 		System.out.println(list);
-		Object rowData[] = new Object[7]; 
+		Object rowData[] = new Object[6]; 
 		for (int a=0;a<list.size();a++) {
 			rowData[0] = list.elementAt(a).getIdPrenotazione();
 			rowData[1] = list.elementAt(a).getCorsia();
 			rowData[2] = list.elementAt(a).getData();
 			rowData[3] = list.elementAt(a).getIdIscritto();
-			rowData[4] = list.elementAt(a).getTipoPiscina();
-			rowData[5] = list.elementAt(a).getOra();
-			rowData[6] = list.elementAt(a).getIdDipendente();
+			rowData[4] = list.elementAt(a).getOra();
+			rowData[5] = list.elementAt(a).getIdDipendente();
 			model.addRow(rowData);
 		}
 		table.setModel(model);

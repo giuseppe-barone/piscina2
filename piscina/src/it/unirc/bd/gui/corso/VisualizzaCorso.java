@@ -40,6 +40,7 @@ public class VisualizzaCorso extends JDialog {
 		});
 	}*/
 	public VisualizzaCorso(boolean corso,Vector<String[]> vettoreIscrizioni, Vector<Corso> vettoreCorsi) {
+		setModal(true);
 		setResizable(false);
 		setTitle("Visualizza Corsi/Iscrizioni");
 		setBounds(100, 100, 543, 414);
@@ -106,7 +107,12 @@ public class VisualizzaCorso extends JDialog {
 		Object rowData[] = new Object[6]; 
 		for (Corso c: vettore) {
 			rowData[0] = Integer.toString(c.getIdCorso());
-			rowData[1] = Integer.toString(c.getGiorni());
+			String giorni=null;
+			if (c.getGiorni()==0)
+				giorni="LUN-MER-VEN";
+			else
+				giorni="MAR-GIO-SAB";
+			rowData[1] = giorni;
 			rowData[2] = Integer.toString(c.getOra());
 			rowData[3] = c.getTipo();
 			rowData[4] = Integer.toString(c.getAllenatore1());

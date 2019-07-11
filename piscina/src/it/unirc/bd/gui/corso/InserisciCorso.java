@@ -62,6 +62,7 @@ public class InserisciCorso extends JDialog {
 	 * Create the dialog.
 	 */
 	public InserisciCorso(boolean Modifica, Corso corso) {
+		setModal(true);
 		setBounds(100, 100, 491, 221);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -119,6 +120,38 @@ public class InserisciCorso extends JDialog {
 		contentPanel.add(cbA2);
 		
 		JButton btnModifica = new JButton("Modifica");
+		
+		
+		
+		btnModifica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				Giorni=cbGiorni.getSelectedIndex();	
+				
+				int id=corso.getIdCorso();
+				Ora =Integer.parseInt(cbOra.getModel().getElementAt(cbOra.getSelectedIndex()).toString()) ;
+				Tipo=textTipo.getText();
+				Dipendente dipendente =dDAOP.getAllenatorecb().getElementAt(cbA1.getSelectedIndex());
+				Allenatore1=dipendente.getIdDipendente();
+				dipendente = dDAOP.getAllenatorecb().getElementAt(cbA2.getSelectedIndex());
+				Allenatore2=dipendente.getIdDipendente();
+				System.out.println(Integer.toString(Allenatore1) + " " + " " + Integer.toString(Allenatore2));
+				
+				
+			
+				if (textTipo.getText().equals("") ) 
+					JOptionPane.showMessageDialog(null, "MANCA IL NOME DEL CORSO");
+				else {
+				Corso c =new Corso(id, Giorni,Ora,Tipo,Allenatore1,Allenatore2);
+					if (cDAOP.ModificaCorso(c))			
+						JOptionPane.showMessageDialog(null, "MODIFICA RIUSCITA");
+					else
+						JOptionPane.showMessageDialog(null, "MODIFICA FALLITA");
+				}
+				
+				dispose();
+			}
+		});
 		btnModifica.setBounds(121, 135, 97, 25);
 		contentPanel.add(btnModifica);
 		btnModifica.setVisible(false);
@@ -127,7 +160,8 @@ public class InserisciCorso extends JDialog {
 			btnModifica.setVisible(true);
 			textTipo.setText(corso.getTipo());
 			cbGiorni.setSelectedIndex(corso.getGiorni());
-			cbOra.setSelectedItem(corso.getOra());			
+			cbOra.setSelectedItem(corso.getOra().toString());
+			cbA1.setEnabled(false);
 		}
 		else
 			btnInserisci.setVisible(true);
@@ -175,7 +209,7 @@ public class InserisciCorso extends JDialog {
 					else
 						JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
 				}
-				
+				dispose();
 			}
 		});
 		
@@ -183,6 +217,4 @@ public class InserisciCorso extends JDialog {
 	
 	
 	}		
-		
-		
 }

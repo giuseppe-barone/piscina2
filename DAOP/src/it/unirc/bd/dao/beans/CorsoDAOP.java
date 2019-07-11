@@ -43,6 +43,32 @@ public class CorsoDAOP {
 	
 	
 	
+	//--------------------MODIFICA CORSO-----------------
+		public boolean ModificaCorso(Corso c){
+			String query = "UPDATE Corso SET Giorni=?,Ora=?,Tipo=?,Allenatore2=? WHERE idCorso=?";
+			boolean esito=false;
+			conn=DBManager.startConnection();
+			try {
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(5, c.getIdCorso());
+			ps.setInt(1, c.getGiorni());
+			ps.setInt(2, c.getOra());
+			ps.setString(3, c.getTipo());
+
+			ps.setInt(4, c.getAllenatore2());
+			
+			int tmp=ps.executeUpdate();
+			if (tmp==1)
+			esito=true;
+			} catch (SQLException e) {
+			e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return esito;
+			}
+	
+	
+	
 	//----ELENCO TIPI SENZA RIDONDANZE----
 		public DefaultComboBoxModel<String> ElencoTipi( ){
 			DefaultComboBoxModel<String> risultato=new DefaultComboBoxModel<String>();
