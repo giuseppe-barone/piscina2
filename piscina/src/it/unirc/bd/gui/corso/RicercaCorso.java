@@ -122,11 +122,13 @@ public class RicercaCorso extends JDialog {
 		contentPanel.add(lblRicercaPer);
 
 		JComboBox txtOra = new JComboBox();
+		txtOra.setEnabled(false);
 		txtOra.setModel(new DefaultComboBoxModel(new String[] {"9", "10", "11", "14", "15", "16", "17", "18", "19"}));
 		txtOra.setBounds(79, 65, 104, 22);
 		contentPanel.add(txtOra);
 
 		JRadioButton rbTutti = new JRadioButton("Tutti");
+		rbTutti.setSelected(true);
 		rbTutti.setBounds(8, 154, 87, 25);
 		contentPanel.add(rbTutti);
 		gruppo.add(rbTutti);

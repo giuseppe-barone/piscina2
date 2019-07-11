@@ -284,7 +284,8 @@ public class RicercaIscritti extends JDialog {
 					VisualizzaIscritto visualizza = new VisualizzaIscritto(iDAOP.RicercaComposta(nome, cognome, sesso, data, datamin, datamag));
 					visualizza.setVisible(true);
 					}
-			}
+					dispose();
+					}
 		});
 		
 		

@@ -48,7 +48,8 @@ public class InserisciEvento extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public InserisciEvento(boolean modifica, Evento e) {
+	public InserisciEvento(boolean modifica, Evento ev) {
+		setModal(true);
 		setTitle("Inserisci Evento");
 		setBounds(100, 100, 266, 194);
 		getContentPane().setLayout(null);
@@ -80,21 +81,27 @@ public class InserisciEvento extends JDialog {
 		getContentPane().add(lblTipo);
 
 		JButton buttonInserisci = new JButton("Inserisci");
+		buttonInserisci.setVisible(false);
 		buttonInserisci.setBounds(12, 109, 97, 25);
 		getContentPane().add(buttonInserisci);
 
 		JButton buttonModifica = new JButton("Modifica");
+		buttonModifica.setVisible(false);
 		buttonModifica.setBounds(137, 109, 97, 25);
 		getContentPane().add(buttonModifica);
 
 		if (modifica) {
 			buttonModifica.setVisible(true);
-			buttonInserisci.setVisible(false);
+			campoData.setDate(ev.getData());
+			comboLivello.setSelectedItem(ev.getLivello());
+			comboTipo.setSelectedItem(ev.getTipo());
+			System.out.println(ev);
+			
 		}
-		else {
-			buttonModifica.setVisible(false);
+		else
 			buttonInserisci.setVisible(true);
-		}
+
+		
 		//LISTNER
 		buttonInserisci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -109,6 +116,8 @@ public class InserisciEvento extends JDialog {
 					JOptionPane.showMessageDialog(null, "INSERIMENTO RIUSCITO");
 				else
 					JOptionPane.showMessageDialog(null, "INSERIMENTO FALLITO");
+				dispose();
+				
 			}
 		});
 		
@@ -116,23 +125,22 @@ public class InserisciEvento extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Tipo=comboTipo.getItemAt(comboTipo.getSelectedIndex());
 				Livello=comboLivello.getItemAt(comboLivello.getSelectedIndex());
-				//long l=campoData.getDate().getTime();
 				//INIZIO TRATTAMENTO DATA
-				java.util.Date dat=campoData.getDate();
-				Data.valueOf(""+(dat.getYear()+1900)+"-"+dat.getMonth()+"-"+dat.getDay()+"");
-				//Data.setTime(l);				
-				//Data= (Date)campoData.getDate();
 				java.util.Date utilDate = campoData.getDate();
 				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 				Data=sqlDate;
 				System.out.println(Data.toString());
 				//FINE TRATTAMENTO DATA
-				System.out.println(Tipo+"\n"+Livello);
-				Evento evento=new Evento(null,Data,Livello,Tipo);
-				if (eDAOP.salvaEvento(evento))
+				
+				Evento evento=new Evento(ev.getIdEvento(),Data,Livello,Tipo);
+				System.out.println(evento);
+				System.out.println(evento.getIdEvento());
+				
+				if (eDAOP.ModificaEvento(evento))
 					JOptionPane.showMessageDialog(null, "MODIFICA RIUSCITA");
 				else
 					JOptionPane.showMessageDialog(null, "MODIFICA FALLITA");
+				dispose();
 			}
 			
 		});

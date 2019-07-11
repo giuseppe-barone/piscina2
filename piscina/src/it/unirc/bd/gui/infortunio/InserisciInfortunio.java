@@ -29,7 +29,6 @@ import com.toedter.calendar.JDateChooser;
 public class InserisciInfortunio extends JDialog {
 	InfortunioDAOP iDAOP = new InfortunioDAOP();
 	IscrittoDAOP iscrittoDAOP =new IscrittoDAOP();
-	private JTextField txtData;
 	//VARIABILI DA PASSARE ALLA QUERY
 	private int idInfortunio=0;
 	private Date data;
@@ -60,12 +59,6 @@ public class InserisciInfortunio extends JDialog {
 			JLabel lblData = new JLabel("Data");
 			lblData.setBounds(12, 39, 56, 16);
 			getContentPane().add(lblData);
-		}
-		{
-			txtData = new JTextField();
-			txtData.setBounds(211, 36, 116, 22);
-			getContentPane().add(txtData);
-			txtData.setColumns(10);
 		}
 		{
 			JLabel lblGiorniDiSosta = new JLabel("Giorni di Sosta");
@@ -116,7 +109,7 @@ public class InserisciInfortunio extends JDialog {
 			if (modifica) {
 				buttonInserisci.setVisible(false);
 				buttonModifica.setVisible(true);
-				txtData.setText(info.getData().toString());
+
 				spinnerGiorni.setValue(Integer.valueOf(info.getGiorniSosta()));
 				switch(info.getGravita()) {
 				case 1:
@@ -138,25 +131,13 @@ public class InserisciInfortunio extends JDialog {
 			
 			//-------------------LISTNER-----------------
 			
-			/*txtData.addCaretListener(new CaretListener() {
-				public void caretUpdate(CaretEvent e) {
-					if(controlloBottone()==false) {
-						buttonInserisci.setEnabled(false);
-						buttonModifica.setEnabled(false);
-					}
-					else {
-						buttonInserisci.setEnabled(true);
-						buttonModifica.setEnabled(true);
-					}
-				}
-			});*/
+			
 			
 			
 			buttonInserisci.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//Prendere la matricola 
 					MatricolaFIN = iscrittoDAOP.getAtleticb().getElementAt(comboMatricola.getSelectedIndex()).getMatricolaFIN();
-				//	data = Date.valueOf(txtData.getText());
 					java.util.Date utilDate = campoData.getDate();
 					java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 					data=sqlDate;
@@ -222,13 +203,5 @@ public class InserisciInfortunio extends JDialog {
 			}
 	
 	
-	//CONTROLLO  PER L'ATTIVAZIONE DEL BOTTONE
-	public boolean controlloBottone() {
-		boolean risultato=true;
-		if(txtData.getText().equals("")/*||txtSosta.getText().equals("")||txtGravita.getText().equals("")*/)
-			risultato=false;
-		else
-			risultato=true;
-		return risultato;
-	}
+	
 }

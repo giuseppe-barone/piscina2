@@ -16,7 +16,10 @@ import javax.swing.table.DefaultTableModel;
 import it.unirc.bd.dao.beans.Corso;
 import it.unirc.bd.dao.beans.CorsoDAOP;
 import it.unirc.bd.dao.beans.Iscritto;
+import it.unirc.bd.gui.iscritto.InserisciIscritto;
 import it.unirc.bd.gui.iscritto.VisualizzaIscritto;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VisualizzaCorso extends JDialog {
 	CorsoDAOP cDAOP = new CorsoDAOP();
@@ -44,16 +47,46 @@ public class VisualizzaCorso extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		table = new JTable();
+	
 		if (corso)
 			visCorso(vettoreCorsi);
 		else
 			load(vettoreIscrizioni);
+		
+		
+		
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				
+				System.out.println(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))); //codice per provare come aquisire dati dal click sulla tabella
+					
+					if (corso) {
+					Integer IDCORSO =Integer.valueOf((String) table.getModel().getValueAt(table.getSelectedRow(),0));
+					InserisciCorso modifica = new InserisciCorso(true, cDAOP.getCorsoFromId(IDCORSO));
+					modifica.setVisible(true);
+					}
+					else {
+						Integer IDISCRITTO =Integer.valueOf((String) table.getModel().getValueAt(table.getSelectedRow(),0));
+						Integer IDCORSO =Integer.valueOf((String) table.getModel().getValueAt(table.getSelectedRow(),4));
+						System.out.println(IDISCRITTO +"    "+ IDCORSO);
+					
+					}
+					
+				
+				
+				
+			}
+		});
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		JScrollPane pane = new JScrollPane(table);
 		pane.setBounds(0, 0, 525, 366);
 		panel.add(pane);
 		setContentPane(panel);
+	
 	}
 
 	//METODO PER LA VISUALIZZAZIONE DI CORSO

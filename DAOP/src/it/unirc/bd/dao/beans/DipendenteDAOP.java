@@ -243,7 +243,7 @@ public class DipendenteDAOP {
 				conn=DBManager.startConnection();
 				try {
 					ps = conn.prepareStatement(query);
-					ps.setInt(1, tipo);
+					ps.setInt(1, tipo); 
 					ResultSet rs = ps.executeQuery();
 					while(rs.next()) {
 						res=new Dipendente();
@@ -252,6 +252,7 @@ public class DipendenteDAOP {
 						res.setCognome(rs.getString("Cognome"));
 						res.setCellulare( rs.getString("Cellulare") );
 						res.setSesso( rs.getString("Sesso") );
+						res.setTipologiaDipendente(rs.getInt("TipologiaDipendente"));
 						risultato.add(res);
 				}}
 				catch (SQLException e) {

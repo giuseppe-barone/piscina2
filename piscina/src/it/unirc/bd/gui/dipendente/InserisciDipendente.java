@@ -28,7 +28,6 @@ import javax.swing.event.CaretListener;
 
 import it.unirc.bd.dao.beans.Dipendente;
 import it.unirc.bd.dao.beans.DipendenteDAOP;
-import it.unirc.bd.gui.InserimentoSuccesso;
 
 
 import javax.swing.event.CaretEvent;

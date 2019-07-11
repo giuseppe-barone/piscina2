@@ -75,9 +75,6 @@ public class VisualizzaDipendente extends JDialog {
 		columnsName[4] = "Sesso";
 		columnsName[5] = "Tipologia di Dipendente";
 		model.setColumnIdentifiers(columnsName);
-		/*Vector<Dipendente> list;
-		list=dDAOP.getAll();
-		System.out.println(list);*/
 		
 		Object rowData[] = new Object[6]; 
 		for (int a=0;a<vector.size();a++) {

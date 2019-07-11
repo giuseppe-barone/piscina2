@@ -66,7 +66,8 @@ public class InserisciIscritto extends JDialog {
 	//Inserendo il parametro Modifica posso utilizzare la stessa finestra per la modifica e non solo per l'inserimento facendo apparire l'apposito tasto MODIFICA
 	//Inserendo il parametro Iscritto ho la possibilità di prelevare dall'ogetto iscritto i parametri modificabili e farli visualizzare
 	//negli appositi box per facilitarne la modifica da parte dell'utente
-	public InserisciIscritto(boolean Modifica, Iscritto iscritto) { 
+	public InserisciIscritto(boolean Modifica, Iscritto iscritto) {
+		setModal(true); 
 		setResizable(false);
 		setTitle("Inserisci");
 		setAlwaysOnTop(true);
@@ -103,15 +104,7 @@ public class InserisciIscritto extends JDialog {
 		txtCellulare.setColumns(10);
 
 		txtMatricolaFin = new JTextField();
-		/*txtMatricolaFin.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent arg0) {
-				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
-				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
-					btnModifica.setEnabled(false);
-				else
-					btnModifica.setEnabled(true);
-			}
-		});*/
+		
 		txtMatricolaFin.setToolTipText("Lasciare vuoto se non \u00E8 un'atleta");
 		txtMatricolaFin.setBounds(108, 87, 116, 22);
 		contentPanel.add(txtMatricolaFin);
@@ -136,6 +129,8 @@ public class InserisciIscritto extends JDialog {
 		JComboBox cbSesso = new JComboBox();
 		cbSesso.setBounds(307, 85, 84, 22);
 		cbSesso.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
+		if (Modifica)
+			cbSesso.setSelectedItem(iscritto.getSesso());
 		cbSesso.setToolTipText("");
 		contentPanel.add(cbSesso);
 
@@ -144,34 +139,7 @@ public class InserisciIscritto extends JDialog {
 		contentPanel.add(lblMatricolaFin);
 
 		JButton btnInserisci = new JButton("Inserisci");
-		/*txtNome.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
-				if(controlloBottone()==false)
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
-				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
-					btnModifica.setEnabled(false);
-				else
-					btnModifica.setEnabled(true);
-			}
-		});*/
-		/*txtCognome.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				//---CONTROLLI ABILITAZIONE BOTTONE INSERISCI----
-				if(controlloBottone()==false)
-					btnInserisci.setEnabled(false);
-				else
-					btnInserisci.setEnabled(true);
-				//---CONTROLLI ABILITAZIONE BOTTONE MODIFICA----
-				if(controlloBottone()==false|| txtMatricolaFin.getText().equals(""))
-					btnModifica.setEnabled(false);
-				else
-					btnModifica.setEnabled(true);
-			}
-		});*/
+		
 
 		JDateChooser campoData = new JDateChooser();
 		campoData.setBounds(108, 47, 116, 22);
@@ -234,6 +202,7 @@ public class InserisciIscritto extends JDialog {
 			btnModifica.setVisible(true);
 			btnInserisci.setVisible(false);
 			btnModifica.setEnabled(true);
+			
 		}
 		else{
 			btnModifica.setVisible(false);
@@ -245,6 +214,7 @@ public class InserisciIscritto extends JDialog {
 		if (Modifica) {
 			txtNome.setText(iscritto.getNome());
 			txtCognome.setText(iscritto.getCognome());
+			setTitle("Modifica");
 			campoData.setDate(iscritto.getDataNascita());
 			txtCellulare.setText(iscritto.getCellulare());
 			txtMatricolaFin.setText(iscritto.getMatricolaFIN().toString());

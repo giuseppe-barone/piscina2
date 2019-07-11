@@ -238,7 +238,7 @@ public class EventoDAOP {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		DBManager.closeConnection();
+		DBManager.closeConnection(); 
 		return esito;
 	}
 

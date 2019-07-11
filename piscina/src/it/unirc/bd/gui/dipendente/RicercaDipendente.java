@@ -91,18 +91,22 @@ public class RicercaDipendente extends JDialog {
 		lblSesso.setEnabled(false);
 		
 		JCheckBox checkNome = new JCheckBox("");
+		checkNome.setEnabled(false);
 		checkNome.setBounds(13, 27, 30, 25);
 		PannelloGeneralita.add(checkNome);
 		
 		JCheckBox checkCognome = new JCheckBox("");
+		checkCognome.setEnabled(false);
 		checkCognome.setBounds(13, 56, 30, 25);
 		PannelloGeneralita.add(checkCognome);
 		
 		JCheckBox checkSesso = new JCheckBox("");
+		checkSesso.setEnabled(false);
 		checkSesso.setBounds(13, 90, 22, 25);
 		PannelloGeneralita.add(checkSesso);
 		
 		JComboBox cbSesso = new JComboBox();
+		cbSesso.setEnabled(false);
 		cbSesso.setBounds(135, 91, 82, 22);
 		cbSesso.setModel(new DefaultComboBoxModel(new String[] {"Maschio", "Femmina"}));
 		PannelloGeneralita.add(cbSesso);
@@ -124,6 +128,7 @@ public class RicercaDipendente extends JDialog {
 		cbTipo.setEnabled(false);
 
 		JRadioButton rdbtnTutti = new JRadioButton("Tutti");
+		rdbtnTutti.setSelected(true);
 		rdbtnTutti.setBounds(8, 193, 69, 25);
 		getContentPane().add(rdbtnTutti);
 		TipoRicerca.add(rdbtnTutti);

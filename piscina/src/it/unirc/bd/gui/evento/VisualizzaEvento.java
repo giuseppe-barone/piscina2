@@ -41,6 +41,7 @@ public class VisualizzaEvento extends JDialog {
 		});
 	}
 	public VisualizzaEvento(Vector<Evento> list) {
+		setModal(true);
 		setResizable(false);
 		setTitle("Visualizza Eventi");
 		

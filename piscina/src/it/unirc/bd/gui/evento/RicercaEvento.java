@@ -19,6 +19,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
 
+import it.unirc.bd.dao.beans.CorsoDAOP;
 import it.unirc.bd.dao.beans.Evento;
 import it.unirc.bd.dao.beans.EventoDAOP;
 import it.unirc.bd.dao.beans.Iscritto;
@@ -31,13 +32,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 public class RicercaEvento extends JDialog {
 	//OGETTI DAOP
 	IscrittoDAOP iDAOP =new IscrittoDAOP();
 	EventoDAOP eDAOP =new EventoDAOP();
-
+	CorsoDAOP cDAOP =new CorsoDAOP();
+	
 	//DATI DA PASSARE ALLA QUERY
+	private Date dataprova;
 	private String date;
 	private Date Data;
 	private String Tipo;
@@ -47,8 +52,6 @@ public class RicercaEvento extends JDialog {
 
 	ButtonGroup gruppo = new ButtonGroup();
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtTipo;
-	private JTextField txtData;
 
 	/**
 	 * Launch the application.
@@ -67,53 +70,28 @@ public class RicercaEvento extends JDialog {
 	 * Create the dialog.
 	 */
 	public RicercaEvento() {
-		setBounds(100, 100, 410, 292);
+		setTitle("Ricerca evento");
+		setBounds(100, 100, 423, 261);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		//----COMBOBOX ATLETI----
-		JComboBox<String> cbbRA = new JComboBox<String>();	
+		JComboBox<String> cbbRA = new JComboBox<String>();
+		cbbRA.setBounds(12, 137, 368, 22);
 		//HO CREATO UN METODO CHE MI CONVERTE IL DefaultComboBoxModel DA OGETTO A STRING
 		cbbRA.setModel(AtletaStringcb(iDAOP.getAtleticb()));
-		cbbRA.setBounds(12, 137, 368, 22);
 		cbbRA.setEnabled(false);
 		contentPanel.add(cbbRA);
 
 		JComboBox cbbLivello = new JComboBox();
+		cbbLivello.setBounds(82, 70, 116, 22);
 		cbbLivello.setModel(new DefaultComboBoxModel(new String[] {"Provinciale", "Regionale", "Nazionale"}));
-		cbbLivello.setBounds(60, 72, 106, 22);
 		cbbLivello.setEnabled(false);
 		contentPanel.add(cbbLivello);
 
-		txtTipo = new JTextField();
-		txtTipo.setBounds(60, 13, 116, 22);
-		txtTipo.setEnabled(false);
-		txtTipo.setColumns(10);
-		contentPanel.add(txtTipo);
-
-		txtData = new JTextField();
-		txtData.setBounds(60, 40, 116, 22);
-		txtData.setText("yy-mm-dd");
-		txtData.setEnabled(false);
-		txtData.setColumns(10);
-		contentPanel.add(txtData);
-
-		JLabel label = new JLabel("Tipo:");
-		label.setBounds(8, 16, 30, 16);
-		contentPanel.add(label);
-
-		JLabel label_1 = new JLabel("Data:");
-		label_1.setBounds(8, 43, 37, 16);
-		contentPanel.add(label_1);
-
-		JLabel label_2 = new JLabel("Livello:");
-		label_2.setBounds(8, 75, 40, 16);
-		contentPanel.add(label_2);
-
 		JButton btnRicerca = new JButton("Ricerca");
-
-		btnRicerca.setBounds(147, 196, 97, 25);
+		btnRicerca.setBounds(147, 172, 97, 25);
 		contentPanel.add(btnRicerca);
 
 		JPanel panel = new JPanel();
@@ -121,37 +99,44 @@ public class RicercaEvento extends JDialog {
 		contentPanel.add(panel);
 
 		JRadioButton rbTipo = new JRadioButton("Tipo");
-
-		rbTipo.setBounds(228, 10, 127, 25);
+		rbTipo.setBounds(12, 11, 62, 25);
 		contentPanel.add(rbTipo);
 		gruppo.add(rbTipo);
 
 		JRadioButton rbData = new JRadioButton("Data");
-
-		rbData.setBounds(228, 40, 127, 25);
+		rbData.setBounds(12, 41, 62, 25);
 		contentPanel.add(rbData);
 		gruppo.add(rbData);
 
 
 		JRadioButton rbLivello = new JRadioButton("Livello");
-
-		rbLivello.setBounds(228, 71, 127, 25);
+		rbLivello.setBounds(12, 72, 73, 25);
 		contentPanel.add(rbLivello);
 		gruppo.add(rbLivello);
 
 
 		JRadioButton rbRA = new JRadioButton("Atleta");
-
-		rbRA.setBounds(147, 103, 127, 25);
+		rbRA.setBounds(12, 103, 127, 25);
 		contentPanel.add(rbRA);
 		gruppo.add(rbRA);
 
 
 		JRadioButton rbTutti = new JRadioButton("Tutti");
-
-		rbTutti.setBounds(147, 162, 127, 25);
+		rbTutti.setSelected(true);
+		rbTutti.setBounds(12, 168, 67, 25);
 		contentPanel.add(rbTutti);
 		gruppo.add(rbTutti);
+		
+		JDateChooser campodata = new JDateChooser();
+		campodata.setEnabled(false);
+		campodata.setBounds(82, 41, 116, 22);
+		contentPanel.add(campodata);
+		
+		JComboBox comboTipo = new JComboBox();
+		comboTipo.setEnabled(false);
+		comboTipo.setModel(cDAOP.ElencoTipi());
+		comboTipo.setBounds(82, 12, 162, 22);
+		contentPanel.add(comboTipo);
 
 
 
@@ -161,18 +146,18 @@ public class RicercaEvento extends JDialog {
 		rbTipo.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (rbTipo.isSelected())
-					txtTipo.setEnabled(true);
+					comboTipo.setEnabled(true);
 				else
-					txtTipo.setEnabled(false);
+					comboTipo.setEnabled(false);
 			}
 		});
 
 		rbData.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (rbData.isSelected())
-					txtData.setEnabled(true);
+					campodata.setEnabled(true);
 				else
-					txtData.setEnabled(false);
+					campodata.setEnabled(false);
 			}
 		});
 
@@ -198,6 +183,7 @@ public class RicercaEvento extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				Vector<Evento> vettore =new Vector<Evento>();
 				//JOptionPane.showMessageDialog(null, "Inserimento con successo");
+				
 				if (rbTutti.isSelected()) {
 					isTutti=true;
 					vettore=eDAOP.getAll();
@@ -205,13 +191,14 @@ public class RicercaEvento extends JDialog {
 				else
 					isTutti=false;
 				if (rbData.isSelected()) {
-					Data =Date.valueOf(txtData.getText());
+					Data=new Date(campodata.getDate().getTime());
 					vettore=eDAOP.RicercaPerData(Data);
 				}
 				else
 					Data=null;
 				if (rbTipo.isSelected()) {
-					Tipo=txtTipo.getText();
+					Tipo=(String) comboTipo.getSelectedItem();
+					System.out.println(Tipo);
 					vettore=eDAOP.RicercaPerTipo(Tipo);
 				}
 				else
@@ -241,10 +228,12 @@ public class RicercaEvento extends JDialog {
 				VisualizzaEvento vis=new VisualizzaEvento(vettore);
 				vis.setVisible(true);
 				
-				//System.out.println(eDAOP.getAll(Data, Tipo, Livello, isTutti));
+				System.out.println("la data da te scelta è: "+ dataprova);
+				
+				/* ERA UNA PROVA PER VEDERE IL RISULTATO PRIMA DI FARE IL COLLEGAMENTO CON LA TABELLA
 				for(Evento e : vettore) {
 					System.out.println(e.toString());
-				}
+				}*/
 
 
 			}

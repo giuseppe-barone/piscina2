@@ -50,7 +50,7 @@ public class InserisciCorso extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			InserisciCorso dialog = new InserisciCorso();
+			InserisciCorso dialog = new InserisciCorso(false, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public class InserisciCorso extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public InserisciCorso() {
+	public InserisciCorso(boolean Modifica, Corso corso) {
 		setBounds(100, 100, 491, 221);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -101,6 +101,7 @@ public class InserisciCorso extends JDialog {
 		JButton btnInserisci = new JButton("Inserisci");
 		btnInserisci.setBounds(12, 135, 97, 25);
 		contentPanel.add(btnInserisci);
+		btnInserisci.setVisible(false);
 		
 		JComboBox cbGiorni = new JComboBox();
 		cbGiorni.setModel(new DefaultComboBoxModel(new String[] {"LUN-MERC-VEN", "MAR-GIO-SAB"}));
@@ -116,6 +117,20 @@ public class InserisciCorso extends JDialog {
 		cbA2.setModel(dDAOP.getAllenatorecb());
 		cbA2.setBounds(105, 103, 356, 22);
 		contentPanel.add(cbA2);
+		
+		JButton btnModifica = new JButton("Modifica");
+		btnModifica.setBounds(121, 135, 97, 25);
+		contentPanel.add(btnModifica);
+		btnModifica.setVisible(false);
+		
+		if (Modifica) {
+			btnModifica.setVisible(true);
+			textTipo.setText(corso.getTipo());
+			cbGiorni.setSelectedIndex(corso.getGiorni());
+			cbOra.setSelectedItem(corso.getOra());			
+		}
+		else
+			btnInserisci.setVisible(true);
 	
 	
 		//----LISTNER CONTROLLI DINAMICI----
@@ -141,9 +156,9 @@ public class InserisciCorso extends JDialog {
 				Tipo=textTipo.getText();
 				//AQUISIZIONE ID ALLENATORE 1 E 2
 				//prelevo MatricolaFin Iscritto copio i risultai della ricerca degli eventi in un vector per risalire all'id di quello selezionato
-				Dipendente dipendente =getAllenatore(dDAOP.getAllenatorecb(), cbA1.getSelectedIndex());
+				Dipendente dipendente =dDAOP.getAllenatorecb().getElementAt(cbA1.getSelectedIndex());
 				Allenatore1=dipendente.getIdDipendente();
-				dipendente =getAllenatore(dDAOP.getAllenatorecb(), cbA2.getSelectedIndex());
+				dipendente = dDAOP.getAllenatorecb().getElementAt(cbA2.getSelectedIndex());
 				Allenatore2=dipendente.getIdDipendente();
 				System.out.println(Integer.toString(Allenatore1) + " " + " " + Integer.toString(Allenatore2));
 				
@@ -167,41 +182,7 @@ public class InserisciCorso extends JDialog {
 		
 	
 	
-	}
-	
-	//----CONTROLLO PER AVVISO DI ID DUPLICATO CORSO----
-	/*	public String ControlloAvvisoCorso() {
-			String risultato="";
-			String IDC = textIdCorso.getText();
-			//-----------QUESTO IF è LA SOLUZIONE A QUEI PROBLEMI STRING=""---------------------------!!!!!!!!!!!!!!
-			if (IDC.equals(""))
-				return risultato;
-			Integer ID =Integer.parseInt(IDC);
-			if (!IDC.equals("") && cDAOP.ControlloDinamicoIdCorso(ID))      
-				risultato="ID esistente o non valido!";
-			return risultato;
-			
-		}*/
+	}		
 		
 		
-		//Prelevo allenatore tramite l'indice della combobox RESTITUISCO L'OGETTO SCELTO
-		public Dipendente getAllenatore(ComboBoxModel<Dipendente> model, int indice) {
-			Dipendente risultato= new Dipendente();
-			Vector<Dipendente> vettoreDipendenti =new Vector<Dipendente>();
-			for (int i=0;i<model.getSize();i++) {
-				vettoreDipendenti.add(model.getElementAt(i));
-			}
-			risultato=vettoreDipendenti.get(indice);
-			return risultato;
-		}
-		
-		
-		
-		
-		
-	
-	
-	
-	
-
 }

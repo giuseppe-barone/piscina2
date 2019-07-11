@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import it.unirc.bd.dao.beans.InfortunioDAOP;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
 import it.unirc.bd.gui.corso.InserisciCorso;
 import it.unirc.bd.gui.corso.IscrizioneCorso;
@@ -27,6 +28,7 @@ import it.unirc.bd.gui.evento.RicercaEvento;
 import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
 import it.unirc.bd.gui.infortunio.RicercaInfortunio;
+import it.unirc.bd.gui.infortunio.VisualizzaInfo;
 import it.unirc.bd.gui.iscritto.InserisciIscritto;
 import it.unirc.bd.gui.iscritto.RicercaIscritti;
 import it.unirc.bd.gui.iscritto.RicercaIscritto;
@@ -48,6 +50,7 @@ public class MainGUI {
 	String path = "C:\\Users\\emanuele\\Desktop\reggina.png";
 	java.awt.Image img = Toolkit.getDefaultToolkit().createImage(path);
 	 IscrittoDAOP iDAOP=new IscrittoDAOP();
+	 InfortunioDAOP infoDAOP =new InfortunioDAOP();
 	
 	private JFrame frmHome;
 
@@ -164,8 +167,14 @@ public class MainGUI {
 		JMenuItem mntmVisualizzaInfortunio = new JMenuItem("Visualizza Infortunio");
 		mntmVisualizzaInfortunio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//VisualizzaInfortunio visualizza =  new VisualizzaInfortunio(null);
-			//	visualizza.setVisible(true);
+				VisualizzaInfo visualizza;
+				try {
+					visualizza = new VisualizzaInfo(infoDAOP.getTutti());
+					visualizza.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -216,7 +225,7 @@ public class MainGUI {
 		JMenuItem mntmNuovoCorso = new JMenuItem("Nuovo Corso");
 		mntmNuovoCorso.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			InserisciCorso inserisci = new InserisciCorso();
+			InserisciCorso inserisci = new InserisciCorso(false, null);
 			inserisci.setVisible(true);
 			}
 		});
@@ -279,6 +288,15 @@ public class MainGUI {
 				statistiche.setVisible(true);
 			}
 		});
+		
+		JMenu mnPrenotazioni = new JMenu("Prenotazioni");
+		menuBar.add(mnPrenotazioni);
+		
+		JMenuItem mntmNuovaPrenotazione = new JMenuItem("Nuova Prenotazione");
+		mnPrenotazioni.add(mntmNuovaPrenotazione);
+		
+		JMenuItem mntmRicercaPrenotazioni = new JMenuItem("Ricerca Prenotazioni");
+		mnPrenotazioni.add(mntmRicercaPrenotazioni);
 		menuBar.add(mntmStatistiche);
 		frmHome.getContentPane().setLayout(null);
 

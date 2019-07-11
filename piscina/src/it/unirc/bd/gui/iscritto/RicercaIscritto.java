@@ -79,6 +79,7 @@ public class RicercaIscritto extends JDialog {
 	 * Create the dialog.
 	 */
 	public RicercaIscritto(boolean isAtleta) {
+		setModal(true);
 		setBounds(100, 100, 481, 476);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -419,7 +420,7 @@ public class RicercaIscritto extends JDialog {
 				}
 				VisualizzaIscritto vis =new VisualizzaIscritto(vettore);
 				vis.setVisible(true);				
-
+				dispose();
 
 			}
 		});
