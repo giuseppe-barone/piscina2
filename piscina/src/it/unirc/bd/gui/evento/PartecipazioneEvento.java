@@ -36,7 +36,7 @@ public class PartecipazioneEvento extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PartecipazioneEvento dialog = new PartecipazioneEvento(false);
+					PartecipazioneEvento dialog = new PartecipazioneEvento(false,null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -56,7 +56,7 @@ public class PartecipazioneEvento extends JDialog {
 	 * 
 	 * 
 	 * */
-	public PartecipazioneEvento(boolean modifica) {
+	public PartecipazioneEvento(boolean modifica, Partecipazione partecipazione) {
 		setTitle("Partecipazione evento");
 		setBounds(100, 100, 464, 194);
 		getContentPane().setLayout(null);

@@ -12,9 +12,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
+import it.unirc.bd.dao.beans.Evento;
 import it.unirc.bd.dao.beans.InfortunioDAOP;
 import it.unirc.bd.dao.beans.IscrittoDAOP;
+import it.unirc.bd.dao.beans.PartecipazioneDAOP;
 import it.unirc.bd.gui.corso.InserisciCorso;
 import it.unirc.bd.gui.corso.IscrizioneCorso;
 import it.unirc.bd.gui.corso.RicercaCorso;
@@ -25,6 +28,7 @@ import it.unirc.bd.gui.dipendente.VisualizzaDipendente;
 import it.unirc.bd.gui.evento.InserisciEvento;
 import it.unirc.bd.gui.evento.PartecipazioneEvento;
 import it.unirc.bd.gui.evento.RicercaEvento;
+import it.unirc.bd.gui.evento.RicercaPartecipazione;
 import it.unirc.bd.gui.evento.VisualizzaEvento;
 import it.unirc.bd.gui.infortunio.InserisciInfortunio;
 import it.unirc.bd.gui.infortunio.RicercaInfortunio;
@@ -44,14 +48,20 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
+import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class MainGUI {
 	String path = "C:\\Users\\emanuele\\Desktop\reggina.png";
 	java.awt.Image img = Toolkit.getDefaultToolkit().createImage(path);
 	 IscrittoDAOP iDAOP=new IscrittoDAOP();
+	 private JTable table;
 	 InfortunioDAOP infoDAOP =new InfortunioDAOP();
+	 PartecipazioneDAOP pDAOP =new PartecipazioneDAOP();
 	
 	private JFrame frmHome;
 
@@ -282,6 +292,15 @@ public class MainGUI {
 		});
 		mnEventi.add(mntmPartecipazioneAdEvento);
 		
+		JMenuItem mntmRicercaPartecipazione = new JMenuItem("Ricerca Partecipazione");
+		mntmRicercaPartecipazione.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RicercaPartecipazione ricerca =new RicercaPartecipazione();
+				ricerca.setVisible(true);
+			}
+		});
+		mnEventi.add(mntmRicercaPartecipazione);
+		
 		JMenuItem mntmStatistiche = new JMenuItem("Statistiche");
 		mntmStatistiche.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -312,136 +331,66 @@ public class MainGUI {
 		mnPrenotazioni.add(mntmRicercaPrenotazioni);
 		menuBar.add(mntmStatistiche);
 		frmHome.getContentPane().setLayout(null);
-
-		JLabel lblProssimeEventiIn = new JLabel("Prossimi eventi in programma:");
-		lblProssimeEventiIn.setBounds(12, 13, 180, 16);
-		frmHome.getContentPane().add(lblProssimeEventiIn);
-
-		JLabel lblInfermieria = new JLabel("Infermeria:");
-		lblInfermieria.setBounds(12, 115, 68, 16);
-		frmHome.getContentPane().add(lblInfermieria);
-
-		JPanel panelEvento1 = new JPanel();
-		panelEvento1.setBackground(Color.CYAN);
-		panelEvento1.setBounds(12, 42, 163, 60);
-		panelEvento1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		frmHome.getContentPane().add(panelEvento1);
-		panelEvento1.setLayout(null);
-
-		JLabel lblTipoEvento1 = new JLabel("Tipo");
-		lblTipoEvento1.setBounds(5, 5, 56, 16);
-		panelEvento1.add(lblTipoEvento1);
-
-		JLabel lblDataEvento1 = new JLabel("Data");
-		lblDataEvento1.setBounds(5, 20, 56, 16);
-		panelEvento1.add(lblDataEvento1);
-
-		JLabel lblLivelloEvento1 = new JLabel("Livello");
-		lblLivelloEvento1.setBounds(5, 36, 56, 16);
-		panelEvento1.add(lblLivelloEvento1);
-
-		JPanel panelEvento2 = new JPanel();
-		panelEvento2.setBounds(187, 42, 163, 60);
-		panelEvento2.setLayout(null);
-		panelEvento2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		frmHome.getContentPane().add(panelEvento2);
-
-		JLabel lblTipoEvento2 = new JLabel("Tipo");
-		lblTipoEvento2.setBounds(5, 5, 56, 16);
-		panelEvento2.add(lblTipoEvento2);
-
-		JLabel lblDataEvento2 = new JLabel("Data");
-		lblDataEvento2.setBounds(5, 20, 56, 16);
-		panelEvento2.add(lblDataEvento2);
-
-		JLabel lblLivelloEvento2 = new JLabel("Livello");
-		lblLivelloEvento2.setBounds(5, 36, 56, 16);
-		panelEvento2.add(lblLivelloEvento2);
+		
+		JLabel lblAvvisi = new JLabel("Avvisi");
+		lblAvvisi.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblAvvisi.setBounds(12, 13, 524, 25);
+		frmHome.getContentPane().add(lblAvvisi);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(362, 42, 163, 60);
-		panel.setLayout(null);
-		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panel.setBounds(12, 51, 524, 216);
 		frmHome.getContentPane().add(panel);
+		panel.setLayout(null);
+		table = new JTable();
+		Vector<String[]> vettore=null;
+		if (pDAOP.getPartecipazioniDaAggiornare().size()>=1) {	//QUESTI CONTROLLI MI SERVONO PER MOSTRARE LE PARTECIPAZIONI DA AGGIORNARE
+			vettore =pDAOP.getPartecipazioniDaAggiornare();
+			lblAvvisi.setText("Ci sono partecipazioni da aggiornare!!");
+			lblAvvisi.setForeground(Color.red);
+			load(vettore);
+		}
+		else {
+			panel.setVisible(false);
+			lblAvvisi.setText("Non ci sono partecipazioni da aggiornare.");
+			lblAvvisi.setForeground(Color.green);
+		}
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(0, 0, 524, 216);
+		panel.add(scrollPane);
 
-		JLabel lblTipoEvento3 = new JLabel("Tipo");
-		lblTipoEvento3.setBounds(5, 5, 56, 16);
-		panel.add(lblTipoEvento3);
-
-		JLabel lblDataEvento3 = new JLabel("Data");
-		lblDataEvento3.setBounds(5, 20, 56, 16);
-		panel.add(lblDataEvento3);
-
-		JLabel lblLivelloEvento3 = new JLabel("Livello");
-		lblLivelloEvento3.setBounds(5, 36, 56, 16);
-		panel.add(lblLivelloEvento3);
-
-		JPanel panelInfortunio1 = new JPanel();
-		panelInfortunio1.setBounds(12, 144, 163, 60);
-		panelInfortunio1.setLayout(null);
-		panelInfortunio1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		frmHome.getContentPane().add(panelInfortunio1);
-
-		JLabel lblnome1 = new JLabel("Nome");
-		lblnome1.setBounds(5, 5, 56, 16);
-		panelInfortunio1.add(lblnome1);
-
-		JLabel lblCognome1 = new JLabel("Cognome");
-		lblCognome1.setBounds(5, 20, 56, 16);
-		panelInfortunio1.add(lblCognome1);
-
-		JLabel lbl = new JLabel("Giorni rimasti:");
-		lbl.setBounds(5, 36, 81, 16);
-		panelInfortunio1.add(lbl);
-
-		JLabel lblGiorni1 = new JLabel("??");
-		lblGiorni1.setBounds(98, 36, 56, 16);
-		panelInfortunio1.add(lblGiorni1);
-
-		JPanel panelInfortunio2 = new JPanel();
-		panelInfortunio2.setBounds(187, 144, 163, 60);
-		panelInfortunio2.setLayout(null);
-		panelInfortunio2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		frmHome.getContentPane().add(panelInfortunio2);
-
-		JLabel lblnome2 = new JLabel("Nome");
-		lblnome2.setBounds(5, 5, 56, 16);
-		panelInfortunio2.add(lblnome2);
-
-		JLabel lblCognome2 = new JLabel("Cognome");
-		lblCognome2.setBounds(5, 20, 56, 16);
-		panelInfortunio2.add(lblCognome2);
-
-		JLabel label_2 = new JLabel("Giorni rimasti:");
-		label_2.setBounds(5, 36, 81, 16);
-		panelInfortunio2.add(label_2);
-
-		JLabel lblGiorni2 = new JLabel("??");
-		lblGiorni2.setBounds(98, 36, 56, 16);
-		panelInfortunio2.add(lblGiorni2);
-
-		JPanel panelInfortunio3 = new JPanel();
-		panelInfortunio3.setBounds(362, 144, 163, 60);
-		panelInfortunio3.setLayout(null);
-		panelInfortunio3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		frmHome.getContentPane().add(panelInfortunio3);
-
-		JLabel lblnome3 = new JLabel("Nome");
-		lblnome3.setBounds(5, 5, 56, 16);
-		panelInfortunio3.add(lblnome3);
-
-		JLabel lblCognome3 = new JLabel("Cognome");
-		lblCognome3.setBounds(5, 20, 56, 16);
-		panelInfortunio3.add(lblCognome3);
-
-		JLabel label_6 = new JLabel("Giorni rimasti:");
-		label_6.setBounds(5, 36, 81, 16);
-		panelInfortunio3.add(label_6);
-
-		JLabel lblGiorni3 = new JLabel("??");
-		lblGiorni3.setBounds(98, 36, 56, 16);
-		panelInfortunio3.add(lblGiorni3);
-		ImageIcon icon = new ImageIcon("path");
 		
 	}
+	
+	
+	
+	private void load(Vector<String[]> list) {
+		DefaultTableModel model = new DefaultTableModel();
+		Object[] columnsName = new Object[7];
+		columnsName[0] = "Data";
+		columnsName[1] = "Tipo";
+		columnsName[2] = "Livello";
+		columnsName[3] = "Nome";
+		columnsName[4] = "Cognome";
+		columnsName[5] = "DataDiNascita";
+		columnsName[6] = "Categoria";
+		model.setColumnIdentifiers(columnsName);
+	
+		
+		System.out.println(list);
+		Object rowData[] = new Object[7]; 
+		for (int a=0;a<list.size();a++) {
+			rowData[0] = list.elementAt(a)[0];
+			rowData[1] = list.elementAt(a)[1];
+			rowData[2] = list.elementAt(a)[2];
+			rowData[3] = list.elementAt(a)[3];
+			rowData[4] = list.elementAt(a)[4];
+			rowData[5] = list.elementAt(a)[5];
+			rowData[6] = list.elementAt(a)[6];
+			model.addRow(rowData);
+		}
+		table.setModel(model);
+	}
+	
+	
+	
 }
